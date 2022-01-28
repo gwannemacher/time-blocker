@@ -3,22 +3,34 @@ import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 
-const toCalendarDate = (date, isEnd) => {
+const toCalendarEvent = (date) => {
     const [year, month, day, hours] = [date.getFullYear(), date.getMonth(), date.getDate(), date.getHours()];
 
-    return isEnd
-        ? new Date(year, month, day, hours + 1)
-        : new Date(year, month, day, hours);
-}
+    const start = new Date(year, month, day, hours);
+    const end = new Date(year, month, day, hours + 1);
 
-const dateClick = (info) => {
-    const start = toCalendarDate(info.date);
-    const end = toCalendarDate(info.date, true);
-    const newEvent = {
+    return {
         title: `${start.toLocaleTimeString()} event`,
         start,
         end
     }
+}
+
+const toAllDayCalendarEvent = (date) => {
+    const [year, month, day, hours] = [date.getFullYear(), date.getMonth(), date.getDate(), date.getHours()];
+    const start = new Date(year, month, day, hours);
+
+    return {
+        title: `all day event`,
+        start,
+        allDay: true
+    }
+}
+
+const dateClick = (info) => {
+    const newEvent = info.allDay
+        ? toAllDayCalendarEvent(info.date)
+        : toCalendarEvent(info.date);
 
     info.view.calendar.addEvent(newEvent);
 }
