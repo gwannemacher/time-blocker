@@ -3,6 +3,8 @@ import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 
+import './calendar.css';
+
 const toCalendarEvent = (date, title) => {
     const [year, month, day, hours] = [date.getFullYear(), date.getMonth(), date.getDate(), date.getHours()];
 
@@ -54,8 +56,9 @@ const Calendar = () => {
             plugins={[ timeGridPlugin, interactionPlugin ]}
             initialView="timeGridWeek"
             nowIndicator={true}
-            scrollTime="07:00:00"
-            dayHeaderFormat={{weekday: 'short', day: 'numeric'}}
+            scrollTime="08:00:00"
+            dayHeaderFormat={{weekday: 'long', day: 'numeric'}}
+            stickyHeaderDates={true}
             dateClick={dateClick}
             events={events}
             eventClick={eventClick}

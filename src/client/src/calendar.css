@@ -1,0 +1,49 @@
+/** Week day header **/
+.fc th {
+    background-color: #F6F6F6;
+}
+
+/** Grid divider lines **/
+.fc .fc-timegrid-slot {
+    height: 5em;
+    vertical-align: top;
+    font-size: 14px;
+}
+
+/** All-day label **/
+.fc .fc-timegrid-axis-cushion {
+    font-size: 14px;
+}
+
+/** All-day row **/
+table.fc-scrollgrid-sync-table {
+    background-color: #FFFBFE;
+}
+
+/** Today column background **/
+.fc .fc-daygrid-day.fc-day-today,
+.fc .fc-timegrid-col.fc-day-today {
+    background-color: #FFE4F9;
+}
+
+/** Divider between all-day slot and rest of calendar **/
+.fc .fc-timegrid-divider {
+    padding: 0px;
+}
+
+/** Now indicator color **/
+.fc .fc-timegrid-now-indicator-arrow,
+.fc .fc-timegrid-now-indicator-line {
+    border-color: magenta;
+}
+
+.fc .fc-timegrid-now-indicator-line {
+    border-style: dotted;
+    border-width: 2px 0 0;
+}
+
+/** Now indicator arrow **/
+.fc .fc-timegrid-now-indicator-arrow {
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+}

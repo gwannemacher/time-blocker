@@ -1,5 +1,5 @@
 import './App.css';
-import Calendar from './Calendar.js';
+import Calendar from './calendar.js';
 
 function App() {
   return (
