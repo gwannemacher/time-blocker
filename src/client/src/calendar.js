@@ -30,7 +30,7 @@ const toAllDayCalendarEvent = (date, title) => {
 }
 
 const dateClick = (info) => {
-    const title = prompt("Time block title", "le time block");
+    const title = prompt("Time block title", "😱 le time block");
     if (!title) {
         return;
     }
@@ -59,6 +59,7 @@ const Calendar = () => {
             scrollTime="08:00:00"
             dayHeaderFormat={{weekday: 'long', day: 'numeric'}}
             stickyHeaderDates={true}
+            titleFormat={{ year: 'numeric', month: 'long', day: 'numeric' }}
             dateClick={dateClick}
             events={events}
             eventClick={eventClick}

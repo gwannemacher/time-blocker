@@ -47,3 +47,7 @@ table.fc-scrollgrid-sync-table {
     border-top-color: transparent;
     border-bottom-color: transparent;
 }
+
+.fc-theme-standard {
+    height: 97vh;
+}
