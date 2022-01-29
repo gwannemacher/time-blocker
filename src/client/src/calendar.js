@@ -3,7 +3,7 @@ import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 
-import './calendar.css';
+import './stylesheets/calendar.css';
 
 const toCalendarEvent = (date, title) => {
     const [year, month, day, hours] = [date.getFullYear(), date.getMonth(), date.getDate(), date.getHours()];

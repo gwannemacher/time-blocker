@@ -54,7 +54,7 @@ table.fc-scrollgrid-sync-table {
 /** Cursor for hovered buttons **/
 .fc-event[href], .fc-event.fc-event-draggable,
 .fc .fc-button:not(:disabled) {
-    cursor: url('./cursorlink.gif'), auto;
+    cursor: url('../resources/cursorlink.gif'), auto;
 }
 
 /** Color for hovered buttons **/
@@ -65,7 +65,7 @@ table.fc-scrollgrid-sync-table {
 /** Style for disabled button **/
 .fc .fc-button-primary:disabled {
     background-color: rebeccapurple;
-    cursor: url('./cursor.gif'), auto;
+    cursor: url('../resources/cursor.gif'), auto;
 }
 
 /** Rainbow animation for weekend headers **/

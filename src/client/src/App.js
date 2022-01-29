@@ -1,4 +1,4 @@
-import './App.css';
+import './stylesheets/App.css';
 import Calendar from './calendar.js';
 
 function App() {

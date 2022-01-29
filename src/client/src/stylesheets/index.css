@@ -3,8 +3,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding: 10px;
-  cursor: url('./cursor.gif'), auto;
-  background-image: url("./background.gif");
+  cursor: url('../resources/cursor.gif'), auto;
+  background-image: url("../resources/background.gif");
 }
 
 code {
