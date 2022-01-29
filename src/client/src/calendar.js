@@ -64,8 +64,6 @@ const Calendar = () => {
     const onDateClick = (info, showForm) => {
         showForm();
 
-        console.log('haha');
-
 //        const newEvent = info.allDay
 //            ? toAllDayCalendarEvent(info.date, title)
 //            : toCalendarEvent(info.date, title);
@@ -79,19 +77,21 @@ const Calendar = () => {
                 show={isFormVisible}
                 onHide={() => setIsFormVisible(false)}
             >
-                <Modal.Header closeButton>
-                  <Modal.Title>
-                    New time block
-                  </Modal.Title>
-                </Modal.Header>
+                <Modal.Header closeButton />
                 <Modal.Body>
                     <Form>
                       <Form.Group>
-                        <Form.Label>Title</Form.Label>
-                        <Form.Control type="text" placeholder="title" />
+                        <Form.Control type="text" placeholder="Add title" />
+                        <Form.Select aria-label="Default select example">
+                          <option value="meeting">Meeting</option>
+                          <option value="focusmate">Focusmate</option>
+                          <option value="unstructured">Unstructured</option>
+                          <option value="personal">Personal</option>
+                        </Form.Select>
                       </Form.Group>
-                      <button type="submit">
-                        Submit
+                      <div></div>
+                      <button class="btn-save" type="submit">
+                        Save
                       </button>
                     </Form>
                 </Modal.Body>
