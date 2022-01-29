@@ -43,6 +43,63 @@ table.fc-scrollgrid-sync-table {
     border-width: 2px 0 0;
 }
 
+/** Buttons **/
+.fc .fc-button-primary:disabled,
+.fc .fc-button {
+    border-radius: 0;
+    border: 2px solid mediumpurple;
+    background-color: rebeccapurple;
+}
+
+/** Cursor for hovered buttons **/
+.fc-event[href], .fc-event.fc-event-draggable,
+.fc .fc-button:not(:disabled) {
+    cursor: url('./cursorlink.gif'), auto;
+}
+
+/** Color for hovered buttons **/
+.fc .fc-button-primary:hover {
+    background-color: darkorchid;
+}
+
+/** Style for disabled button **/
+.fc .fc-button-primary:disabled {
+    background-color: rebeccapurple;
+    cursor: url('./cursor.gif'), auto;
+}
+
+/** Rainbow animation for weekend headers **/
+.rainbow_text_animated {
+    background: linear-gradient(to right, #6666ff, #0099ff , #00ff00, #ff3399, #6666ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: rainbow_animation 6s ease-in-out infinite;
+    background-size: 400% 100%;
+}
+
+/** Rainbow animation keyframes for weekend headers **/
+@keyframes rainbow_animation {
+    0%,100% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 100% 0;
+    }
+}
+
+/** Rainbow weekend headers **/
+th.fc-col-header-cell.fc-day-sun,
+th.fc-col-header-cell.fc-day-sat {
+    background: linear-gradient(to right, #6666ff, #0099ff , #00ff00, #ff3399, #6666ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: rainbow_animation 6s ease-in-out infinite;
+    background-size: 400% 100%;
+}
+
 /** Background color for table **/
 div.fc-timegrid {
     background-color: white;
@@ -56,4 +113,24 @@ div.fc-timegrid {
 
 .fc-theme-standard {
     height: 97vh;
+}
+
+/** ---------------- **/
+.rainbow_text_animated {
+    background: linear-gradient(to right, #6666ff, #0099ff , #00ff00, #ff3399, #6666ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: rainbow_animation 6s ease-in-out infinite;
+    background-size: 400% 100%;
+}
+
+@keyframes rainbow_animation {
+    0%,100% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 100% 0;
+    }
 }
