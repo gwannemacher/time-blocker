@@ -90,7 +90,10 @@ const Calendar = () => {
                         </Form.Select>
                       </Form.Group>
                       <div></div>
-                      <button class="btn-save" type="submit">
+                      <button class="btn-cancel">
+                        Cancel
+                      </button>
+                      <button class="btn-save">
                         Save
                       </button>
                     </Form>

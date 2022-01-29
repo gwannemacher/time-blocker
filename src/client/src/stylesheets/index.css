@@ -2,7 +2,7 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding: 10px;
+  padding: 15px;
   cursor: url('../resources/cursor.gif'), auto;
   background-image: url("../resources/background.gif");
 }
