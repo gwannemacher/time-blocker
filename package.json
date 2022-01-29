@@ -2,7 +2,6 @@
   "dependencies": {
     "@fullcalendar/interaction": "^5.10.1",
     "@fullcalendar/react": "^5.10.1",
-    "@fullcalendar/timegrid": "^5.10.1",
-    "reactjs-popup": "^2.0.5"
+    "@fullcalendar/timegrid": "^5.10.1"
   }
 }
