@@ -1,5 +1,5 @@
 /** Week day header **/
-.fc th {
+table.fc-col-header {
     background-color: #F6F6F6;
 }
 
