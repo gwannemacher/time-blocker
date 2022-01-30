@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal'
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
@@ -31,8 +31,8 @@ const toAllDayCalendarEvent = (date, title) => {
 const NewEventForm = (props) => {
     const { isAllDay, newDate, addEvent, hideForm } = props;
 
-    const [newTitle, setNewTitle] = useState("");
-    const [eventType, setEventType] = useState("meeting");
+    const [newTitle, setNewTitle] = useState('');
+    const [eventType, setEventType] = useState('meeting');
 
     const handleTitleChange = (event) => {
         setNewTitle(event.target.value);
@@ -43,7 +43,7 @@ const NewEventForm = (props) => {
     }
 
     const onCancel = () => {
-        setNewTitle("");
+        setNewTitle('');
         setEventType('meeting');
         hideForm();
     }
@@ -67,12 +67,17 @@ const NewEventForm = (props) => {
         hideForm();
     }
 
+    const titleInput = useRef(null);
+    useEffect(()=>{
+        titleInput.current.focus();
+    }, []);
+
     return (
     <>
         <Modal show={true} onHide={hideForm}>
             <Modal.Header closeButton />
             <Modal.Body>
-                <input type="text" placeholder="Add title" value={newTitle} onChange={handleTitleChange} />
+                <input ref={titleInput} type="text" placeholder="Add title" value={newTitle} onChange={handleTitleChange} />
                 <select value={eventType} onChange={handleTypeChange}>
                     <option value="meeting">Meeting</option>
                     <option value="focusmate">Focusmate</option>
