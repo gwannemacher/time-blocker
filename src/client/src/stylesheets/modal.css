@@ -53,9 +53,7 @@
     width: 100%;
     pointer-events: auto;
     background-color: rgb(238, 242, 124);
-    background-clip: padding-box;
     border: 3px solid rgb(209, 172, 54);
-    outline: 0;
 }
 
 .modal-body {

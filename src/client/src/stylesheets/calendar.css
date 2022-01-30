@@ -1,6 +1,6 @@
 /** Week day header **/
 table.fc-col-header {
-    background-color: #F6F6F6;
+    background-color: rebeccapurple;
 }
 
 /** Grid divider lines **/
@@ -87,6 +87,16 @@ table.fc-scrollgrid-sync-table {
     50% {
         background-position: 100% 0;
     }
+}
+
+/** Big date **/
+.fc-toolbar-title {
+    color: white;
+}
+
+/** Day of the week names **/
+.fc-col-header {
+    color: white;
 }
 
 /** Rainbow weekend headers **/

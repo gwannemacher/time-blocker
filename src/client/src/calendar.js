@@ -60,15 +60,56 @@ const eventClick = (info) => {
 const Calendar = () => {
     const [events, setEvents] = useState([]);
     const [isFormVisible, setIsFormVisible] = useState(false);
+    const [newTitle, setNewTitle] = useState("");
+    const [eventType, setEventType] = useState("meeting");
+    const [newDate, setNewDate] = useState({});
+    const [isAllDay, setIsAllDay] = useState(false);
+    const [calendar, setCalendar] = useState({});
+
+    const handleTitleChange = (event) => {
+        setNewTitle(event.target.value);
+    }
+
+    const handleTypeChange = (event) => {
+        setEventType(event.target.value);
+    }
 
     const onDateClick = (info, showForm) => {
         showForm();
+        setNewDate(info.date);
+        setIsAllDay(info.allDay);
+        setCalendar(info.view.calendar);
+    }
 
-//        const newEvent = info.allDay
-//            ? toAllDayCalendarEvent(info.date, title)
-//            : toCalendarEvent(info.date, title);
-//
-//        info.view.calendar.addEvent(newEvent);
+    const onCancel = () => {
+        setNewTitle("");
+        setEventType('meeting');
+        setNewDate({});
+        setIsAllDay(false);
+        setCalendar({});
+        setIsFormVisible(false);
+    }
+
+    const onSave = () => {
+        let newTitlePrefix = '';
+        if (eventType === 'meeting') {
+            newTitlePrefix = '🔇🔊 ';
+        } else if (eventType === 'focusmate') {
+            newTitlePrefix = '👩🏻‍💻👩‍💻 ';
+        }
+
+        const newEvent = isAllDay
+            ? toAllDayCalendarEvent(newDate, newTitlePrefix + newTitle)
+            : toCalendarEvent(newDate, newTitlePrefix + newTitle);
+
+        calendar.addEvent(newEvent);
+
+        setNewTitle("");
+        setEventType('meeting');
+        setNewDate({});
+        setIsAllDay(false);
+        setCalendar({});
+        setIsFormVisible(false);
     }
 
     return (
@@ -79,24 +120,19 @@ const Calendar = () => {
             >
                 <Modal.Header closeButton />
                 <Modal.Body>
-                    <Form>
-                      <Form.Group>
-                        <Form.Control type="text" placeholder="Add title" />
-                        <Form.Select aria-label="Default select example">
-                          <option value="meeting">Meeting</option>
-                          <option value="focusmate">Focusmate</option>
-                          <option value="unstructured">Unstructured</option>
-                          <option value="personal">Personal</option>
-                        </Form.Select>
-                      </Form.Group>
-                      <div></div>
-                      <button class="btn-cancel">
+                    <input type="text" placeholder="Add title" value={newTitle} onChange={handleTitleChange} />
+                    <select value={eventType} onChange={handleTypeChange}>
+                        <option value="meeting">Meeting</option>
+                        <option value="focusmate">Focusmate</option>
+                        <option value="unstructured">Unstructured</option>
+                        <option value="personal">Personal</option>
+                    </select>
+                    <button className="btn-cancel" onClick={onCancel}>
                         Cancel
-                      </button>
-                      <button class="btn-save">
+                    </button>
+                    <button className="btn-save" onClick={onSave} type="submit">
                         Save
-                      </button>
-                    </Form>
+                    </button>
                 </Modal.Body>
             </Modal>
             <FullCalendar
