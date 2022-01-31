@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal'
+import * as dayjs from 'dayjs'
+import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import './stylesheets/modal.css';
@@ -50,6 +52,8 @@ const getEndTime = (date) => {
 }
 
 const NewEventForm = (props) => {
+    dayjs.extend(LocalizedFormat);
+
     const { isAllDay, newDate, addEvent, hideForm } = props;
 
     const [newTitle, setNewTitle] = useState('');
@@ -111,13 +115,8 @@ const NewEventForm = (props) => {
         console.log(e);
     }
 
-    const toString = (date) => {
-        const [hours, minutes] = [date?.getHours(), date?.getMinutes()];
-        if (hours != null && minutes != null) {
-            return `${hours}:${(minutes.toString()).padStart(2, '0')}`;
-        }
-
-        return '00:00';
+    const toTimeString = (date) => {
+        return dayjs(date).format('LT')?.toLowerCase()?.replace(/\s/g, '');
     }
 
     return (
@@ -133,9 +132,9 @@ const NewEventForm = (props) => {
                     <option value="personal">Personal</option>
                 </select>
                 <div>
-                    <input className="time-inputs" type="text" value={toString(startTime) ?? ''} onChange={onHandleStartTimeChange} />
+                    <input className="time-inputs" type="text" value={toTimeString(startTime) ?? ''} onChange={onHandleStartTimeChange} />
                     <span className="time-inputs-text">to</span>
-                    <input className="time-inputs" type="text" value={toString(endTime) ?? ''} onChange={onHandleStopTimeChange} />
+                    <input className="time-inputs" type="text" value={toTimeString(endTime) ?? ''} onChange={onHandleStopTimeChange} />
                 </div>
                 <button className="btn-cancel" onClick={onCancel}>
                     Cancel
