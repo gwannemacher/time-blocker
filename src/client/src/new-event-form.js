@@ -30,27 +30,6 @@ const toAllDayCalendarEvent = (date, title) => {
     }
 }
 
-const extractStartTime = (date) => {
-    if (!date || JSON.stringify(date) === '{}') {
-        return null;
-    }
-
-    const [year, month, day, hours, minutes] =
-        [date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes()];
-
-    return new Date(year, month, day, hours, minutes);
-}
-
-const getEndTime = (date) => {
-    if (!date || JSON.stringify(date) === '{}') {
-        return null;
-    }
-
-    const [year, month, day, hours, minutes] =
-        [date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes()];
-    return new Date(year, month, day, hours + 1, minutes);
-}
-
 const NewEventForm = (props) => {
     dayjs.extend(LocalizedFormat);
 
@@ -62,11 +41,9 @@ const NewEventForm = (props) => {
     const [endTime, setEndTime] = useState(null);
 
     useEffect(() => {
-        const startTime = extractStartTime(newDate);
-        setStartTime(startTime);
-
-        const endTime = getEndTime(startTime);
-        setEndTime(getEndTime(startTime));
+        setStartTime(newDate);
+        const endTime = dayjs(newDate).add(1, 'hour');
+        setEndTime(endTime);
     }, [newDate]);
 
     const handleTitleChange = (event) => {
