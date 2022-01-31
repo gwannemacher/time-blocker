@@ -93,7 +93,10 @@ const NewEventForm = (props) => {
     }
 
     const toTimeString = (date) => {
-        return dayjs(date).format('LT')?.toLowerCase()?.replace(/\s/g, '');
+        return dayjs(date)
+            .format('LT')?
+            .toLowerCase()?
+            .replace(/\s/g, '');
     }
 
     return (
