@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import FullCalendar from '@fullcalendar/react'
-import timeGridPlugin from '@fullcalendar/timegrid'
-import interactionPlugin from '@fullcalendar/interaction'
+import FullCalendar from '@fullcalendar/react';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
 
-import NewEventForm from './new-event-form.js'
+import NewEventForm from './new-event-form.js';
 
 import './stylesheets/calendar.css';
 
 const eventClick = (info) => {
-    if (window.confirm("Delete?")) {
+    if (window.confirm('Delete?')) {
         info.event.remove();
     }
-}
+};
 
 const Calendar = () => {
     const [events, setEvents] = useState([]);
@@ -25,23 +25,26 @@ const Calendar = () => {
         setNewDate(info.date);
         setIsAllDay(info.allDay);
         setCalendar(info.view.calendar);
-    }
+    };
 
     return (
         <>
-            {isFormVisible ?
+            {isFormVisible ? (
                 <NewEventForm
                     isAllDay={isAllDay}
                     newDate={newDate}
                     addEvent={(e) => calendar.addEvent(e)}
-                    hideForm={() => setIsFormVisible(false)}/> :
-                <></>}
+                    hideForm={() => setIsFormVisible(false)}
+                />
+            ) : (
+                <></>
+            )}
             <FullCalendar
-                plugins={[ timeGridPlugin, interactionPlugin ]}
+                plugins={[timeGridPlugin, interactionPlugin]}
                 initialView="timeGridWeek"
                 nowIndicator={true}
                 scrollTime="08:00:00"
-                dayHeaderFormat={{weekday: 'long', day: 'numeric'}}
+                dayHeaderFormat={{ weekday: 'long', day: 'numeric' }}
                 stickyHeaderDates={true}
                 titleFormat={{ year: 'numeric', month: 'long', day: 'numeric' }}
                 dateClick={onDateClick}
@@ -49,10 +52,14 @@ const Calendar = () => {
                 eventClick={eventClick}
                 editable={true}
                 eventResizableFromStart={true}
-                eventTimeFormat={{hour: 'numeric', minute: '2-digit', meridiem: 'narrow'}}
+                eventTimeFormat={{
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    meridiem: 'narrow',
+                }}
             />
         </>
     );
-}
+};
 
 export default Calendar;

@@ -24,7 +24,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx}": []
+    "**/*": "prettier --write --ignore-unknown"
   },
   "scripts": {
     "start": "react-scripts start",

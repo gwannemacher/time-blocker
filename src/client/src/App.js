@@ -2,9 +2,7 @@ import './stylesheets/App.css';
 import Calendar from './calendar.js';
 
 function App() {
-  return (
-    <Calendar/>
-  );
+    return <Calendar />;
 }
 
 export default App;
