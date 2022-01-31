@@ -28,11 +28,42 @@ const toAllDayCalendarEvent = (date, title) => {
     }
 }
 
+const extractStartTime = (date) => {
+    if (!date || JSON.stringify(date) === '{}') {
+        return null;
+    }
+
+    const [year, month, day, hours, minutes] =
+        [date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes()];
+
+    return new Date(year, month, day, hours, minutes);
+}
+
+const getEndTime = (date) => {
+    if (!date || JSON.stringify(date) === '{}') {
+        return null;
+    }
+
+    const [year, month, day, hours, minutes] =
+        [date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes()];
+    return new Date(year, month, day, hours + 1, minutes);
+}
+
 const NewEventForm = (props) => {
     const { isAllDay, newDate, addEvent, hideForm } = props;
 
     const [newTitle, setNewTitle] = useState('');
     const [eventType, setEventType] = useState('meeting');
+    const [startTime, setStartTime] = useState(null);
+    const [endTime, setEndTime] = useState(null);
+
+    useEffect(() => {
+        const startTime = extractStartTime(newDate);
+        setStartTime(startTime);
+
+        const endTime = getEndTime(startTime);
+        setEndTime(getEndTime(startTime));
+    }, [newDate]);
 
     const handleTitleChange = (event) => {
         setNewTitle(event.target.value);
@@ -72,6 +103,23 @@ const NewEventForm = (props) => {
         titleInput.current.focus();
     }, []);
 
+    const onHandleStartTimeChange = (e) => {
+        console.log(e);
+    }
+
+    const onHandleStopTimeChange = (e) => {
+        console.log(e);
+    }
+
+    const toString = (date) => {
+        const [hours, minutes] = [date?.getHours(), date?.getMinutes()];
+        if (hours != null && minutes != null) {
+            return `${hours}:${(minutes.toString()).padStart(2, '0')}`;
+        }
+
+        return '00:00';
+    }
+
     return (
     <>
         <Modal show={true} onHide={hideForm}>
@@ -84,6 +132,11 @@ const NewEventForm = (props) => {
                     <option value="unstructured">Unstructured</option>
                     <option value="personal">Personal</option>
                 </select>
+                <div>
+                    <input className="time-inputs" type="text" value={toString(startTime) ?? ''} onChange={onHandleStartTimeChange} />
+                    <span className="time-inputs-text">to</span>
+                    <input className="time-inputs" type="text" value={toString(endTime) ?? ''} onChange={onHandleStopTimeChange} />
+                </div>
                 <button className="btn-cancel" onClick={onCancel}>
                     Cancel
                 </button>
