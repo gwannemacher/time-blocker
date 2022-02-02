@@ -39,7 +39,7 @@ const EventTypes = {
             default:
                 return {};
         }
-    }
+    },
 };
 
 export { EventTypes };

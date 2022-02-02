@@ -43,22 +43,6 @@ const NewEventForm = (props) => {
         setEndTime(endDate.toDate());
     }, [newDate]);
 
-    const handleTitleChange = (event) => {
-        setNewTitle(event.target.value);
-    };
-
-    const handleTypeChange = (event) => {
-        setEventType(event.target.value);
-    };
-
-    const handleStartTimeChange = (e) => {
-        setStartTime(new Date(e.target.value));
-    };
-
-    const handleStopTimeChange = (e) => {
-        setEndTime(new Date(e.target.value));
-    };
-
     const getTimeOptions = (newDate) => {
         if (!dayjs(newDate).isValid()) {
             return [];
@@ -132,9 +116,12 @@ const NewEventForm = (props) => {
                         type="text"
                         placeholder="Add title"
                         value={newTitle}
-                        onChange={handleTitleChange}
+                        onChange={(e) => setNewTitle(e.target.value)}
                     />
-                    <select value={eventType} onChange={handleTypeChange}>
+                    <select
+                        value={eventType}
+                        onChange={(e) => setEventType(e.target.value)}
+                    >
                         <option value={EventTypes.MEETING.id}>
                             {EventTypes.MEETING.name}
                         </option>
@@ -155,7 +142,9 @@ const NewEventForm = (props) => {
                         <select
                             className="time-select"
                             value={startTime ?? new Date()}
-                            onChange={handleStartTimeChange}
+                            onChange={(e) =>
+                                setStartTime(new Date(e.target.value))
+                            }
                         >
                             {timeOptions.map((t) => (
                                 <option key={t} value={t}>
@@ -167,7 +156,9 @@ const NewEventForm = (props) => {
                         <select
                             className="time-select"
                             value={endTime ?? new Date()}
-                            onChange={handleStopTimeChange}
+                            onChange={(e) =>
+                                setEndTime(new Date(e.target.value))
+                            }
                         >
                             {timeOptions.map((t) => (
                                 <option key={t} value={t}>
