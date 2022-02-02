@@ -4,7 +4,7 @@ import * as dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import CustomParseFormat from 'dayjs/plugin/customParseFormat';
 
-import { EventTypes } from './form-constants.js';
+import { EventTypes } from './event-types.js';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import './stylesheets/modal.css';
 
@@ -90,36 +90,24 @@ const NewEventForm = (props) => {
     };
 
     const onSave = () => {
-        let newTitlePrefix = '';
-        if (eventType === EventTypes.MEETING) {
-            newTitlePrefix = '🔇🔊 ';
-        } else if (eventType.includes('focusmate')) {
-            newTitlePrefix = '👩🏻‍💻👩‍💻 ';
-        }
-
-        let className = '';
-        if (eventType === EventTypes.MEETING) {
-            className = 'calendar-meeting-event';
-        } else if (eventType === EventTypes.FOCUSMATE_WORK) {
-            className = 'calendar-focusmate-work-event';
-        } else if (eventType === EventTypes.FOCUSMATE_PERSONAL) {
-            className = 'calendar-focusmate-personal-event';
-        } else if (eventType === EventTypes.PERSONAL) {
-            className = 'calendar-personal-event';
-        }
+        const calendarEventType = EventTypes.select(eventType);
 
         const newEvent = isAllDay
-            ? toAllDayCalendarEvent(startTime, newTitlePrefix + newTitle)
+            ? toAllDayCalendarEvent(
+                  startTime,
+                  calendarEventType.prefix + newTitle
+              )
             : toCalendarEvent(
                   startTime,
                   endTime,
-                  newTitlePrefix + newTitle,
-                  className
+                  calendarEventType.prefix + newTitle,
+                  calendarEventType.className
               );
+
         addEvent(newEvent);
 
         setNewTitle('');
-        setEventType('meeting');
+        setEventType(EventTypes.MEETING.id);
         hideForm();
     };
 
@@ -147,15 +135,21 @@ const NewEventForm = (props) => {
                         onChange={handleTitleChange}
                     />
                     <select value={eventType} onChange={handleTypeChange}>
-                        <option value={EventTypes.MEETING}>Meeting</option>
-                        <option value={EventTypes.FOCUSMATE_WORK}>
-                            Focusmate (work)
+                        <option value={EventTypes.MEETING.id}>
+                            {EventTypes.MEETING.name}
                         </option>
-                        <option value={EventTypes.FOCUSMATE_PERSONAL}>
-                            Focusmate (personal)
+                        <option value={EventTypes.FOCUSMATE_WORK.id}>
+                            {EventTypes.FOCUSMATE_WORK.name}
                         </option>
-                        <option value={EventTypes.MISC}>Miscellaneous</option>
-                        <option value={EventTypes.PERSONAL}>Personal</option>
+                        <option value={EventTypes.FOCUSMATE_PERSONAL.id}>
+                            {EventTypes.FOCUSMATE_PERSONAL.name}
+                        </option>
+                        <option value={EventTypes.PERSONAL.id}>
+                            {EventTypes.PERSONAL.name}
+                        </option>
+                        <option value={EventTypes.MISC.id}>
+                            {EventTypes.MISC.name}
+                        </option>
                     </select>
                     <div>
                         <select
