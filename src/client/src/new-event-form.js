@@ -38,7 +38,6 @@ const NewEventForm = (props) => {
 
     useEffect(() => {
         setStartTime(newDate);
-
         const endDate = dayjs(newDate).add(1, 'hour');
         setEndTime(endDate.toDate());
     }, [newDate]);
@@ -49,7 +48,7 @@ const NewEventForm = (props) => {
         }
 
         const toTimeOption = (date, hours, minutes) => {
-            let timeOptionDate = new Date(date.getTime());
+            const timeOptionDate = new Date(date.getTime());
             timeOptionDate.setHours(hours);
             timeOptionDate.setMinutes(minutes);
             return timeOptionDate;
@@ -57,8 +56,10 @@ const NewEventForm = (props) => {
 
         const times = [];
         for (let i = 0; i < 24; i++) {
-            const date0Minutes = toTimeOption(newDate, i, 0);
-            const date30Minutes = toTimeOption(newDate, i, 30);
+            const [date0Minutes, date30Minutes] = [
+                toTimeOption(newDate, i, 0),
+                toTimeOption(newDate, i, 30),
+            ];
 
             times.push(date0Minutes);
             times.push(date30Minutes);
@@ -166,6 +167,9 @@ const NewEventForm = (props) => {
                                 </option>
                             ))}
                         </select>
+                        <span className="time-inputs-text">
+                            {dayjs(endTime).diff(dayjs(startTime), 'minute')}m
+                        </span>
                     </div>
                     <button className="btn-cancel" onClick={onCancel}>
                         Cancel
