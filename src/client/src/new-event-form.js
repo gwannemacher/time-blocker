@@ -4,7 +4,7 @@ import * as dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import CustomParseFormat from 'dayjs/plugin/customParseFormat';
 
-import { EventTypes } from './form-constants.js'
+import { EventTypes } from './form-constants.js';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import './stylesheets/modal.css';
 
@@ -13,7 +13,7 @@ const toCalendarEvent = (start, end, title, className) => {
         title,
         start,
         end,
-        classNames: [className]
+        classNames: [className],
     };
 };
 
@@ -69,7 +69,7 @@ const NewEventForm = (props) => {
             timeOptionDate.setHours(hours);
             timeOptionDate.setMinutes(minutes);
             return timeOptionDate;
-        }
+        };
 
         const times = [];
         for (let i = 0; i < 24; i++) {
@@ -91,7 +91,7 @@ const NewEventForm = (props) => {
 
     const onSave = () => {
         let newTitlePrefix = '';
-        if (eventType === 'meeting') {
+        if (eventType === EventTypes.MEETING) {
             newTitlePrefix = '🔇🔊 ';
         } else if (eventType.includes('focusmate')) {
             newTitlePrefix = '👩🏻‍💻👩‍💻 ';
@@ -99,18 +99,23 @@ const NewEventForm = (props) => {
 
         let className = '';
         if (eventType === EventTypes.MEETING) {
-            className = 'calendar-meeting-event'
+            className = 'calendar-meeting-event';
         } else if (eventType === EventTypes.FOCUSMATE_WORK) {
-            className = 'calendar-focusmate-work-event'
+            className = 'calendar-focusmate-work-event';
         } else if (eventType === EventTypes.FOCUSMATE_PERSONAL) {
-            className = 'calendar-focusmate-personal-event'
+            className = 'calendar-focusmate-personal-event';
         } else if (eventType === EventTypes.PERSONAL) {
-            className = 'calendar-personal-event'
+            className = 'calendar-personal-event';
         }
 
         const newEvent = isAllDay
             ? toAllDayCalendarEvent(startTime, newTitlePrefix + newTitle)
-            : toCalendarEvent(startTime, endTime, newTitlePrefix + newTitle, className);
+            : toCalendarEvent(
+                  startTime,
+                  endTime,
+                  newTitlePrefix + newTitle,
+                  className
+              );
         addEvent(newEvent);
 
         setNewTitle('');
@@ -143,8 +148,12 @@ const NewEventForm = (props) => {
                     />
                     <select value={eventType} onChange={handleTypeChange}>
                         <option value={EventTypes.MEETING}>Meeting</option>
-                        <option value={EventTypes.FOCUSMATE_WORK}>Focusmate (work)</option>
-                        <option value={EventTypes.FOCUSMATE_PERSONAL}>Focusmate (personal)</option>
+                        <option value={EventTypes.FOCUSMATE_WORK}>
+                            Focusmate (work)
+                        </option>
+                        <option value={EventTypes.FOCUSMATE_PERSONAL}>
+                            Focusmate (personal)
+                        </option>
                         <option value={EventTypes.MISC}>Miscellaneous</option>
                         <option value={EventTypes.PERSONAL}>Personal</option>
                     </select>
@@ -155,7 +164,9 @@ const NewEventForm = (props) => {
                             onChange={handleStartTimeChange}
                         >
                             {timeOptions.map((t) => (
-                                <option key={t} value={t}>{toTimeString(t)}</option>
+                                <option key={t} value={t}>
+                                    {toTimeString(t)}
+                                </option>
                             ))}
                         </select>
                         <span className="time-inputs-text">to</span>
@@ -165,7 +176,9 @@ const NewEventForm = (props) => {
                             onChange={handleStopTimeChange}
                         >
                             {timeOptions.map((t) => (
-                                <option key={t} value={t}>{toTimeString(t)}</option>
+                                <option key={t} value={t}>
+                                    {toTimeString(t)}
+                                </option>
                             ))}
                         </select>
                     </div>
