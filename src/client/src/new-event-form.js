@@ -2,37 +2,21 @@ import React, { useState, useRef, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import * as dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
+import CustomParseFormat from 'dayjs/plugin/customParseFormat';
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import './stylesheets/modal.css';
 
-const toCalendarEvent = (date, title) => {
-    const [year, month, day, hours] = [
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        date.getHours(),
-    ];
-
-    const start = new Date(year, month, day, hours);
-    const end = new Date(year, month, day, hours + 1);
-
+const toCalendarEvent = (start, end, title, className) => {
     return {
         title,
         start,
         end,
+        classNames: [className]
     };
 };
 
-const toAllDayCalendarEvent = (date, title) => {
-    const [year, month, day, hours] = [
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        date.getHours(),
-    ];
-    const start = new Date(year, month, day, hours);
-
+const toAllDayCalendarEvent = (start, title) => {
     return {
         title,
         start,
@@ -42,6 +26,7 @@ const toAllDayCalendarEvent = (date, title) => {
 
 const NewEventForm = (props) => {
     dayjs.extend(LocalizedFormat);
+    dayjs.extend(CustomParseFormat);
 
     const { isAllDay, newDate, addEvent, hideForm } = props;
 
@@ -52,8 +37,9 @@ const NewEventForm = (props) => {
 
     useEffect(() => {
         setStartTime(newDate);
-        const endTime = dayjs(newDate).add(1, 'hour');
-        setEndTime(endTime);
+
+        const endDate = dayjs(newDate).add(1, 'hour');
+        setEndTime(endDate.toDate());
     }, [newDate]);
 
     const handleTitleChange = (event) => {
@@ -62,6 +48,38 @@ const NewEventForm = (props) => {
 
     const handleTypeChange = (event) => {
         setEventType(event.target.value);
+    };
+
+    const handleStartTimeChange = (e) => {
+        setStartTime(new Date(e.target.value));
+    };
+
+    const handleStopTimeChange = (e) => {
+        setEndTime(new Date(e.target.value));
+    };
+
+    const getTimeOptions = (newDate) => {
+        if (!dayjs(newDate).isValid()) {
+            return [];
+        }
+
+        const toTimeOption = (date, hours, minutes) => {
+            let timeOptionDate = new Date(date.getTime());
+            timeOptionDate.setHours(hours);
+            timeOptionDate.setMinutes(minutes);
+            return timeOptionDate;
+        }
+
+        const times = [];
+        for (let i = 0; i < 24; i++) {
+            const date0Minutes = toTimeOption(newDate, i, 0);
+            const date30Minutes = toTimeOption(newDate, i, 30);
+
+            times.push(date0Minutes);
+            times.push(date30Minutes);
+        }
+
+        return times;
     };
 
     const onCancel = () => {
@@ -74,14 +92,24 @@ const NewEventForm = (props) => {
         let newTitlePrefix = '';
         if (eventType === 'meeting') {
             newTitlePrefix = '🔇🔊 ';
-        } else if (eventType === 'focusmate') {
+        } else if (eventType.includes('focusmate')) {
             newTitlePrefix = '👩🏻‍💻👩‍💻 ';
         }
 
-        const newEvent = isAllDay
-            ? toAllDayCalendarEvent(newDate, newTitlePrefix + newTitle)
-            : toCalendarEvent(newDate, newTitlePrefix + newTitle);
+        let className = '';
+        if (eventType === 'meeting') {
+            className = 'calendar-meeting-event'
+        } else if (eventType === 'focusmate-work') {
+            className = 'calendar-focusmate-work-event'
+        } else if (eventType === 'focusmate-personal') {
+            className = 'calendar-focusmate-personal-event'
+        } else if (eventType === 'personal') {
+            className = 'calendar-personal-event'
+        }
 
+        const newEvent = isAllDay
+            ? toAllDayCalendarEvent(startTime, newTitlePrefix + newTitle)
+            : toCalendarEvent(startTime, endTime, newTitlePrefix + newTitle, className);
         addEvent(newEvent);
 
         setNewTitle('');
@@ -94,17 +122,11 @@ const NewEventForm = (props) => {
         titleInput.current.focus();
     }, []);
 
-    const onHandleStartTimeChange = (e) => {
-        console.log(e);
-    };
-
-    const onHandleStopTimeChange = (e) => {
-        console.log(e);
-    };
-
     const toTimeString = (date) => {
         return dayjs(date).format('LT')?.toLowerCase()?.replace(/\s/g, '');
     };
+
+    const timeOptions = getTimeOptions(newDate);
 
     return (
         <>
@@ -120,24 +142,31 @@ const NewEventForm = (props) => {
                     />
                     <select value={eventType} onChange={handleTypeChange}>
                         <option value="meeting">Meeting</option>
-                        <option value="focusmate">Focusmate</option>
+                        <option value="focusmate-work">Focusmate (work)</option>
+                        <option value="focusmate-personal">Focusmate (personal)</option>
                         <option value="unstructured">Unstructured</option>
                         <option value="personal">Personal</option>
                     </select>
                     <div>
-                        <input
-                            className="time-inputs"
-                            type="text"
-                            value={toTimeString(startTime) ?? ''}
-                            onChange={onHandleStartTimeChange}
-                        />
+                        <select
+                            className="time-select"
+                            value={startTime ?? new Date()}
+                            onChange={handleStartTimeChange}
+                        >
+                            {timeOptions.map((t) => (
+                                <option key={t} value={t}>{toTimeString(t)}</option>
+                            ))}
+                        </select>
                         <span className="time-inputs-text">to</span>
-                        <input
-                            className="time-inputs"
-                            type="text"
-                            value={toTimeString(endTime) ?? ''}
-                            onChange={onHandleStopTimeChange}
-                        />
+                        <select
+                            className="time-select"
+                            value={endTime ?? new Date()}
+                            onChange={handleStopTimeChange}
+                        >
+                            {timeOptions.map((t) => (
+                                <option key={t} value={t}>{toTimeString(t)}</option>
+                            ))}
+                        </select>
                     </div>
                     <button className="btn-cancel" onClick={onCancel}>
                         Cancel

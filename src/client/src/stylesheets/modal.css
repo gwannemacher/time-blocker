@@ -109,3 +109,7 @@ button {
 .time-inputs-text {
     margin: 0px 5px 0px 5px;
 }
+
+.time-select {
+    width: 100px;
+}
