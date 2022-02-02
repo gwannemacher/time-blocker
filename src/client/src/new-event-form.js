@@ -4,6 +4,7 @@ import * as dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import CustomParseFormat from 'dayjs/plugin/customParseFormat';
 
+import { EventTypes } from './form-constants.js'
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import './stylesheets/modal.css';
 
@@ -97,13 +98,13 @@ const NewEventForm = (props) => {
         }
 
         let className = '';
-        if (eventType === 'meeting') {
+        if (eventType === EventTypes.MEETING) {
             className = 'calendar-meeting-event'
-        } else if (eventType === 'focusmate-work') {
+        } else if (eventType === EventTypes.FOCUSMATE_WORK) {
             className = 'calendar-focusmate-work-event'
-        } else if (eventType === 'focusmate-personal') {
+        } else if (eventType === EventTypes.FOCUSMATE_PERSONAL) {
             className = 'calendar-focusmate-personal-event'
-        } else if (eventType === 'personal') {
+        } else if (eventType === EventTypes.PERSONAL) {
             className = 'calendar-personal-event'
         }
 
@@ -141,11 +142,11 @@ const NewEventForm = (props) => {
                         onChange={handleTitleChange}
                     />
                     <select value={eventType} onChange={handleTypeChange}>
-                        <option value="meeting">Meeting</option>
-                        <option value="focusmate-work">Focusmate (work)</option>
-                        <option value="focusmate-personal">Focusmate (personal)</option>
-                        <option value="unstructured">Unstructured</option>
-                        <option value="personal">Personal</option>
+                        <option value={EventTypes.MEETING}>Meeting</option>
+                        <option value={EventTypes.FOCUSMATE_WORK}>Focusmate (work)</option>
+                        <option value={EventTypes.FOCUSMATE_PERSONAL}>Focusmate (personal)</option>
+                        <option value={EventTypes.MISC}>Miscellaneous</option>
+                        <option value={EventTypes.PERSONAL}>Personal</option>
                     </select>
                     <div>
                         <select
