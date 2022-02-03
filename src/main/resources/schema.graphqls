@@ -1,0 +1,18 @@
+type Query {
+  getTimeBlocks: [TimeBlock]
+}
+
+type Mutation {
+  createTimeBlock(title: String!): TimeBlock
+}
+
+type TimeBlock {
+    id: String
+    title: String
+    type: String
+    startTime: String
+    startDate: String
+    endTime: String
+    endDate: String
+    isAllDay: Boolean
+}

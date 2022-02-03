@@ -6,9 +6,7 @@ import CustomParseFormat from 'dayjs/plugin/customParseFormat';
 
 import { EventTypes } from '../../models/event-types.js';
 import TitleInput from './title-input.js';
-import TimeInput, {
-    getTimeOptions,
-} from './time-input.js';
+import TimeInput, { getTimeOptions } from './time-input.js';
 import EventTypeInput from './event-type-input.js';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../stylesheets/modal.css';
