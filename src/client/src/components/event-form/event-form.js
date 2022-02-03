@@ -4,14 +4,14 @@ import * as dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import CustomParseFormat from 'dayjs/plugin/customParseFormat';
 
-import { EventTypes } from './models/event-types.js';
-import TitleInput from './event-form-components/title-input.js';
+import { EventTypes } from '../../models/event-types.js';
+import TitleInput from './title-input.js';
 import TimeInput, {
     getTimeOptions,
-} from './event-form-components/time-input.js';
-import EventTypeInput from './event-form-components/event-type-input.js';
+} from './time-input.js';
+import EventTypeInput from './event-type-input.js';
 //import 'bootstrap/dist/css/bootstrap.min.css';
-import './stylesheets/modal.css';
+import '../../stylesheets/modal.css';
 
 dayjs.extend(LocalizedFormat);
 dayjs.extend(CustomParseFormat);

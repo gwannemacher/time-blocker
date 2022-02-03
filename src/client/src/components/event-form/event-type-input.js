@@ -1,4 +1,4 @@
-import { EventTypes } from '../models/event-types.js';
+import { EventTypes } from '../../models/event-types.js';
 
 const EventTypeInput = (props) => {
     const { eventType, setEventType } = props;

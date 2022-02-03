@@ -3,9 +3,9 @@ import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
-import EventForm from './event-form.js';
+import EventForm from './event-form/event-form.js';
 
-import './stylesheets/calendar.css';
+import '../stylesheets/calendar.css';
 
 const eventClick = (info) => {
     if (window.confirm('Delete?')) {
