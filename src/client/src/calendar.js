@@ -3,7 +3,7 @@ import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
-import NewEventForm from './new-event-form.js';
+import EventForm from './event-form.js';
 
 import './stylesheets/calendar.css';
 
@@ -30,7 +30,7 @@ const Calendar = () => {
     return (
         <>
             {isFormVisible ? (
-                <NewEventForm
+                <EventForm
                     isAllDay={isAllDay}
                     newDate={newDate}
                     addEvent={(e) => calendar.addEvent(e)}
