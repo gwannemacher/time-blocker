@@ -1,8 +1,8 @@
 package com.gracula.timeblocker.graphql;
 
+import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import graphql.GraphQL;
-import graphql.com.google.common.base.Charsets;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
@@ -34,7 +34,6 @@ public class GraphQLProvider {
         String sdl = Resources.toString(url, Charsets.UTF_8);
         GraphQLSchema graphQLSchema = buildSchema(sdl);
         this.graphQL = GraphQL.newGraphQL(graphQLSchema).build();
-        return;
     }
 
     @Autowired
@@ -49,12 +48,8 @@ public class GraphQLProvider {
 
     private RuntimeWiring buildWiring() {
         return RuntimeWiring.newRuntimeWiring()
-                .type(newTypeWiring("Query")
-                              .dataFetcher("bookById", graphQLDataFetchers.getBookByIdDataFetcher()))
-                .type(newTypeWiring("Book")
-                              .dataFetcher("author", graphQLDataFetchers.getAuthorDataFetcher())
-                              // This line is new: we need to register the additional DataFetcher
-                              .dataFetcher("pageCount", graphQLDataFetchers.getPageCountDataFetcher()))
-                .build();
+            .type(newTypeWiring("Query")
+                .dataFetcher("getTimeBlocks", graphQLDataFetchers.getTimeBlocksDataFetcher()))
+            .build();
     }
 }
