@@ -13,31 +13,28 @@ import EventTypeInput from './event-form-components/event-type-input.js';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import './stylesheets/modal.css';
 
-const toCalendarEvent = (start, end, title, className) => {
-    return {
-        title,
-        start,
-        end,
-        classNames: [className],
-    };
-};
+dayjs.extend(LocalizedFormat);
+dayjs.extend(CustomParseFormat);
 
-const toAllDayCalendarEvent = (start, title) => {
-    return {
-        title,
-        start,
-        allDay: true,
-    };
+const toCalendarEvent = (start, end, eventType, title, isAllDay) => {
+    return isAllDay
+        ? {
+              title,
+              start,
+              allDay: true,
+          }
+        : {
+              title: eventType.prefix + title,
+              start,
+              end,
+              classNames: [eventType.className],
+          };
 };
 
 const EventForm = (props) => {
-    dayjs.extend(LocalizedFormat);
-    dayjs.extend(CustomParseFormat);
-
     const { isAllDay, newDate, addEvent, hideForm } = props;
-
     const [newTitle, setNewTitle] = useState('');
-    const [eventType, setEventType] = useState('meeting');
+    const [eventType, setEventType] = useState(EventTypes.MEETING.id);
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
 
@@ -49,26 +46,19 @@ const EventForm = (props) => {
 
     const onCancel = () => {
         setNewTitle('');
-        setEventType('meeting');
+        setEventType(EventTypes.MEETING.id);
         hideForm();
     };
 
     const onSave = () => {
-        const calendarEventType = EventTypes.select(eventType);
-
-        const newEvent = isAllDay
-            ? toAllDayCalendarEvent(
-                  startTime,
-                  calendarEventType.prefix + newTitle
-              )
-            : toCalendarEvent(
-                  startTime,
-                  endTime,
-                  calendarEventType.prefix + newTitle,
-                  calendarEventType.className
-              );
-
-        addEvent(newEvent);
+        const event = toCalendarEvent(
+            startTime,
+            endTime,
+            EventTypes.select(eventType),
+            newTitle,
+            isAllDay
+        );
+        addEvent(event);
 
         setNewTitle('');
         setEventType(EventTypes.MEETING.id);
