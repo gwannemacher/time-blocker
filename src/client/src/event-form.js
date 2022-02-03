@@ -4,7 +4,7 @@ import * as dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import CustomParseFormat from 'dayjs/plugin/customParseFormat';
 
-import { EventTypes } from './event-types.js';
+import { EventTypes } from './models/event-types.js';
 import TitleInput from './event-form-components/title-input.js';
 import TimeInput, {
     getTimeOptions,
