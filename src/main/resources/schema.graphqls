@@ -3,7 +3,7 @@ type Query {
 }
 
 type Mutation {
-  createTimeBlock(title: String!): TimeBlock
+  createTimeBlock(title: String!, type: String!, startTime: String!, startDate: String!, endTime: String!, endDate: String!, isAllDay: Boolean!): TimeBlock
 }
 
 type TimeBlock {

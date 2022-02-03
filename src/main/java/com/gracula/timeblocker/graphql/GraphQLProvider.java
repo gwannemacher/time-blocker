@@ -50,6 +50,8 @@ public class GraphQLProvider {
         return RuntimeWiring.newRuntimeWiring()
             .type(newTypeWiring("Query")
                 .dataFetcher("getTimeBlocks", graphQLDataFetchers.getTimeBlocksDataFetcher()))
+            .type(newTypeWiring("Mutation")
+                .dataFetcher("createTimeBlock", graphQLDataFetchers.createTimeBlock()))
             .build();
     }
 }
