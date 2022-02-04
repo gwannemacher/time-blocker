@@ -24,8 +24,8 @@ const EventTypes = {
         name: 'Personal',
         className: 'calendar-personal-event',
     },
-    select: (id) => {
-        switch (id) {
+    select: (type) => {
+        switch (type) {
             case EventTypes.MEETING.id:
                 return EventTypes.MEETING;
             case EventTypes.FOCUSMATE_WORK.id:
@@ -47,7 +47,7 @@ const EventTypes = {
             default:
                 return title;
         }
-    }
+    },
 };
 
 export default EventTypes;

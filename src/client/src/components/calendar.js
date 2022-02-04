@@ -34,12 +34,9 @@ const DELETE_TIME_BLOCK_MUTATION = gql`
 
 const Calendar = () => {
     const { data } = useQuery(TIMEBLOCKS_QUERY);
-    const [deleteTimeBlock, { deleted, loading, error }] = useMutation(
-        DELETE_TIME_BLOCK_MUTATION,
-        {
-            refetchQueries: [TIMEBLOCKS_QUERY],
-        }
-    );
+    const [ deleteTimeBlock ] = useMutation(DELETE_TIME_BLOCK_MUTATION, {
+        refetchQueries: [TIMEBLOCKS_QUERY],
+    });
 
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [date, setDate] = useState({});

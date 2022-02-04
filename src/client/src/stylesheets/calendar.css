@@ -128,7 +128,7 @@ div.fc-timegrid {
 /** Calendar events **/
 a.fc-timegrid-event {
     border-radius: 0;
-    padding: 10px 10px 10px 5px;
+    padding: 5px 5px 10px 5px;
 }
 
 .calendar-default-event {
@@ -148,15 +148,15 @@ a.fc-timegrid-event {
 }
 
 .calendar-focusmate-personal-event {
-    background-color: #D56CFF;
+    background-color: #CC75C8;
     border: 0px;
-    border-left: 5px solid #7F4199;
+    border-left: 5px solid #D028C8;
 }
 
 .calendar-personal-event {
-    background-color: #00B9FF;
+    background-color: #D028C8;
     border: 0px;
-    border-left: 5px solid #00B9FF;
+    border-left: 5px solid #D028C8;
 }
 
 /** ---------------- **/
