@@ -76,7 +76,7 @@ select {
 }
 
 button {
-    cursor: url('../resources/cursorlink.gif'), auto;
+    cursor: url('../resources/cursor-link.gif'), auto;
 }
 
 .modal-header .btn-close {

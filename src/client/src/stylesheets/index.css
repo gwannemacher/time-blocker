@@ -4,7 +4,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   padding: 15px;
   cursor: url('../resources/cursor.gif'), auto;
-  background-image: url("../resources/background.gif");
+  background-image: url("../resources/static-background.gif");
 }
 
 code {

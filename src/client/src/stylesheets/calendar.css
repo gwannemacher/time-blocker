@@ -54,7 +54,7 @@ table.fc-scrollgrid-sync-table {
 /** Cursor for hovered buttons **/
 .fc-event[href], .fc-event.fc-event-draggable,
 .fc .fc-button:not(:disabled) {
-    cursor: url('../resources/cursorlink.gif'), auto;
+    cursor: url('../resources/cursor-link.gif'), auto;
 }
 
 /** Color for hovered buttons **/
@@ -91,7 +91,7 @@ table.fc-scrollgrid-sync-table {
 
 /** Big date **/
 .fc-toolbar-title {
-    color: white;
+    color: rebeccapurple;
 }
 
 /** Day of the week names **/
