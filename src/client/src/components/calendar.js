@@ -33,8 +33,6 @@ const eventClick = (info) => {
 const Calendar = () => {
     const { data } = useQuery(TIMEBLOCKS_QUERY);
 
-    console.log(data?.getTimeBlocks);
-
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [date, setDate] = useState({});
     const [isAllDay, setIsAllDay] = useState(false);

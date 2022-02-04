@@ -71,10 +71,10 @@ const EventForm = (props) => {
             variables: {
                 title: newTitle,
                 type: eventType,
-                startTime: '10:00',
-                startDate: '2022-02-04',
-                endTime: '11:30',
-                endDate: '2022-02-04',
+                startTime: dayjs(startTime).format('HH:mm'),
+                startDate: dayjs(startTime).format('YYYY-MM-DD'),
+                endTime: dayjs(endTime).format('HH:mm'),
+                endDate: dayjs(endTime).format('YYYY-MM-DD'),
                 isAllDay: isAllDay,
             },
         });
