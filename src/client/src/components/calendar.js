@@ -5,6 +5,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { useQuery, gql } from '@apollo/client';
 
 import EventForm from './event-form/event-form.js';
+import EventTypes from '../models/event-types.js';
 
 import '../stylesheets/calendar.css';
 
@@ -13,6 +14,7 @@ export const TIMEBLOCKS_QUERY = gql`
         getTimeBlocks {
             id
             title
+            type
             startTime
             startDate
             endTime
@@ -30,6 +32,8 @@ const eventClick = (info) => {
 
 const Calendar = () => {
     const { data } = useQuery(TIMEBLOCKS_QUERY);
+
+    console.log(data?.getTimeBlocks);
 
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [date, setDate] = useState({});
@@ -68,6 +72,7 @@ const Calendar = () => {
                     start: `${x.startDate}T${x.startTime}`,
                     end: `${x.endDate}T${x.endTime}`,
                     title: x.title,
+                    className: EventTypes.select(x.type)?.className
                 }))}
                 eventClick={eventClick}
                 editable={true}

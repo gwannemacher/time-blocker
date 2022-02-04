@@ -16,6 +16,7 @@ public class GraphQLDataFetchers {
         timeBlocks.add(ImmutableMap.<String, String>builder()
                                .put("id", "timeblock-1")
                                .put("title", "haha")
+                               .put("type", "meeting")
                                .put("startTime", "08:00")
                                .put("startDate", "2022-02-03")
                                .put("endTime", "10:00")

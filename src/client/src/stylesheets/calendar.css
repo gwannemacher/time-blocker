@@ -128,27 +128,35 @@ div.fc-timegrid {
 /** Calendar events **/
 a.fc-timegrid-event {
     border-radius: 0;
-    padding: 2px;
+    padding: 10px 10px 10px 5px;
+}
+
+.calendar-default-event {
+    border-left: 5px solid #3788d8;
 }
 
 .calendar-meeting-event {
     background-color: #C70039;
     border: 0px;
+    border-left: 5px solid #C70039;
 }
 
 .calendar-focusmate-work-event {
     background-color: hotpink;
     border: 0px;
+    border-left: 5px solid #C70039;
 }
 
 .calendar-focusmate-personal-event {
     background-color: #D56CFF;
     border: 0px;
+    border-left: 5px solid #7F4199;
 }
 
 .calendar-personal-event {
     background-color: #00B9FF;
     border: 0px;
+    border-left: 5px solid #00B9FF;
 }
 
 /** ---------------- **/
