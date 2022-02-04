@@ -2,10 +2,25 @@ import React, { useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { useQuery, gql } from '@apollo/client';
 
 import EventForm from './event-form/event-form.js';
 
 import '../stylesheets/calendar.css';
+
+export const TIMEBLOCKS_QUERY = gql`
+    {
+        getTimeBlocks {
+            id
+            title
+            startTime
+            startDate
+            endTime
+            endDate
+            isAllDay
+        }
+    }
+`;
 
 const eventClick = (info) => {
     if (window.confirm('Delete?')) {
@@ -14,7 +29,8 @@ const eventClick = (info) => {
 };
 
 const Calendar = () => {
-    const [events, setEvents] = useState([]);
+    const { data } = useQuery(TIMEBLOCKS_QUERY);
+
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [newDate, setNewDate] = useState({});
     const [isAllDay, setIsAllDay] = useState(false);
@@ -48,7 +64,11 @@ const Calendar = () => {
                 stickyHeaderDates={true}
                 titleFormat={{ year: 'numeric', month: 'long', day: 'numeric' }}
                 dateClick={onDateClick}
-                events={events}
+                events={data?.getTimeBlocks.map((x) => ({
+                    start: `${x.startDate}T${x.startTime}`,
+                    end: `${x.endDate}T${x.endTime}`,
+                    title: x.title,
+                }))}
                 eventClick={eventClick}
                 editable={true}
                 eventResizableFromStart={true}

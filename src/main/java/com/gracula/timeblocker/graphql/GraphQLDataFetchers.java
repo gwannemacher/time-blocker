@@ -16,18 +16,18 @@ public class GraphQLDataFetchers {
         timeBlocks.add(ImmutableMap.<String, String>builder()
                                .put("id", "timeblock-1")
                                .put("title", "haha")
-                               .put("startTime", "8:00am")
+                               .put("startTime", "08:00")
                                .put("startDate", "2022-02-03")
-                               .put("endTime", "10:00am")
+                               .put("endTime", "10:00")
                                .put("endDate", "2022-02-03")
                                .build());
 
         timeBlocks.add(ImmutableMap.<String, String>builder()
                                .put("id", "timeblock-2")
                                .put("title", "haha 2")
-                               .put("startTime", "9:00am")
+                               .put("startTime", "09:00")
                                .put("startDate", "2022-02-04")
-                               .put("endTime", "11:30am")
+                               .put("endTime", "11:30")
                                .put("endDate", "2022-02-04")
                                .build());
     }
