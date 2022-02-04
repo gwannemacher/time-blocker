@@ -82,7 +82,7 @@ const Calendar = () => {
                 events={data?.getTimeBlocks.map((x) => ({
                     start: `${x.startDate}T${x.startTime}`,
                     end: `${x.endDate}T${x.endTime}`,
-                    title: x.title,
+                    title: EventTypes.displayTitle(x.type, x.title),
                     className: EventTypes.select(x.type)?.className,
                     id: x.id,
                 }))}
