@@ -32,13 +32,13 @@ const Calendar = () => {
     const { data } = useQuery(TIMEBLOCKS_QUERY);
 
     const [isFormVisible, setIsFormVisible] = useState(false);
-    const [newDate, setNewDate] = useState({});
+    const [date, setDate] = useState({});
     const [isAllDay, setIsAllDay] = useState(false);
     const [calendar, setCalendar] = useState({});
 
     const onDateClick = (info) => {
         setIsFormVisible(true);
-        setNewDate(info.date);
+        setDate(info.date);
         setIsAllDay(info.allDay);
         setCalendar(info.view.calendar);
     };
@@ -48,7 +48,7 @@ const Calendar = () => {
             {isFormVisible ? (
                 <EventForm
                     isAllDay={isAllDay}
-                    newDate={newDate}
+                    date={date}
                     addEvent={(e) => calendar.addEvent(e)}
                     hideForm={() => setIsFormVisible(false)}
                 />

@@ -30,17 +30,17 @@ const toCalendarEvent = (start, end, eventType, title, isAllDay) => {
 };
 
 const EventForm = (props) => {
-    const { isAllDay, newDate, addEvent, hideForm } = props;
+    const { isAllDay, date, addEvent, hideForm } = props;
     const [newTitle, setNewTitle] = useState('');
     const [eventType, setEventType] = useState(EventTypes.MEETING.id);
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
 
     useEffect(() => {
-        setStartTime(newDate);
-        const endDate = dayjs(newDate).add(1, 'hour');
+        setStartTime(date);
+        const endDate = dayjs(date).add(1, 'hour');
         setEndTime(endDate.toDate());
-    }, [newDate]);
+    }, [date]);
 
     const onCancel = () => {
         setNewTitle('');
@@ -68,7 +68,7 @@ const EventForm = (props) => {
         titleInput.current.focus();
     }, []);
 
-    const timeOptions = getTimeOptions(newDate);
+    const timeOptions = getTimeOptions(date);
 
     return (
         <>
