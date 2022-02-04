@@ -3,6 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import * as dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import CustomParseFormat from 'dayjs/plugin/customParseFormat';
+import { useMutation, gql } from '@apollo/client';
 
 import EventTypes from '../../models/event-types.js';
 import TitleInput from './title-input.js';
@@ -10,27 +11,37 @@ import TimeInput, { getTimeOptions } from './time-input.js';
 import EventTypeInput from './event-type-input.js';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../stylesheets/modal.css';
+import { TIMEBLOCKS_QUERY } from '../calendar.js';
 
 dayjs.extend(LocalizedFormat);
 dayjs.extend(CustomParseFormat);
 
-const toCalendarEvent = (start, end, eventType, title, isAllDay) => {
-    return isAllDay
-        ? {
-              title,
-              start,
-              allDay: true,
-          }
-        : {
-              title: eventType.prefix + title,
-              start,
-              end,
-              classNames: [eventType.className],
-          };
-};
+const CREATE_TIME_BLOCK_MUTATION = gql`
+    mutation CreateTimeBlock(
+        $title: String!
+        $type: String!
+        $startTime: String!
+        $startDate: String!
+        $endTime: String!
+        $endDate: String!
+        $isAllDay: Boolean!
+    ) {
+        createTimeBlock(
+            title: $title
+            type: $type
+            startTime: $startTime
+            startDate: $startDate
+            endTime: $endTime
+            endDate: $endDate
+            isAllDay: $isAllDay
+        ) {
+            id
+        }
+    }
+`;
 
 const EventForm = (props) => {
-    const { isAllDay, date, addEvent, hideForm } = props;
+    const { isAllDay, date, hideForm } = props;
     const [newTitle, setNewTitle] = useState('');
     const [eventType, setEventType] = useState(EventTypes.MEETING.id);
     const [startTime, setStartTime] = useState(null);
@@ -48,15 +59,25 @@ const EventForm = (props) => {
         hideForm();
     };
 
+    const [createTimeBlock, { data, loading, error }] = useMutation(
+        CREATE_TIME_BLOCK_MUTATION,
+        {
+            refetchQueries: [TIMEBLOCKS_QUERY],
+        }
+    );
+
     const onSave = () => {
-        const event = toCalendarEvent(
-            startTime,
-            endTime,
-            EventTypes.select(eventType),
-            newTitle,
-            isAllDay
-        );
-        addEvent(event);
+        createTimeBlock({
+            variables: {
+                title: newTitle,
+                type: eventType,
+                startTime: '10:00',
+                startDate: '2022-02-04',
+                endTime: '11:30',
+                endDate: '2022-02-04',
+                isAllDay: isAllDay,
+            },
+        });
 
         setNewTitle('');
         setEventType(EventTypes.MEETING.id);

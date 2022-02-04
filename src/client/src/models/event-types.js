@@ -17,7 +17,12 @@ const EventTypes = {
         prefix: '👩🏻‍💻👩🏻‍💻 ',
         className: 'calendar-focusmate-personal-event',
     },
-    MISC: { id: 'misc', name: 'Misc', prefix: '', className: 'calendar-default-event' },
+    MISC: {
+        id: 'misc',
+        name: 'Misc',
+        prefix: '',
+        className: 'calendar-default-event',
+    },
     PERSONAL: {
         id: 'personal',
         name: 'Personal',
@@ -36,7 +41,7 @@ const EventTypes = {
                 return EventTypes.PERSONAL;
             case EventTypes.MISC.id:
             default:
-                return EventTypes.MISC;;
+                return EventTypes.MISC;
         }
     },
 };

@@ -38,13 +38,11 @@ const Calendar = () => {
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [date, setDate] = useState({});
     const [isAllDay, setIsAllDay] = useState(false);
-    const [calendar, setCalendar] = useState({});
 
     const onDateClick = (info) => {
         setIsFormVisible(true);
         setDate(info.date);
         setIsAllDay(info.allDay);
-        setCalendar(info.view.calendar);
     };
 
     return (
@@ -53,7 +51,6 @@ const Calendar = () => {
                 <EventForm
                     isAllDay={isAllDay}
                     date={date}
-                    addEvent={(e) => calendar.addEvent(e)}
                     hideForm={() => setIsFormVisible(false)}
                 />
             ) : (
@@ -72,7 +69,7 @@ const Calendar = () => {
                     start: `${x.startDate}T${x.startTime}`,
                     end: `${x.endDate}T${x.endTime}`,
                     title: x.title,
-                    className: EventTypes.select(x.type)?.className
+                    className: EventTypes.select(x.type)?.className,
                 }))}
                 eventClick={eventClick}
                 editable={true}
