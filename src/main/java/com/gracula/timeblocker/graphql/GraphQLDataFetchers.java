@@ -62,4 +62,12 @@ public class GraphQLDataFetchers {
             return timeBlock;
         };
     }
+
+    public DataFetcher deleteTimeBlockDataFetcher() {
+        return env -> {
+            final String idToRemove = env.getArgument("id");
+            timeBlocks.removeIf(t -> t.get("id").equalsIgnoreCase(idToRemove));
+            return timeBlocks;
+        };
+    }
 }

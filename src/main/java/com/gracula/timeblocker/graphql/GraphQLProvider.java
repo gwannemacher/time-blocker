@@ -64,6 +64,8 @@ public class GraphQLProvider {
                 .dataFetcher("getTimeBlocks", graphQLDataFetchers.getTimeBlocksDataFetcher()))
             .type(newTypeWiring("Mutation")
                 .dataFetcher("createTimeBlock", graphQLDataFetchers.createTimeBlock()))
+            .type(newTypeWiring("Mutation")
+                .dataFetcher("deleteTimeBlock", graphQLDataFetchers.deleteTimeBlockDataFetcher()))
             .build();
     }
 }

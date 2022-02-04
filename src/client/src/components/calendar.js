@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, useMutation, gql } from '@apollo/client';
 
 import EventForm from './event-form/event-form.js';
 import EventTypes from '../models/event-types.js';
@@ -24,14 +24,22 @@ export const TIMEBLOCKS_QUERY = gql`
     }
 `;
 
-const eventClick = (info) => {
-    if (window.confirm('Delete?')) {
-        info.event.remove();
+const DELETE_TIME_BLOCK_MUTATION = gql`
+    mutation DeleteTimeBlock($id: String!) {
+        deleteTimeBlock(id: $id) {
+            id
+        }
     }
-};
+`;
 
 const Calendar = () => {
     const { data } = useQuery(TIMEBLOCKS_QUERY);
+    const [deleteTimeBlock, { deleted, loading, error }] = useMutation(
+        DELETE_TIME_BLOCK_MUTATION,
+        {
+            refetchQueries: [TIMEBLOCKS_QUERY],
+        }
+    );
 
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [date, setDate] = useState({});
@@ -41,6 +49,14 @@ const Calendar = () => {
         setIsFormVisible(true);
         setDate(info.date);
         setIsAllDay(info.allDay);
+    };
+
+    const eventClick = (info) => {
+        if (window.confirm('Delete?')) {
+            deleteTimeBlock({
+                variables: { id: info.event.id },
+            });
+        }
     };
 
     return (
@@ -68,6 +84,7 @@ const Calendar = () => {
                     end: `${x.endDate}T${x.endTime}`,
                     title: x.title,
                     className: EventTypes.select(x.type)?.className,
+                    id: x.id,
                 }))}
                 eventClick={eventClick}
                 editable={true}
