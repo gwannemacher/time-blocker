@@ -5,9 +5,9 @@ import com.gracula.timeblocker.models.TimeBlock;
 import graphql.schema.DataFetcher;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -20,12 +20,8 @@ public class GraphQLDataFetchers {
     }
 
     private List<TimeBlock> getTimeBlocksFromDb() {
-        final ArrayList<TimeBlock> list = new ArrayList<>();
-        mongoClient.timeBlockCollection.find().forEach(x -> {
-            list.add(x);
-        });
-
-        return list;
+        return StreamSupport.stream(mongoClient.timeBlockCollection.find().spliterator(), false)
+                .collect(Collectors.toList());
     }
 
     public DataFetcher getTimeBlocksDataFetcher() {
