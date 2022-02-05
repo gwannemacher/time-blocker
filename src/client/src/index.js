@@ -11,7 +11,7 @@ import './stylesheets/index.css';
 import App from './App';
 
 const httpLink = createHttpLink({
-    uri: 'http://localhost:8080/graphql',
+    uri: 'http://localhost:5000/graphql',
 });
 
 const client = new ApolloClient({
