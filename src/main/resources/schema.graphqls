@@ -4,7 +4,7 @@ type Query {
 
 type Mutation {
     createTimeBlock(title: String!, type: String!, startTime: String!, startDate: String!, endTime: String!, endDate: String!, isAllDay: Boolean!): TimeBlock
-    deleteTimeBlock(id: String!): [TimeBlock]
+    deleteTimeBlock(id: String!): String
 }
 
 type TimeBlock {

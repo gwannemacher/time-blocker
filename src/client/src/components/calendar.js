@@ -26,9 +26,7 @@ export const TIMEBLOCKS_QUERY = gql`
 
 const DELETE_TIME_BLOCK_MUTATION = gql`
     mutation DeleteTimeBlock($id: String!) {
-        deleteTimeBlock(id: $id) {
-            id
-        }
+        deleteTimeBlock(id: $id)
     }
 `;
 
@@ -82,6 +80,7 @@ const Calendar = () => {
                     title: EventTypes.displayTitle(x.type, x.title),
                     className: EventTypes.select(x.type)?.className,
                     id: x.id,
+                    allDay: x.isAllDay
                 }))}
                 eventClick={eventClick}
                 editable={true}

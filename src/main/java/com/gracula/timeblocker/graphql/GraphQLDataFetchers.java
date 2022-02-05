@@ -1,6 +1,7 @@
 package com.gracula.timeblocker.graphql;
 
-import com.google.common.collect.ImmutableMap;
+import com.gracula.timeblocker.data.MongoDbClient;
+import com.gracula.timeblocker.models.TimeBlock;
 import graphql.schema.DataFetcher;
 import org.springframework.stereotype.Component;
 
@@ -8,66 +9,52 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.mongodb.client.model.Filters.eq;
+
 @Component
 public class GraphQLDataFetchers {
-    private List<Map<String, String>> timeBlocks = new ArrayList();
+    private final MongoDbClient mongoClient;
 
-    {
-        timeBlocks.add(ImmutableMap.<String, String>builder()
-                               .put("id", "timeblock-1")
-                               .put("title", "haha")
-                               .put("type", "meeting")
-                               .put("startTime", "08:00")
-                               .put("startDate", "2022-02-03")
-                               .put("endTime", "10:00")
-                               .put("endDate", "2022-02-03")
-                               .build());
+    public GraphQLDataFetchers(MongoDbClient client) {
+        mongoClient = client;
+    }
 
-        timeBlocks.add(ImmutableMap.<String, String>builder()
-                               .put("id", "timeblock-2")
-                               .put("title", "haha 2")
-                               .put("startTime", "09:00")
-                               .put("startDate", "2022-02-04")
-                               .put("endTime", "11:30")
-                               .put("endDate", "2022-02-04")
-                               .build());
+    private List<TimeBlock> getTimeBlocksFromDb() {
+        final ArrayList<TimeBlock> list = new ArrayList<>();
+        mongoClient.timeBlockCollection.find().forEach(x -> {
+            list.add(x);
+        });
+
+        return list;
     }
 
     public DataFetcher getTimeBlocksDataFetcher() {
-        return dataFetchingEnvironment -> timeBlocks;
+        return dataFetchingEnvironment -> getTimeBlocksFromDb();
     }
 
-    public DataFetcher<Map<String, String>> createTimeBlock() {
+    public DataFetcher<TimeBlock> createTimeBlock() {
         return env -> {
-            final String title = env.getArgument("title");
-            final String type = env.getArgument("type");
-            final String startTime = env.getArgument("startTime");
-            final String startDate = env.getArgument("startDate");
-            final String endTime = env.getArgument("endTime");
-            final String endDate = env.getArgument("endDate");
-            final Boolean isAllDay = env.getArgument("isAllDay");
+            final TimeBlock block = new TimeBlock();
+            block.setId(java.util.UUID.randomUUID().toString());
+            block.setTitle(env.getArgument("title"));
+            block.setType(env.getArgument("type"));
+            block.setStartTime(env.getArgument("startTime"));
+            block.setStartDate(env.getArgument("startDate"));
+            block.setEndTime(env.getArgument("endTime"));
+            block.setEndDate(env.getArgument("endDate"));
+            block.setAllDay(env.getArgument("isAllDay"));
 
-            Map<String, String> timeBlock = ImmutableMap.<String, String>builder()
-                    .put("id", java.util.UUID.randomUUID().toString())
-                    .put("title", title)
-                    .put("type", type)
-                    .put("startTime", startTime)
-                    .put("startDate", startDate)
-                    .put("endTime", endTime)
-                    .put("endDate", endDate)
-                    .put("isAllDay", isAllDay.toString())
-                    .build();
+            mongoClient.timeBlockCollection.insertOne(block);
 
-            timeBlocks.add(timeBlock);
-            return timeBlock;
+            return block;
         };
     }
 
     public DataFetcher deleteTimeBlockDataFetcher() {
         return env -> {
             final String idToRemove = env.getArgument("id");
-            timeBlocks.removeIf(t -> t.get("id").equalsIgnoreCase(idToRemove));
-            return timeBlocks;
+            mongoClient.timeBlockCollection.deleteOne(eq("_id", idToRemove));
+            return idToRemove;
         };
     }
 }
