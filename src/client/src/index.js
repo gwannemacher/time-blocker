@@ -11,9 +11,8 @@ import './stylesheets/index.css';
 import App from './App';
 
 const httpLink = createHttpLink({
-    // https://gracula-time-blocker.herokuapp.com
-    // http://localhost:5000/graphql
-    uri: 'https://gracula-time-blocker.herokuapp.com/graphql',
+    uri: 'http://localhost:5000/graphql',
+    //uri: 'https://gracula-time-blocker.herokuapp.com/graphql',
 });
 
 const client = new ApolloClient({
