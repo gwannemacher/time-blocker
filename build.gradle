@@ -24,6 +24,5 @@ task copyJar(type: Copy) {
     into "$buildDir/libs"
 }
 
-build.mustRunAfter clean
 task stage(dependsOn: ['build', 'clean', 'copyJar'])
 compileJava.dependsOn ":server:build"
