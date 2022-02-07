@@ -1,18 +1,12 @@
-plugins {
-    id 'java'
+allprojects {
+    repositories {
+        mavenCentral()
+    }
 }
 
-repositories {
-    mavenCentral()
-    maven { url 'https://repo.spring.io/milestone' }
-    maven { url 'https://repo.spring.io/snapshot' }
+buildscript {
+    repositories {
+        maven { url 'https://repo.spring.io/milestone' }
+        maven { url 'https://repo.spring.io/snapshot' }
+    }
 }
-
-dependencies {
-    classpath 'org.springframework.boot:2.7.0-SNAPSHOT'
-    classpath 'io.spring.dependency-management:1.0.11.RELEASE'
-    classpath 'java'
-}
-
-task stage(dependsOn: ['build', 'clean'])
-build.mustRunAfter clean
