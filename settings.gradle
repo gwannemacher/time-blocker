@@ -5,4 +5,8 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
+
 rootProject.name = 'time-blocker'
+
+include 'client'
+include 'server'

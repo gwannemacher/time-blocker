@@ -23,7 +23,7 @@ dependencies {
 	implementation 'org.mongodb:bson:4.2.3'
 	implementation 'org.mongodb:mongodb-driver-core:4.2.3'
 	implementation 'org.mongodb:mongodb-driver-sync:4.2.3'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation project(':client')
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework:spring-webflux'
 	testImplementation 'org.springframework.graphql:spring-graphql-test'
@@ -32,3 +32,11 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+task copyWebApp(type: Copy) {
+	from "$rootDir/client/build"
+	into "$rootDir/server/build/resources/main/static/."
+}
+
+bootJar.dependsOn(copyWebApp)
+compileJava.dependsOn ":client:build"
