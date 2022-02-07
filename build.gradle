@@ -1,8 +1,6 @@
-//plugins {
-//    id 'java'
-//}
-//
-
+plugins {
+    id 'java'
+}
 
 repositories {
     mavenCentral()
