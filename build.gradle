@@ -22,8 +22,9 @@ dependencies {
 task stage(dependsOn: ['build', 'clean'])
 build.mustRunAfter clean
 
-task testTask() {
-    println 'test my test task'
+task copyToLib(type: Copy) {
+    into "$buildDir/libs"
+    from(configurations.compile)
 }
 
-testTask.mustRunAfter stage
+stage.dependsOn(copyToLib)
