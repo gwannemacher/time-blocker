@@ -2,8 +2,6 @@
 //    id 'java'
 //}
 //
-//task stage(dependsOn: ['build', 'clean'])
-//build.mustRunAfter clean
 
 
 plugins {
@@ -31,3 +29,6 @@ buildscript {
 //        classpath “org.springframework.boot:spring-boot-gradle-plugin:2.2.5.RELEASE”
 //    }
 }
+
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
