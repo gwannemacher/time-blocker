@@ -33,11 +33,14 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+bootJar {
+	enabled = true
+}
+
 task copyWebApp(type: Copy) {
 	from "$rootDir/client/build"
 	into "$rootDir/server/build/resources/main/static/."
 }
 
-assemble.dependsOn(bootJar)
 bootJar.dependsOn(copyWebApp)
 compileJava.dependsOn ":client:build"
