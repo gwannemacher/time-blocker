@@ -27,3 +27,4 @@ task copyJar(type: Copy) {
     into "$buildDir/libs"
 }
 stage.dependsOn(copyJar)
+compileJava.dependsOn ":server:build"
