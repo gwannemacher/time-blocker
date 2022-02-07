@@ -1,1 +1,1 @@
-web: (./gradlew clean build) && (./gradlew bootRun)
+web: ./gradlew bootRun
