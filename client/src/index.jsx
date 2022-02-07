@@ -10,8 +10,6 @@ import {
 import './stylesheets/index.css';
 import App from './App';
 
-var port = process.env.PORT || 8080;
-
 const httpLink = createHttpLink({
   // uri: 'http://localhost:5000/graphql',
   uri: 'https://gracula-time-blocker.herokuapp.com/graphql',
