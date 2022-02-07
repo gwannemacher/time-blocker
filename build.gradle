@@ -24,6 +24,6 @@ build.mustRunAfter clean
 
 task copyJar(type: Copy) {
     from "$rootDir/server/build/libs"
-    into "/libs/."
+    into "$rootDir/."
 }
 stage.dependsOn(copyJar)
