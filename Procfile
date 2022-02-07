@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT && (./gradlew clean build) && (./gradlew bootRun)
+web: (./gradlew clean build) && (./gradlew bootRun)
