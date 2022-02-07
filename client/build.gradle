@@ -10,8 +10,13 @@ node {
 apply plugin: "com.github.node-gradle.node"
 apply plugin: "base"
 
+task appNpmInstall(type: NpmTask) {
+    args = ["install"]
+}
+
 task appNpmBuild(type: NpmTask) {
     args = ["run", "build"]
 }
 
+appNpmBuild.dependsOn(appNpmInstall)
 assemble.dependsOn(appNpmBuild)
