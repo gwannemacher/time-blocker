@@ -22,4 +22,8 @@ dependencies {
 task stage(dependsOn: ['build', 'clean'])
 build.mustRunAfter clean
 
-println 'TEST TEST TEST'
+task test() {
+    println 'test my test task'
+}
+
+test.mustRunAfter stage
