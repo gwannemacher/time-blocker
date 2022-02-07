@@ -19,8 +19,6 @@ dependencies {
     implementation project(':server')
 }
 
-assemble.dependsOn(bootJar)
-
 task stage(dependsOn: ['build', 'clean'])
 build.mustRunAfter clean
 

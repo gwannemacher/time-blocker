@@ -42,5 +42,6 @@ task copyWebApp(type: Copy) {
 	into "$rootDir/server/build/resources/main/static/."
 }
 
+assemble.dependsOn(bootJar)
 bootJar.dependsOn(copyWebApp)
 compileJava.dependsOn ":client:build"
