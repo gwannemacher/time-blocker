@@ -1,13 +1,17 @@
-allprojects {
-    repositories {
-        mavenCentral()
-    }
-}
-
 buildscript {
     repositories {
         maven { url 'https://repo.spring.io/milestone' }
         maven { url 'https://repo.spring.io/snapshot' }
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
     }
 }
 
