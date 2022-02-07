@@ -22,9 +22,8 @@ dependencies {
 task stage(dependsOn: ['build', 'clean'])
 build.mustRunAfter clean
 
-task copyToLib(type: Copy) {
-    into "$buildDir/libs"
-    from(configurations.compile)
+task copyJar(type: Copy) {
+    from "$rootDir/server/build/libs"
+    into "$rootDir/libs/."
 }
-
-stage.dependsOn(copyToLib)
+stage.dependsOn(copyJar)
