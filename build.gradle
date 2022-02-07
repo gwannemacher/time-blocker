@@ -19,12 +19,11 @@ dependencies {
     implementation project(':server')
 }
 
-task stage(dependsOn: ['build', 'clean'])
-build.mustRunAfter clean
-
 task copyJar(type: Copy) {
     from "$rootDir/server/build/libs"
     into "$buildDir/libs"
 }
-stage.dependsOn(copyJar)
+
+build.mustRunAfter clean
+task stage(dependsOn: ['build', 'clean', 'copyJar'])
 compileJava.dependsOn ":server:build"
