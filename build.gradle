@@ -3,16 +3,17 @@
 //}
 //
 
-plugins {
-    id 'org.springframework.boot' version '2.7.0-SNAPSHOT'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'java'
-}
 
 repositories {
     mavenCentral()
     maven { url 'https://repo.spring.io/milestone' }
     maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencies {
+    classpath 'org.springframework.boot:2.7.0-SNAPSHOT'
+    classpath 'io.spring.dependency-management:1.0.11.RELEASE'
+    classpath 'java'
 }
 
 task stage(dependsOn: ['build', 'clean'])
