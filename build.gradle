@@ -10,3 +10,6 @@ buildscript {
         maven { url 'https://repo.spring.io/snapshot' }
     }
 }
+
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
