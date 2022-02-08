@@ -35,7 +35,12 @@ public class GraphQLProvider {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/graphql").allowedOrigins("http://localhost:3000");
+                registry
+                        .addMapping("/graphql")
+                        .allowedOrigins(
+                                "http://localhost:3000",
+                                "https://gracula-time-blocker.herokuapp.com",
+                                "http://gracula-time-blocker.herokuapp.com");
             }
         };
     }
