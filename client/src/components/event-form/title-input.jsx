@@ -16,13 +16,13 @@ function TitleInput(props) {
 }
 
 TitleInput.propTypes = {
-  titleInput: PropTypes.string,
+  titleInput: PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
   newTitle: PropTypes.string,
   setTitle: PropTypes.func,
 };
 
 TitleInput.defaultProps = {
-  titleInput: '',
+  titleInput: { current: {} },
   newTitle: '',
   setTitle: () => {},
 };

@@ -49,13 +49,13 @@ function TimeInput(props) {
 }
 
 TimeInput.propTypes = {
-  time: PropTypes.string,
+  time: PropTypes.instanceOf(Date),
   setTime: PropTypes.func,
-  options: PropTypes.shape([]),
+  options: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
 };
 
 TimeInput.defaultProps = {
-  time: '',
+  time: new Date(),
   setTime: () => {},
   options: [],
 };

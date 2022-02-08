@@ -134,14 +134,14 @@ function EventForm(props) {
 }
 
 EventForm.propTypes = {
-  isAllDay: PropTypes.string,
-  date: PropTypes.string,
+  isAllDay: PropTypes.bool,
+  date: PropTypes.instanceOf(Date),
   hideForm: PropTypes.func,
 };
 
 EventForm.defaultProps = {
   isAllDay: false,
-  date: '',
+  date: new Date(),
   hideForm: () => {},
 };
 

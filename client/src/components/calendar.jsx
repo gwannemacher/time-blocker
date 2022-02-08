@@ -17,7 +17,7 @@ function Calendar() {
   });
 
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [date, setDate] = useState({});
+  const [date, setDate] = useState(new Date());
   const [isAllDay, setIsAllDay] = useState(false);
 
   const onDateClick = (info) => {
