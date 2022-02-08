@@ -38,7 +38,10 @@
   "eslintConfig": {
     "extends": [
       "airbnb"
-    ]
+    ],
+    "rules": {
+      "indent": "off"
+    }
   },
   "browserslist": {
     "production": [
