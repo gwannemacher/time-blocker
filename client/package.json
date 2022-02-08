@@ -40,7 +40,11 @@
       "airbnb"
     ],
     "rules": {
-      "indent": "off"
+      "indent": "off",
+      "react/jsx-indent": "off",
+      "react/jsx-indent-props": "off",
+      "comma-dangle": "off",
+      "implicit-arrow-linebreak": "off"
     }
   },
   "browserslist": {
