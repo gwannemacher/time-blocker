@@ -91,7 +91,12 @@ function Calendar() {
         setHoveredEventTitle(EventTypes.removePrefix(info.event.title));
     };
 
-    const onEventMouseLeave = () => {
+    const onEventMouseLeave = (info) => {
+        if (info.jsEvent.toElement.className.includes('fc-event-title')) {
+            // safari weirdness
+            return;
+        }
+
         setHoveredEvent('');
         setHoveredEventTitle('');
     };
