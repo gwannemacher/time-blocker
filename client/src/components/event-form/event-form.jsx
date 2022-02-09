@@ -13,6 +13,7 @@ import EventTypeInput from './event-type-input';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../stylesheets/modal.css';
 import { TIMEBLOCKS_QUERY } from '../../queries';
+import useDomKeydownListenerEffect from '../../dom-utilities';
 
 dayjs.extend(LocalizedFormat);
 dayjs.extend(CustomParseFormat);
@@ -70,18 +71,17 @@ function EventForm(props) {
         hideForm();
     };
 
-    useEffect(() => {
-        const listener = (event) => {
-            if (event.code === 'Enter' || event.code === 'NumpadEnter') {
-                event.preventDefault();
-                onSave();
-            }
-        };
-        document.addEventListener('keydown', listener);
-        return () => {
-          document.removeEventListener('keydown', listener);
-        };
-    }, [newTitle, eventType, startTime, endTime, isAllDay]);
+    const handleKeyDown = (event) => {
+        if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+            event.preventDefault();
+            onSave();
+        }
+    };
+
+    useDomKeydownListenerEffect(
+        handleKeyDown,
+        [newTitle, eventType, startTime, endTime, isAllDay]
+    );
 
     useEffect(() => {
         setStartTime(date);
