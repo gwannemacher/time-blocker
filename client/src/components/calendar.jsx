@@ -30,6 +30,7 @@ function Calendar() {
     const [date, setDate] = useState(new Date());
     const [isAllDay, setIsAllDay] = useState(false);
     const [hoveredEvent, setHoveredEvent] = useState('');
+    const [hoveredEventTitle, setHoveredEventTitle] = useState('');
 
     const deleteEvent = () => {
         if (window.confirm('Delete?')) {
@@ -40,7 +41,7 @@ function Calendar() {
     };
 
     const editEvent = () => {
-        const newTitle = prompt('Please enter new title', '');
+        const newTitle = prompt('Please enter new title', hoveredEventTitle);
         if (newTitle) {
             updateTimeBlockName({
                 variables: { id: hoveredEvent, title: newTitle },
@@ -65,10 +66,11 @@ function Calendar() {
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [hoveredEvent]);
+    }, [hoveredEvent, hoveredEventTitle]);
 
     useEffect(() => {
         setHoveredEvent('');
+        setHoveredEventTitle('');
     }, [data]);
 
     const onDateClick = (info) => {
@@ -83,6 +85,16 @@ function Calendar() {
                 variables: { id: info.event.id },
             });
         }
+    };
+
+    const onEventHover = (info) => {
+        setHoveredEvent(info.event.id);
+        setHoveredEventTitle(EventTypes.removePrefix(info.event.title));
+    };
+
+    const onEventMouseLeave = () => {
+        setHoveredEvent('');
+        setHoveredEventTitle('');
     };
 
     return (
@@ -121,8 +133,8 @@ function Calendar() {
                     minute: '2-digit',
                     meridiem: 'narrow',
                 }}
-                eventMouseEnter={(info) => setHoveredEvent(info.event.id)}
-                eventMouseLeave={() => setHoveredEvent('')}
+                eventMouseEnter={onEventHover}
+                eventMouseLeave={onEventMouseLeave}
             />
         </>
     );

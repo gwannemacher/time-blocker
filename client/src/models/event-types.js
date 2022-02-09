@@ -1,3 +1,5 @@
+const focusmatePrefix = '👩🏻‍💻👩🏻‍💻 ';
+
 const EventTypes = {
     MEETING: {
         id: 'meeting',
@@ -43,11 +45,18 @@ const EventTypes = {
         switch (type) {
             case EventTypes.FOCUSMATE_WORK.id:
             case EventTypes.FOCUSMATE_PERSONAL.id:
-                return `👩🏻‍💻👩🏻‍💻 ${title}`;
+                return `${focusmatePrefix}${title}`;
             default:
                 return title;
         }
     },
+    removePrefix: (title) => {
+        if (title.startsWith(focusmatePrefix)) {
+            return title.replace(focusmatePrefix, '');
+        }
+
+        return title;
+    }
 };
 
 export default EventTypes;
