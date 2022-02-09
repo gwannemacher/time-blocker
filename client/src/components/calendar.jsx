@@ -6,7 +6,11 @@ import { useQuery, useMutation } from '@apollo/client';
 
 import EventForm from './event-form/event-form';
 import EventTypes from '../models/event-types';
-import { TIMEBLOCKS_QUERY, DELETE_TIME_BLOCK_MUTATION, UPDATE_TIME_BLOCK_TITLE_MUTATION } from '../queries';
+import {
+    TIMEBLOCKS_QUERY,
+    DELETE_TIME_BLOCK_MUTATION,
+    UPDATE_TIME_BLOCK_TITLE_MUTATION,
+} from '../queries';
 
 import '../stylesheets/calendar.css';
 
@@ -15,9 +19,12 @@ function Calendar() {
     const [deleteTimeBlock] = useMutation(DELETE_TIME_BLOCK_MUTATION, {
         refetchQueries: [TIMEBLOCKS_QUERY],
     });
-    const [updateTimeBlockName] = useMutation(UPDATE_TIME_BLOCK_TITLE_MUTATION, {
-        refetchQueries: [TIMEBLOCKS_QUERY],
-    });
+    const [updateTimeBlockName] = useMutation(
+        UPDATE_TIME_BLOCK_TITLE_MUTATION,
+        {
+            refetchQueries: [TIMEBLOCKS_QUERY],
+        }
+    );
 
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [date, setDate] = useState(new Date());
@@ -50,7 +57,7 @@ function Calendar() {
 
         document.addEventListener('keydown', handleKeyDown);
         return () => {
-          document.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('keydown', handleKeyDown);
         };
     }, [hoveredEvent]);
 
