@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import * as dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import CustomParseFormat from 'dayjs/plugin/customParseFormat';
-import { useMutation, gql } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 import EventTypes from '../../models/event-types';
 import TitleInput from './title-input';
@@ -12,35 +12,11 @@ import TimeInput, { getTimeOptions } from './time-input';
 import EventTypeInput from './event-type-input';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../stylesheets/modal.css';
-import { TIMEBLOCKS_QUERY } from '../../queries';
+import { TIMEBLOCKS_QUERY, CREATE_TIME_BLOCK_MUTATION } from '../../queries';
 import useDomKeydownListenerEffect from '../../dom-utilities';
 
 dayjs.extend(LocalizedFormat);
 dayjs.extend(CustomParseFormat);
-
-const CREATE_TIME_BLOCK_MUTATION = gql`
-    mutation CreateTimeBlock(
-        $title: String!
-        $type: String!
-        $startTime: String!
-        $startDate: String!
-        $endTime: String!
-        $endDate: String!
-        $isAllDay: Boolean!
-    ) {
-        createTimeBlock(
-            title: $title
-            type: $type
-            startTime: $startTime
-            startDate: $startDate
-            endTime: $endTime
-            endDate: $endDate
-            isAllDay: $isAllDay
-        ) {
-            id
-        }
-    }
-`;
 
 function EventForm(props) {
     const { isAllDay, date, hideForm } = props;
