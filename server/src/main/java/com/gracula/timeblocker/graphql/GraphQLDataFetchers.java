@@ -2,7 +2,9 @@ package com.gracula.timeblocker.graphql;
 
 import com.gracula.timeblocker.data.MongoDbClient;
 import com.gracula.timeblocker.models.TimeBlock;
+import com.mongodb.client.model.Updates;
 import graphql.schema.DataFetcher;
+import org.bson.conversions.Bson;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -48,9 +50,21 @@ public class GraphQLDataFetchers {
 
     public DataFetcher deleteTimeBlockDataFetcher() {
         return env -> {
-            final String idToRemove = env.getArgument("id");
-            mongoClient.timeBlockCollection.deleteOne(eq("_id", idToRemove));
-            return idToRemove;
+            final String id = env.getArgument("id");
+            mongoClient.timeBlockCollection.deleteOne(eq("_id", id));
+            return id;
+        };
+    }
+
+    public DataFetcher updateTimeBlockTitle() {
+        return env -> {
+            final String id = env.getArgument("id");
+            final String title = env.getArgument("title");
+            final Bson updates = Updates.combine(
+                    Updates.set("title", title)
+            );
+            mongoClient.timeBlockCollection.findOneAndUpdate(eq("_id", id), updates);
+            return id;
         };
     }
 }

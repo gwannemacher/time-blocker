@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -6,7 +6,7 @@ import { useQuery, useMutation } from '@apollo/client';
 
 import EventForm from './event-form/event-form';
 import EventTypes from '../models/event-types';
-import { TIMEBLOCKS_QUERY, DELETE_TIME_BLOCK_MUTATION } from '../queries';
+import { TIMEBLOCKS_QUERY, DELETE_TIME_BLOCK_MUTATION, UPDATE_TIME_BLOCK_TITLE_MUTATION } from '../queries';
 
 import '../stylesheets/calendar.css';
 
@@ -15,10 +15,44 @@ function Calendar() {
     const [deleteTimeBlock] = useMutation(DELETE_TIME_BLOCK_MUTATION, {
         refetchQueries: [TIMEBLOCKS_QUERY],
     });
+    const [updateTimeBlockName] = useMutation(UPDATE_TIME_BLOCK_TITLE_MUTATION, {
+        refetchQueries: [TIMEBLOCKS_QUERY],
+    });
 
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [date, setDate] = useState(new Date());
     const [isAllDay, setIsAllDay] = useState(false);
+    const [hoveredEvent, setHoveredEvent] = useState('');
+
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (!isFormVisible && hoveredEvent && event.key === 'd') {
+                if (window.confirm('Delete?')) {
+                    deleteTimeBlock({
+                        variables: { id: hoveredEvent },
+                    });
+
+                    setHoveredEvent('');
+                }
+            }
+
+            if (hoveredEvent && event.key === 'e') {
+                const newTitle = prompt('Please enter new title', '');
+                if (newTitle) {
+                    updateTimeBlockName({
+                        variables: { id: hoveredEvent, title: newTitle },
+                    });
+
+                    setHoveredEvent('');
+                }
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+          document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [hoveredEvent]);
 
     const onDateClick = (info) => {
         setIsFormVisible(true);
@@ -70,6 +104,8 @@ function Calendar() {
                     minute: '2-digit',
                     meridiem: 'narrow',
                 }}
+                eventMouseEnter={(info) => setHoveredEvent(info.event.id)}
+                eventMouseLeave={() => setHoveredEvent('')}
             />
         </>
     );

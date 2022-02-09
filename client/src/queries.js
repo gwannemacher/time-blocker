@@ -20,3 +20,9 @@ export const DELETE_TIME_BLOCK_MUTATION = gql`
         deleteTimeBlock(id: $id)
     }
 `;
+
+export const UPDATE_TIME_BLOCK_TITLE_MUTATION = gql`
+    mutation UpdateTimeBlockTitle($id: String!, $title: String!) {
+        updateTimeBlockTitle(id: $id, title: $title)
+    }
+`;
