@@ -62,10 +62,10 @@ function Calendar() {
         }
     };
 
-    useDomKeydownListenerEffect(
-        handleKeyDown,
-        [hoveredEvent, hoveredEventTitle]
-    );
+    useDomKeydownListenerEffect(handleKeyDown, [
+        hoveredEvent,
+        hoveredEventTitle,
+    ]);
 
     useEffect(() => {
         setHoveredEvent('');

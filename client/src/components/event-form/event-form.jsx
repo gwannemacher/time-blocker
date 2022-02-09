@@ -71,15 +71,13 @@ function EventForm(props) {
         hideForm();
     };
 
-    const handleKeyDown = (event) => {
-        if (event.code === 'Enter' || event.code === 'NumpadEnter') {
-            event.preventDefault();
-            onSave();
-        }
-    };
-
     useDomKeydownListenerEffect(
-        handleKeyDown,
+        (e) => {
+            if (e.code === 'Enter' || e.code === 'NumpadEnter') {
+                e.preventDefault();
+                onSave();
+            }
+        },
         [newTitle, eventType, startTime, endTime, isAllDay]
     );
 
