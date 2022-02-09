@@ -11,6 +11,7 @@ import {
     DELETE_TIME_BLOCK_MUTATION,
     UPDATE_TIME_BLOCK_TITLE_MUTATION,
 } from '../queries';
+import useDomKeydownListenerEffect from '../dom-utilities';
 
 import '../stylesheets/calendar.css';
 
@@ -49,24 +50,22 @@ function Calendar() {
         }
     };
 
-    useEffect(() => {
-        const handleKeyDown = (event) => {
-            if (!hoveredEvent || isFormVisible) {
-                return;
-            }
+    const handleKeyDown = (event) => {
+        if (!hoveredEvent || isFormVisible) {
+            return;
+        }
 
-            if (event.key === 'd') {
-                deleteEvent();
-            } else if (event.key === 'e') {
-                editEvent();
-            }
-        };
+        if (event.key === 'd') {
+            deleteEvent();
+        } else if (event.key === 'e') {
+            editEvent();
+        }
+    };
 
-        document.addEventListener('keydown', handleKeyDown);
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [hoveredEvent, hoveredEventTitle]);
+    useDomKeydownListenerEffect(
+        handleKeyDown,
+        [hoveredEvent, hoveredEventTitle]
+    );
 
     useEffect(() => {
         setHoveredEvent('');
