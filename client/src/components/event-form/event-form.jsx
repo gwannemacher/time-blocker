@@ -48,18 +48,6 @@ function EventForm(props) {
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
 
-    useEffect(() => {
-        setStartTime(date);
-        const endDate = dayjs(date).add(1, 'hour');
-        setEndTime(endDate.toDate());
-    }, [date]);
-
-    const onCancel = () => {
-        setNewTitle('');
-        setEventType(EventTypes.MEETING.id);
-        hideForm();
-    };
-
     const [createTimeBlock] = useMutation(CREATE_TIME_BLOCK_MUTATION, {
         refetchQueries: [TIMEBLOCKS_QUERY],
     });
@@ -77,6 +65,31 @@ function EventForm(props) {
             },
         });
 
+        setNewTitle('');
+        setEventType(EventTypes.MEETING.id);
+        hideForm();
+    };
+
+    useEffect(() => {
+        const listener = (event) => {
+            if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+                event.preventDefault();
+                onSave();
+            }
+        };
+        document.addEventListener('keydown', listener);
+        return () => {
+          document.removeEventListener('keydown', listener);
+        };
+    }, [newTitle, eventType, startTime, endTime, isAllDay]);
+
+    useEffect(() => {
+        setStartTime(date);
+        const endDate = dayjs(date).add(1, 'hour');
+        setEndTime(endDate.toDate());
+    }, [date]);
+
+    const onCancel = () => {
         setNewTitle('');
         setEventType(EventTypes.MEETING.id);
         hideForm();
