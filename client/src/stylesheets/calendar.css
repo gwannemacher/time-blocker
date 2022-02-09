@@ -100,8 +100,8 @@ table.fc-scrollgrid-sync-table {
 }
 
 /** Rainbow weekend headers **/
-th.fc-col-header-cell.fc-day-sun,
-th.fc-col-header-cell.fc-day-sat {
+.fc-day-sun .fc-col-header-cell-cushion,
+.fc-day-sat .fc-col-header-cell-cushion {
     background: linear-gradient(to right, #6666ff, #0099ff , #00ff00, #ff3399, #6666ff);
     -webkit-background-clip: text;
     background-clip: text;
