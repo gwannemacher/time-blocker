@@ -31,27 +31,33 @@ function Calendar() {
     const [isAllDay, setIsAllDay] = useState(false);
     const [hoveredEvent, setHoveredEvent] = useState('');
 
+    const deleteEvent = () => {
+        if (window.confirm('Delete?')) {
+            deleteTimeBlock({
+                variables: { id: hoveredEvent },
+            });
+        }
+    };
+
+    const editEvent = () => {
+        const newTitle = prompt('Please enter new title', '');
+        if (newTitle) {
+            updateTimeBlockName({
+                variables: { id: hoveredEvent, title: newTitle },
+            });
+        }
+    };
+
     useEffect(() => {
         const handleKeyDown = (event) => {
-            if (!isFormVisible && hoveredEvent && event.key === 'd') {
-                if (window.confirm('Delete?')) {
-                    deleteTimeBlock({
-                        variables: { id: hoveredEvent },
-                    });
-
-                    setHoveredEvent('');
-                }
+            if (!hoveredEvent || isFormVisible) {
+                return;
             }
 
-            if (hoveredEvent && event.key === 'e') {
-                const newTitle = prompt('Please enter new title', '');
-                if (newTitle) {
-                    updateTimeBlockName({
-                        variables: { id: hoveredEvent, title: newTitle },
-                    });
-
-                    setHoveredEvent('');
-                }
+            if (event.key === 'd') {
+                deleteEvent();
+            } else if (event.key === 'e') {
+                editEvent();
             }
         };
 
@@ -60,6 +66,10 @@ function Calendar() {
             document.removeEventListener('keydown', handleKeyDown);
         };
     }, [hoveredEvent]);
+
+    useEffect(() => {
+        setHoveredEvent('');
+    }, [data]);
 
     const onDateClick = (info) => {
         setIsFormVisible(true);
