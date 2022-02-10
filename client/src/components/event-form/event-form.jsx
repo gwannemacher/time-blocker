@@ -13,7 +13,7 @@ import EventTypeInput from './event-type-input';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../stylesheets/modal.css';
 import { TIMEBLOCKS_QUERY, CREATE_TIME_BLOCK_MUTATION } from '../../queries';
-import useDomKeydownListenerEffect from '../../dom-utilities';
+import useDomEffect from '../../dom-utilities';
 
 dayjs.extend(LocalizedFormat);
 dayjs.extend(CustomParseFormat);
@@ -47,7 +47,8 @@ function EventForm(props) {
         hideForm();
     };
 
-    useDomKeydownListenerEffect(
+    useDomEffect(
+        'keydown',
         (e) => {
             if (e.code === 'Enter' || e.code === 'NumpadEnter') {
                 e.preventDefault();

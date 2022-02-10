@@ -11,7 +11,7 @@ import {
     DELETE_TIME_BLOCK_MUTATION,
     UPDATE_TIME_BLOCK_TITLE_MUTATION,
 } from '../queries';
-import useDomKeydownListenerEffect from '../dom-utilities';
+import useDomEffect from '../dom-utilities';
 
 import '../stylesheets/calendar.css';
 
@@ -62,7 +62,7 @@ function Calendar() {
         }
     };
 
-    useDomKeydownListenerEffect(handleKeyDown, [
+    useDomEffect('keydown', handleKeyDown, [
         hoveredEvent,
         hoveredEventTitle,
     ]);

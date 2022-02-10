@@ -1,15 +1,16 @@
 import { useEffect } from 'react';
 
-function useDomKeydownListenerEffect(
-    handleKeyDown,
+function useDomEffect(
+    domEvent,
+    handleEvent,
     stateChanges
     ) {
     useEffect(() => {
-        document.addEventListener('keydown', handleKeyDown);
+        document.addEventListener(domEvent, handleEvent);
         return () => {
-            document.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener(domEvent, handleEvent);
         };
     }, [[...stateChanges]]);
 }
 
-export default useDomKeydownListenerEffect;
+export default useDomEffect;
