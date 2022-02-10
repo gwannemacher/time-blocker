@@ -67,4 +67,22 @@ public class GraphQLDataFetchers {
             return id;
         };
     }
+
+    public DataFetcher updateTimeBlockTimes() {
+        return env -> {
+            final String id = env.getArgument("id");
+            final String startTime = env.getArgument("startTime");
+            final String startDate = env.getArgument("startDate");
+            final String endTime = env.getArgument("endTime");
+            final String endDate = env.getArgument("endDate");
+            final Bson updates = Updates.combine(
+                    Updates.set("startTime", startTime),
+                    Updates.set("startDate", startDate),
+                    Updates.set("endTime", endTime),
+                    Updates.set("endDate", endDate)
+            );
+            mongoClient.timeBlockCollection.findOneAndUpdate(eq("_id", id), updates);
+            return id;
+        };
+    }
 }

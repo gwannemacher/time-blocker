@@ -27,6 +27,12 @@ export const UPDATE_TIME_BLOCK_TITLE_MUTATION = gql`
     }
 `;
 
+export const UPDATE_TIME_BLOCK_TIMES_MUTATION = gql`
+    mutation UpdateTimeBlockTimes($id: String!, $startTime: String!, $startDate: String!, $endTime: String!, $endDate: String!) {
+        updateTimeBlockTimes(id: $id, startTime: $startTime, startDate: $startDate, endTime: $endTime, endDate: $endDate)
+    }
+`;
+
 export const CREATE_TIME_BLOCK_MUTATION = gql`
     mutation CreateTimeBlock(
         $title: String!

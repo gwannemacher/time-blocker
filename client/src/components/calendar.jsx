@@ -3,6 +3,7 @@ import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { useQuery, useMutation } from '@apollo/client';
+import * as dayjs from 'dayjs';
 
 import EventForm from './event-form/event-form';
 import EventTypes from '../models/event-types';
@@ -10,6 +11,7 @@ import {
     TIMEBLOCKS_QUERY,
     DELETE_TIME_BLOCK_MUTATION,
     UPDATE_TIME_BLOCK_TITLE_MUTATION,
+    UPDATE_TIME_BLOCK_TIMES_MUTATION,
 } from '../queries';
 import useDomEffect from '../dom-utilities';
 
@@ -22,6 +24,12 @@ function Calendar() {
     });
     const [updateTimeBlockName] = useMutation(
         UPDATE_TIME_BLOCK_TITLE_MUTATION,
+        {
+            refetchQueries: [TIMEBLOCKS_QUERY],
+        }
+    );
+    const [updateTimeBlockTimes] = useMutation(
+        UPDATE_TIME_BLOCK_TIMES_MUTATION,
         {
             refetchQueries: [TIMEBLOCKS_QUERY],
         }
@@ -92,13 +100,25 @@ function Calendar() {
     };
 
     const onEventMouseLeave = (info) => {
-        if (info.jsEvent.toElement.className.includes('fc-event-title')) {
+        if (info.jsEvent.toElement?.className.includes('fc-event-title')) {
             // safari weirdness
             return;
         }
 
         setHoveredEvent('');
         setHoveredEventTitle('');
+    };
+
+    const onEventResize = (info) => {
+        updateTimeBlockTimes({
+            variables: {
+                id: hoveredEvent,
+                startTime: dayjs(info.event.start).format('HH:mm'),
+                startDate: dayjs(info.event.start).format('YYYY-MM-DD'),
+                endTime: dayjs(info.event.end).format('HH:mm'),
+                endDate: dayjs(info.event.end).format('YYYY-MM-DD'),
+            }
+        });
     };
 
     return (
@@ -139,6 +159,8 @@ function Calendar() {
                 }}
                 eventMouseEnter={onEventHover}
                 eventMouseLeave={onEventMouseLeave}
+                snapDuration="00:15:00"
+                eventResize={onEventResize}
             />
         </>
     );
