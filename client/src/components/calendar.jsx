@@ -109,16 +109,24 @@ function Calendar() {
         setHoveredEventTitle('');
     };
 
-    const onEventResize = (info) => {
+    const updateTimes = (start, end) => {
         updateTimeBlockTimes({
             variables: {
                 id: hoveredEvent,
-                startTime: dayjs(info.event.start).format('HH:mm'),
-                startDate: dayjs(info.event.start).format('YYYY-MM-DD'),
-                endTime: dayjs(info.event.end).format('HH:mm'),
-                endDate: dayjs(info.event.end).format('YYYY-MM-DD'),
+                startTime: dayjs(start).format('HH:mm'),
+                startDate: dayjs(start).format('YYYY-MM-DD'),
+                endTime: dayjs(end).format('HH:mm'),
+                endDate: dayjs(end).format('YYYY-MM-DD'),
             }
         });
+    };
+
+    const onEventResize = (info) => {
+        updateTimes(info.event.start, info.event.end);
+    };
+
+    const onEventDrop = (info) => {
+        updateTimes(info.event.start, info.event.end);
     };
 
     return (
@@ -161,6 +169,7 @@ function Calendar() {
                 eventMouseLeave={onEventMouseLeave}
                 snapDuration="00:15:00"
                 eventResize={onEventResize}
+                eventDrop={onEventDrop}
             />
         </>
     );
