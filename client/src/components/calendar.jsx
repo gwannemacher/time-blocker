@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { useQuery, useMutation } from '@apollo/client';
+import {
+    useQuery, useMutation, useApolloClient
+ } from '@apollo/client';
 import * as dayjs from 'dayjs';
 
 import EventForm from './event-form/event-form';
@@ -18,21 +20,16 @@ import useDomEffect from '../dom-utilities';
 import '../stylesheets/calendar.css';
 
 function Calendar() {
+    const client = useApolloClient();
     const { data } = useQuery(TIMEBLOCKS_QUERY);
     const [deleteTimeBlock] = useMutation(DELETE_TIME_BLOCK_MUTATION, {
         refetchQueries: [TIMEBLOCKS_QUERY],
     });
     const [updateTimeBlockName] = useMutation(
-        UPDATE_TIME_BLOCK_TITLE_MUTATION,
-        {
-            refetchQueries: [TIMEBLOCKS_QUERY],
-        }
+        UPDATE_TIME_BLOCK_TITLE_MUTATION
     );
     const [updateTimeBlockTimes] = useMutation(
-        UPDATE_TIME_BLOCK_TIMES_MUTATION,
-        {
-            refetchQueries: [TIMEBLOCKS_QUERY],
-        }
+        UPDATE_TIME_BLOCK_TIMES_MUTATION
     );
 
     const [isFormVisible, setIsFormVisible] = useState(false);
@@ -117,7 +114,7 @@ function Calendar() {
                 startDate: dayjs(start).format('YYYY-MM-DD'),
                 endTime: dayjs(end).format('HH:mm'),
                 endDate: dayjs(end).format('YYYY-MM-DD'),
-            }
+            },
         });
     };
 
@@ -126,6 +123,18 @@ function Calendar() {
     };
 
     const onEventDrop = (info) => {
+        client.cache.modify({
+            id: `TimeBlock:${info.event.id}`,
+                fields: {
+                    startTime() {
+                        return dayjs(info.event.start).format('HH:mm');
+                    },
+                    endTime() {
+                        return dayjs(info.event.end).format('HH:mm');
+                    }
+            },
+        });
+
         updateTimes(info.event.start, info.event.end);
     };
 
