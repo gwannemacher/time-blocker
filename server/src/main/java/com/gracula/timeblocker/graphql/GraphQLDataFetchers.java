@@ -56,7 +56,7 @@ public class GraphQLDataFetchers {
         };
     }
 
-    public DataFetcher updateTimeBlockTitle() {
+    public DataFetcher<TimeBlock> updateTimeBlockTitle() {
         return env -> {
             final String id = env.getArgument("id");
             final String title = env.getArgument("title");
@@ -64,11 +64,13 @@ public class GraphQLDataFetchers {
                     Updates.set("title", title)
             );
             mongoClient.timeBlockCollection.findOneAndUpdate(eq("_id", id), updates);
-            return id;
+            TimeBlock newBlock = mongoClient.timeBlockCollection.find(
+                    eq("_id", id)).first();
+            return newBlock;
         };
     }
 
-    public DataFetcher updateTimeBlockTimes() {
+    public DataFetcher<TimeBlock> updateTimeBlockTimes() {
         return env -> {
             final String id = env.getArgument("id");
             final String startTime = env.getArgument("startTime");
@@ -82,7 +84,9 @@ public class GraphQLDataFetchers {
                     Updates.set("endDate", endDate)
             );
             mongoClient.timeBlockCollection.findOneAndUpdate(eq("_id", id), updates);
-            return id;
+            TimeBlock newBlock = mongoClient.timeBlockCollection.find(
+                    eq("_id", id)).first();
+            return newBlock;
         };
     }
 }

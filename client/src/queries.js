@@ -23,13 +23,13 @@ export const DELETE_TIME_BLOCK_MUTATION = gql`
 
 export const UPDATE_TIME_BLOCK_TITLE_MUTATION = gql`
     mutation UpdateTimeBlockTitle($id: String!, $title: String!) {
-        updateTimeBlockTitle(id: $id, title: $title)
+        updateTimeBlockTitle(id: $id, title: $title) { id, title }
     }
 `;
 
 export const UPDATE_TIME_BLOCK_TIMES_MUTATION = gql`
     mutation UpdateTimeBlockTimes($id: String!, $startTime: String!, $startDate: String!, $endTime: String!, $endDate: String!) {
-        updateTimeBlockTimes(id: $id, startTime: $startTime, startDate: $startDate, endTime: $endTime, endDate: $endDate)
+        updateTimeBlockTimes(id: $id, startTime: $startTime, startDate: $startDate, endTime: $endTime, endDate: $endDate) { id, startTime, startDate, endTime, endDate }
     }
 `;
 
