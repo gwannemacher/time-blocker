@@ -25,12 +25,8 @@ function Calendar() {
     const [deleteTimeBlock] = useMutation(DELETE_TIME_BLOCK_MUTATION, {
         refetchQueries: [TIMEBLOCKS_QUERY],
     });
-    const [updateTimeBlockName] = useMutation(
-        UPDATE_TIME_BLOCK_TITLE_MUTATION
-    );
-    const [updateTimeBlockTimes] = useMutation(
-        UPDATE_TIME_BLOCK_TIMES_MUTATION
-    );
+    const [updateTimeBlockName] = useMutation(UPDATE_TIME_BLOCK_TITLE_MUTATION);
+    const [updateTimeBlockTimes] = useMutation(UPDATE_TIME_BLOCK_TIMES_MUTATION);
 
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [date, setDate] = useState(new Date());
@@ -129,8 +125,14 @@ function Calendar() {
                     startTime() {
                         return dayjs(info.event.start).format('HH:mm');
                     },
+                    startDate() {
+                        return dayjs(info.event.start).format('YYYY-MM-DD');
+                    },
                     endTime() {
                         return dayjs(info.event.end).format('HH:mm');
+                    },
+                    endDate() {
+                        return dayjs(info.event.end).format('YYYY-MM-DD');
                     }
             },
         });
