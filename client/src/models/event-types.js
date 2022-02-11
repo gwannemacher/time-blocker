@@ -6,6 +6,11 @@ const EventTypes = {
         name: 'Meeting',
         className: 'calendar-meeting-event',
     },
+    WORK: {
+        id: 'work',
+        name: 'Work',
+        className: 'calendar-focusmate-work-event',
+    },
     FOCUSMATE_WORK: {
         id: 'focusmate-work',
         name: 'Focusmate (work)',
@@ -30,6 +35,8 @@ const EventTypes = {
         switch (type) {
             case EventTypes.MEETING.id:
                 return EventTypes.MEETING;
+            case EventTypes.WORK.id:
+                return EventTypes.WORK;
             case EventTypes.FOCUSMATE_WORK.id:
                 return EventTypes.FOCUSMATE_WORK;
             case EventTypes.FOCUSMATE_PERSONAL.id:
