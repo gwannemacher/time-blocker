@@ -159,7 +159,6 @@ function Calendar() {
                 dayHeaderFormat={{ weekday: 'long', day: 'numeric' }}
                 stickyHeaderDates
                 titleFormat={{ year: 'numeric', month: 'long', day: 'numeric' }}
-                dateClick={onDateClick}
                 events={data?.getTimeBlocks.map((x) => ({
                     start: `${x.startDate}T${x.startTime}`,
                     end: `${x.endDate}T${x.endTime}`,
@@ -168,7 +167,6 @@ function Calendar() {
                     id: x.id,
                     allDay: x.isAllDay,
                 }))}
-                eventClick={eventClick}
                 editable
                 eventResizableFromStart
                 eventTimeFormat={{
@@ -176,9 +174,11 @@ function Calendar() {
                     minute: '2-digit',
                     meridiem: 'narrow',
                 }}
+                snapDuration="00:15:00"
+                eventClick={eventClick}
+                dateClick={onDateClick}
                 eventMouseEnter={onEventHover}
                 eventMouseLeave={onEventMouseLeave}
-                snapDuration="00:15:00"
                 eventResize={onEventResize}
                 eventDrop={onEventDrop}
             />
