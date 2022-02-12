@@ -140,6 +140,8 @@ function Calendar() {
         });
     };
 
+    const isPastEvent = (endDate, endTime) => dayjs(`${endDate}T${endTime}`).isBefore(new Date());
+
     return (
         <>
             {isFormVisible ? (
@@ -163,7 +165,9 @@ function Calendar() {
                     start: `${x.startDate}T${x.startTime}`,
                     end: `${x.endDate}T${x.endTime}`,
                     title: x.prefixedTitle,
-                    className: EventTypes.select(x.type)?.className,
+                    classNames: [
+                        EventTypes.select(x.type)?.className,
+                        isPastEvent(x.endDate, x.endTime) ? 'past-event' : ''],
                     id: x.id,
                     allDay: x.isAllDay,
                     extendedProps: { originalTitle: x.title }
