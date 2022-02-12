@@ -102,7 +102,25 @@ function Calendar() {
         setHoveredEventTitle('');
     };
 
-    const updateTimes = (start, end) => {
+    const updateTimes = (id, start, end) => {
+        client.cache.modify({
+            id: `TimeBlock:${id}`,
+            fields: {
+                startTime() {
+                    return dayjs(start).format('HH:mm');
+                },
+                startDate() {
+                    return dayjs(start).format('YYYY-MM-DD');
+                },
+                endTime() {
+                    return dayjs(end).format('HH:mm');
+                },
+                endDate() {
+                    return dayjs(end).format('YYYY-MM-DD');
+                }
+            },
+        });
+
         updateTimeBlockTimes({
             variables: {
                 id: hoveredEvent,
@@ -115,29 +133,11 @@ function Calendar() {
     };
 
     const onEventResize = (info) => {
-        updateTimes(info.event.start, info.event.end);
+        updateTimes(info.event.id, info.event.start, info.event.end);
     };
 
     const onEventDrop = (info) => {
-        client.cache.modify({
-            id: `TimeBlock:${info.event.id}`,
-            fields: {
-                startTime() {
-                    return dayjs(info.event.start).format('HH:mm');
-                },
-                startDate() {
-                    return dayjs(info.event.start).format('YYYY-MM-DD');
-                },
-                endTime() {
-                    return dayjs(info.event.end).format('HH:mm');
-                },
-                endDate() {
-                    return dayjs(info.event.end).format('YYYY-MM-DD');
-                }
-            },
-        });
-
-        updateTimes(info.event.start, info.event.end);
+        updateTimes(info.event.id, info.event.start, info.event.end);
     };
 
     return (
