@@ -102,7 +102,9 @@ function Calendar() {
         setHoveredEventTitle('');
     };
 
-    const updateTimes = (id, start, end) => {
+    const onEventTimeChange = (info) => {
+        const { id, start, end } = info.event;
+
         client.cache.modify({
             id: `TimeBlock:${id}`,
             fields: {
@@ -130,14 +132,6 @@ function Calendar() {
                 endDate: dayjs(end).format('YYYY-MM-DD'),
             },
         });
-    };
-
-    const onEventResize = (info) => {
-        updateTimes(info.event.id, info.event.start, info.event.end);
-    };
-
-    const onEventDrop = (info) => {
-        updateTimes(info.event.id, info.event.start, info.event.end);
     };
 
     return (
@@ -179,8 +173,8 @@ function Calendar() {
                 dateClick={onDateClick}
                 eventMouseEnter={onEventHover}
                 eventMouseLeave={onEventMouseLeave}
-                eventResize={onEventResize}
-                eventDrop={onEventDrop}
+                eventResize={onEventTimeChange}
+                eventDrop={onEventTimeChange}
             />
         </>
     );
