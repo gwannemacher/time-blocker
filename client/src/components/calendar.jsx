@@ -10,6 +10,7 @@ import EventTypes from '../models/event-types';
 import {
     TIMEBLOCKS_QUERY,
     DELETE_TIME_BLOCK_MUTATION,
+    CREATE_TIME_BLOCK_MUTATION,
     UPDATE_TIME_BLOCK_TITLE_MUTATION,
     UPDATE_TIME_BLOCK_TIMES_MUTATION,
 } from '../queries';
@@ -17,6 +18,20 @@ import useDomEffect from '../utilities/dom-utilities';
 import isPastEvent from '../utilities/time-utilities';
 
 import '../stylesheets/calendar.css';
+
+class HoveredEvent {
+    start;
+
+    end;
+
+    id;
+
+    title;
+
+    type;
+
+    isAllDay;
+}
 
 function Calendar() {
     const client = useApolloClient();
@@ -28,28 +43,52 @@ function Calendar() {
     const [updateTimeBlockTimes] = useMutation(
         UPDATE_TIME_BLOCK_TIMES_MUTATION
     );
+    const [createTimeBlock] = useMutation(CREATE_TIME_BLOCK_MUTATION, {
+        refetchQueries: [TIMEBLOCKS_QUERY],
+    });
 
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [date, setDate] = useState(new Date());
     const [isAllDay, setIsAllDay] = useState(false);
-    const [hoveredEvent, setHoveredEvent] = useState('');
-    const [hoveredEventTitle, setHoveredEventTitle] = useState('');
+    const [hoveredEvent, setHoveredEvent] = useState(null);
 
     const deleteEvent = () => {
         if (window.confirm('Delete?')) {
             deleteTimeBlock({
-                variables: { id: hoveredEvent },
+                variables: { id: hoveredEvent.id },
             });
         }
     };
 
     const editEvent = () => {
-        const newTitle = prompt('Please enter new title', hoveredEventTitle);
+        const newTitle = prompt(
+            'Please enter new title',
+            hoveredEvent.title
+        );
+
         if (newTitle) {
             updateTimeBlockName({
-                variables: { id: hoveredEvent, title: newTitle },
+                variables: { id: hoveredEvent.id, title: newTitle },
             });
         }
+    };
+
+    const copyEvent = () => {
+        if (!hoveredEvent) {
+            return;
+        }
+
+        createTimeBlock({
+            variables: {
+                title: hoveredEvent.title,
+                type: hoveredEvent.type,
+                startTime: dayjs(hoveredEvent.start).format('HH:mm'),
+                startDate: dayjs(hoveredEvent.start).format('YYYY-MM-DD'),
+                endTime: dayjs(hoveredEvent.end).format('HH:mm'),
+                endDate: dayjs(hoveredEvent.end).format('YYYY-MM-DD'),
+                isAllDay: false,
+            },
+        });
     };
 
     const handleKeyDown = (event) => {
@@ -61,14 +100,15 @@ function Calendar() {
             deleteEvent();
         } else if (event.key === 'e') {
             editEvent();
+        } else if (event.key === 'c') {
+            copyEvent();
         }
     };
 
-    useDomEffect('keydown', handleKeyDown, [hoveredEvent, hoveredEventTitle]);
+    useDomEffect('keydown', handleKeyDown, [hoveredEvent]);
 
     useEffect(() => {
-        setHoveredEvent('');
-        setHoveredEventTitle('');
+        setHoveredEvent(null);
     }, [data]);
 
     const onDateClick = (info) => {
@@ -92,8 +132,16 @@ function Calendar() {
     };
 
     const onEventHover = (info) => {
-        setHoveredEvent(info.event.id);
-        setHoveredEventTitle(info.event.extendedProps.originalTitle);
+        if (!hoveredEvent) {
+            const hovered = new HoveredEvent();
+            hovered.id = info.event.id;
+            hovered.title = info.event.extendedProps.title;
+            hovered.type = info.event.extendedProps.type;
+            hovered.start = info.event.start;
+            hovered.end = info.event.end;
+            hovered.isAllDay = info.event.isAllDay;
+            setHoveredEvent(hovered);
+        }
     };
 
     const onEventMouseLeave = (info) => {
@@ -102,8 +150,7 @@ function Calendar() {
             return;
         }
 
-        setHoveredEvent('');
-        setHoveredEventTitle('');
+        setHoveredEvent(null);
     };
 
     const onEventTimeChange = (info) => {
@@ -129,7 +176,7 @@ function Calendar() {
 
         updateTimeBlockTimes({
             variables: {
-                id: hoveredEvent,
+                id: hoveredEvent.id,
                 startTime: dayjs(start).format('HH:mm'),
                 startDate: dayjs(start).format('YYYY-MM-DD'),
                 endTime: dayjs(end).format('HH:mm'),
@@ -167,7 +214,7 @@ function Calendar() {
                     ],
                     id: x.id,
                     allDay: x.isAllDay,
-                    extendedProps: { originalTitle: x.title },
+                    extendedProps: { title: x.title, type: x.type },
                 }))}
                 editable
                 eventResizableFromStart
