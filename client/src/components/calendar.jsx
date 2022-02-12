@@ -95,7 +95,7 @@ function Calendar() {
 
     const onEventHover = (info) => {
         setHoveredEvent(info.event.id);
-        setHoveredEventTitle(EventTypes.removePrefix(info.event.title));
+        setHoveredEventTitle(info.event.extendedProps.originalTitle);
     };
 
     const onEventMouseLeave = (info) => {
@@ -162,10 +162,11 @@ function Calendar() {
                 events={data?.getTimeBlocks.map((x) => ({
                     start: `${x.startDate}T${x.startTime}`,
                     end: `${x.endDate}T${x.endTime}`,
-                    title: EventTypes.displayTitle(x.type, x.title),
+                    title: x.prefixedTitle,
                     className: EventTypes.select(x.type)?.className,
                     id: x.id,
                     allDay: x.isAllDay,
+                    extendedProps: { originalTitle: x.title }
                 }))}
                 editable
                 eventResizableFromStart

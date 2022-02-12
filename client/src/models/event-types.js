@@ -56,13 +56,6 @@ const EventTypes = {
             default:
                 return title;
         }
-    },
-    removePrefix: (title) => {
-        if (title.startsWith(focusmatePrefix)) {
-            return title.replace(focusmatePrefix, '');
-        }
-
-        return title;
     }
 };
 

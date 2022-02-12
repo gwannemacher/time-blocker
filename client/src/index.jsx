@@ -8,6 +8,7 @@ import {
 } from '@apollo/client';
 
 import './stylesheets/index.css';
+import EventTypes from './models/event-types';
 import App from './App';
 
 const httpLink = createHttpLink({
@@ -15,9 +16,25 @@ const httpLink = createHttpLink({
     uri: 'https://gracula-time-blocker.herokuapp.com/graphql',
 });
 
+const cache = new InMemoryCache({
+  typePolicies: {
+    TimeBlock: {
+      fields: {
+        prefixedTitle: {
+            read(_, { readField }) {
+                const title = readField('title');
+                const type = readField('type');
+                return EventTypes.displayTitle(type, title);
+            }
+        },
+      },
+    },
+  },
+});
+
 const client = new ApolloClient({
     link: httpLink,
-    cache: new InMemoryCache()
+    cache
 });
 
 ReactDOM.render(
