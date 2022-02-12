@@ -125,6 +125,11 @@ div.fc-timegrid {
     height: 97vh;
 }
 
+/** Try to improve resizer being finicky in safari (it's still a problem) **/
+.fc-v-event:not(.fc-event-selected) .fc-event-resizer {
+    height: var(--fc-event-resizer-thickness, 20px);
+}
+
 /** Calendar events **/
 a.fc-timegrid-event {
     border-radius: 0;
