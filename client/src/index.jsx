@@ -17,24 +17,24 @@ const httpLink = createHttpLink({
 });
 
 const cache = new InMemoryCache({
-  typePolicies: {
-    TimeBlock: {
-      fields: {
-        prefixedTitle: {
-            read(_, { readField }) {
-                const title = readField('title');
-                const type = readField('type');
-                return EventTypes.displayTitle(type, title);
-            }
+    typePolicies: {
+        TimeBlock: {
+            fields: {
+                prefixedTitle: {
+                    read(_, { readField }) {
+                        const title = readField('title');
+                        const type = readField('type');
+                        return EventTypes.displayTitle(type, title);
+                    },
+                },
+            },
         },
-      },
     },
-  },
 });
 
 const client = new ApolloClient({
     link: httpLink,
-    cache
+    cache,
 });
 
 ReactDOM.render(

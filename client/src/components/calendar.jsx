@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import {
-    useQuery, useMutation, useApolloClient
- } from '@apollo/client';
+import { useQuery, useMutation, useApolloClient } from '@apollo/client';
 import * as dayjs from 'dayjs';
 
 import EventForm from './event-form/event-form';
@@ -26,7 +24,9 @@ function Calendar() {
         refetchQueries: [TIMEBLOCKS_QUERY],
     });
     const [updateTimeBlockName] = useMutation(UPDATE_TIME_BLOCK_TITLE_MUTATION);
-    const [updateTimeBlockTimes] = useMutation(UPDATE_TIME_BLOCK_TIMES_MUTATION);
+    const [updateTimeBlockTimes] = useMutation(
+        UPDATE_TIME_BLOCK_TIMES_MUTATION
+    );
 
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [date, setDate] = useState(new Date());
@@ -63,10 +63,7 @@ function Calendar() {
         }
     };
 
-    useDomEffect('keydown', handleKeyDown, [
-        hoveredEvent,
-        hoveredEventTitle,
-    ]);
+    useDomEffect('keydown', handleKeyDown, [hoveredEvent, hoveredEventTitle]);
 
     useEffect(() => {
         setHoveredEvent('');
@@ -125,7 +122,7 @@ function Calendar() {
                 },
                 endDate() {
                     return dayjs(end).format('YYYY-MM-DD');
-                }
+                },
             },
         });
 
@@ -140,7 +137,8 @@ function Calendar() {
         });
     };
 
-    const isPastEvent = (endDate, endTime) => dayjs(`${endDate}T${endTime}`).isBefore(new Date());
+    const isPastEvent = (endDate, endTime) =>
+        dayjs(`${endDate}T${endTime}`).isBefore(new Date());
 
     return (
         <>
@@ -167,10 +165,11 @@ function Calendar() {
                     title: x.prefixedTitle,
                     classNames: [
                         EventTypes.select(x.type)?.className,
-                        isPastEvent(x.endDate, x.endTime) ? 'past-event' : ''],
+                        isPastEvent(x.endDate, x.endTime) ? 'past-event' : '',
+                    ],
                     id: x.id,
                     allDay: x.isAllDay,
-                    extendedProps: { originalTitle: x.title }
+                    extendedProps: { originalTitle: x.title },
                 }))}
                 editable
                 eventResizableFromStart

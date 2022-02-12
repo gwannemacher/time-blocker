@@ -20,9 +20,7 @@ function EventTypeInput(props) {
             <option value={EventTypes.FOCUSMATE_PERSONAL.id}>
                 {EventTypes.FOCUSMATE_PERSONAL.name}
             </option>
-            <option value={EventTypes.WORK.id}>
-                {EventTypes.WORK.name}
-            </option>
+            <option value={EventTypes.WORK.id}>{EventTypes.WORK.name}</option>
             <option value={EventTypes.PERSONAL.id}>
                 {EventTypes.PERSONAL.name}
             </option>
