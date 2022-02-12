@@ -74,8 +74,14 @@ function Calendar() {
     }, [data]);
 
     const onDateClick = (info) => {
-        setIsFormVisible(true);
+        if (info.date.getMinutes() === 15) {
+            info.date.setMinutes(0);
+        } else if (info.date.getMinutes() === 45) {
+            info.date.setMinutes(30);
+        }
+
         setDate(info.date);
+        setIsFormVisible(true);
         setIsAllDay(info.allDay);
     };
 
