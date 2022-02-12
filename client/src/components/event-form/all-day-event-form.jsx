@@ -17,7 +17,7 @@ dayjs.extend(LocalizedFormat);
 dayjs.extend(CustomParseFormat);
 
 function AllDayEventForm(props) {
-    const { date, hideForm } = props;
+    const { isVisible, date, hideForm } = props;
     const [newTitle, setNewTitle] = useState('');
     const [eventType, setEventType] = useState(EventTypes.MEETING.id);
 
@@ -46,6 +46,10 @@ function AllDayEventForm(props) {
     useDomEffect(
         'keydown',
         (e) => {
+            if (!isVisible) {
+                return;
+            }
+
             if (e.code === 'Enter' || e.code === 'NumpadEnter') {
                 e.preventDefault();
                 onSave();
@@ -62,11 +66,11 @@ function AllDayEventForm(props) {
 
     const titleInput = useRef(null);
     useEffect(() => {
-        titleInput.current.focus();
-    }, []);
+        titleInput.current?.focus();
+    }, [isVisible]);
 
     return (
-        <Modal show onHide={hideForm}>
+        <Modal show={isVisible} onHide={hideForm}>
             <Modal.Header closeButton />
             <Modal.Body>
                 <TitleInput
@@ -90,11 +94,13 @@ function AllDayEventForm(props) {
 }
 
 AllDayEventForm.propTypes = {
+    isVisible: PropTypes.bool,
     date: PropTypes.instanceOf(Date),
     hideForm: PropTypes.func,
 };
 
 AllDayEventForm.defaultProps = {
+    isVisible: false,
     date: new Date(),
     hideForm: () => {},
 };

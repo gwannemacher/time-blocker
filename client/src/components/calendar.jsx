@@ -19,20 +19,7 @@ import useDomEffect from '../utilities/dom-utilities';
 import isPastEvent from '../utilities/time-utilities';
 
 import '../stylesheets/calendar.css';
-
-class HoveredEvent {
-    start;
-
-    end;
-
-    id;
-
-    title;
-
-    type;
-
-    isAllDay;
-}
+import HoveredEvent from '../models/hovered-event';
 
 function Calendar() {
     const client = useApolloClient();
@@ -110,11 +97,8 @@ function Calendar() {
     }, [data]);
 
     const onDateClick = (info) => {
-        if (info.allDay) {
-            setIsAllDayFormVisible(true);
-        } else {
-            setIsFormVisible(true);
-        }
+        setIsAllDayFormVisible(info.allDay);
+        setIsFormVisible(!info.allDay);
 
         if (info.date.getMinutes() === 15) {
             info.date.setMinutes(0);
@@ -189,22 +173,16 @@ function Calendar() {
 
     return (
         <>
-            {isFormVisible ? (
-                <EventForm
-                    date={date}
-                    hideForm={() => setIsFormVisible(false)}
-                />
-            ) : (
-                <div />
-            )}
-            {isAllDayFormVisible ? (
-                <AllDayEventForm
-                    date={date}
-                    hideForm={() => setIsAllDayFormVisible(false)}
-                />
-            ) : (
-                <div />
-            )}
+            <EventForm
+                isVisible={isFormVisible}
+                date={date}
+                hideForm={() => setIsFormVisible(false)}
+            />
+            <AllDayEventForm
+                isVisible={isAllDayFormVisible}
+                date={date}
+                hideForm={() => setIsAllDayFormVisible(false)}
+            />
             <FullCalendar
                 plugins={[timeGridPlugin, interactionPlugin]}
                 initialView="timeGridWeek"
