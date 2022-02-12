@@ -13,7 +13,8 @@ import {
     UPDATE_TIME_BLOCK_TITLE_MUTATION,
     UPDATE_TIME_BLOCK_TIMES_MUTATION,
 } from '../queries';
-import useDomEffect from '../dom-utilities';
+import useDomEffect from '../utilities/dom-utilities';
+import isPastEvent from '../utilities/time-utilities';
 
 import '../stylesheets/calendar.css';
 
@@ -136,9 +137,6 @@ function Calendar() {
             },
         });
     };
-
-    const isPastEvent = (endDate, endTime) =>
-        dayjs(`${endDate}T${endTime}`).isBefore(new Date());
 
     return (
         <>
