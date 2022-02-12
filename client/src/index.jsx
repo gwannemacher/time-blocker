@@ -17,12 +17,7 @@ const httpLink = createHttpLink({
 
 const client = new ApolloClient({
     link: httpLink,
-    cache: new InMemoryCache(),
-    defaultOptions: {
-        watchQuery: {
-            fetchPolicy: 'cache-first',
-        },
-    },
+    cache: new InMemoryCache()
 });
 
 ReactDOM.render(
