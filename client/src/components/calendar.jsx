@@ -79,7 +79,7 @@ function Calendar() {
         setIsAllDay(info.allDay);
     };
 
-    const eventClick = (info) => {
+    const onEventClick = (info) => {
         if (window.confirm('Delete?')) {
             deleteTimeBlock({
                 variables: { id: info.event.id },
@@ -169,7 +169,7 @@ function Calendar() {
                     meridiem: 'narrow',
                 }}
                 snapDuration="00:15:00"
-                eventClick={eventClick}
+                eventClick={onEventClick}
                 dateClick={onDateClick}
                 eventMouseEnter={onEventHover}
                 eventMouseLeave={onEventMouseLeave}
