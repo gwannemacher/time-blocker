@@ -14,7 +14,9 @@ function AllDayEventTypeInput(props) {
             <option value={EventTypes.ALLDAY_WORK.id}>
                 {EventTypes.ALLDAY_WORK.name}
             </option>
-            <option value={EventTypes.PERSONAL.id}>{EventTypes.PERSONAL.name}</option>
+            <option value={EventTypes.PERSONAL.id}>
+                {EventTypes.PERSONAL.name}
+            </option>
             <option value={EventTypes.MISC.id}>{EventTypes.MISC.name}</option>
         </select>
     );

@@ -62,10 +62,7 @@ function Calendar() {
     };
 
     const editEvent = () => {
-        const newTitle = prompt(
-            'Please enter new title',
-            hoveredEvent.title
-        );
+        const newTitle = prompt('Please enter new title', hoveredEvent.title);
 
         if (newTitle) {
             updateTimeBlockName({
