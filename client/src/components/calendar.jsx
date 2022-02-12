@@ -6,6 +6,7 @@ import { useQuery, useMutation, useApolloClient } from '@apollo/client';
 import * as dayjs from 'dayjs';
 
 import EventForm from './event-form/event-form';
+import AllDayEventForm from './event-form/all-day-event-form';
 import EventTypes from '../models/event-types';
 import {
     TIMEBLOCKS_QUERY,
@@ -48,8 +49,8 @@ function Calendar() {
     });
 
     const [isFormVisible, setIsFormVisible] = useState(false);
+    const [isAllDayFormVisible, setIsAllDayFormVisible] = useState(false);
     const [date, setDate] = useState(new Date());
-    const [isAllDay, setIsAllDay] = useState(false);
     const [hoveredEvent, setHoveredEvent] = useState(null);
 
     const deleteEvent = () => {
@@ -112,6 +113,12 @@ function Calendar() {
     }, [data]);
 
     const onDateClick = (info) => {
+        if (info.allDay) {
+            setIsAllDayFormVisible(true);
+        } else {
+            setIsFormVisible(true);
+        }
+
         if (info.date.getMinutes() === 15) {
             info.date.setMinutes(0);
         } else if (info.date.getMinutes() === 45) {
@@ -119,8 +126,6 @@ function Calendar() {
         }
 
         setDate(info.date);
-        setIsFormVisible(true);
-        setIsAllDay(info.allDay);
     };
 
     const onEventClick = (info) => {
@@ -189,9 +194,16 @@ function Calendar() {
         <>
             {isFormVisible ? (
                 <EventForm
-                    isAllDay={isAllDay}
                     date={date}
                     hideForm={() => setIsFormVisible(false)}
+                />
+            ) : (
+                <div />
+            )}
+            {isAllDayFormVisible ? (
+                <AllDayEventForm
+                    date={date}
+                    hideForm={() => setIsAllDayFormVisible(false)}
                 />
             ) : (
                 <div />

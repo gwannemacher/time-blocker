@@ -146,6 +146,12 @@ a.fc-timegrid-event {
     border-left: 5px solid #C70039;
 }
 
+.all-day-work-event {
+    background-color: #C70039;
+    border: 0px;
+    border-left: 5px solid #C70039;
+}
+
 .calendar-focusmate-work-event {
     background-color: #CC758E;
     border: 0px;
