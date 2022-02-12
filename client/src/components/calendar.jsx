@@ -121,19 +121,19 @@ function Calendar() {
     const onEventDrop = (info) => {
         client.cache.modify({
             id: `TimeBlock:${info.event.id}`,
-                fields: {
-                    startTime() {
-                        return dayjs(info.event.start).format('HH:mm');
-                    },
-                    startDate() {
-                        return dayjs(info.event.start).format('YYYY-MM-DD');
-                    },
-                    endTime() {
-                        return dayjs(info.event.end).format('HH:mm');
-                    },
-                    endDate() {
-                        return dayjs(info.event.end).format('YYYY-MM-DD');
-                    }
+            fields: {
+                startTime() {
+                    return dayjs(info.event.start).format('HH:mm');
+                },
+                startDate() {
+                    return dayjs(info.event.start).format('YYYY-MM-DD');
+                },
+                endTime() {
+                    return dayjs(info.event.end).format('HH:mm');
+                },
+                endDate() {
+                    return dayjs(info.event.end).format('YYYY-MM-DD');
+                }
             },
         });
 
