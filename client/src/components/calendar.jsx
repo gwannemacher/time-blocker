@@ -17,9 +17,10 @@ import {
 } from '../queries';
 import useDomEffect from '../utilities/dom-utilities';
 import isPastEvent from '../utilities/time-utilities';
+import HoveredEvent from '../models/hovered-event';
+import DeleteModal from './modals/delete-modal';
 
 import '../stylesheets/calendar.css';
-import HoveredEvent from '../models/hovered-event';
 
 function Calendar() {
     const client = useApolloClient();
@@ -37,15 +38,12 @@ function Calendar() {
 
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [isAllDayFormVisible, setIsAllDayFormVisible] = useState(false);
+    const [isDeleteFormVisible, setIsDeleteFormVisible] = useState(false);
     const [date, setDate] = useState(new Date());
     const [hoveredEvent, setHoveredEvent] = useState(null);
 
     const deleteEvent = () => {
-        if (window.confirm('Delete?')) {
-            deleteTimeBlock({
-                variables: { id: hoveredEvent.id },
-            });
-        }
+        setIsDeleteFormVisible(true);
     };
 
     const editEvent = () => {
@@ -182,6 +180,11 @@ function Calendar() {
                 isVisible={isAllDayFormVisible}
                 date={date}
                 hideForm={() => setIsAllDayFormVisible(false)}
+            />
+            <DeleteModal
+                isVisible={isDeleteFormVisible}
+                id={hoveredEvent?.id}
+                hideForm={() => setIsDeleteFormVisible(false)}
             />
             <FullCalendar
                 plugins={[timeGridPlugin, interactionPlugin]}
