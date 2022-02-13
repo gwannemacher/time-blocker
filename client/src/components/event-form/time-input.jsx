@@ -19,13 +19,8 @@ const getTimeOptions = (newDate) => {
 
     const times = [];
     for (let i = 0; i < 24; i += 1) {
-        const [date0Minutes, date30Minutes] = [
-            toTimeOption(newDate, i, 0),
-            toTimeOption(newDate, i, 30),
-        ];
-
-        times.push(date0Minutes);
-        times.push(date30Minutes);
+        times.push(toTimeOption(newDate, i, 0));
+        times.push(toTimeOption(newDate, i, 30));
     }
 
     return times;
