@@ -10,7 +10,6 @@ import AllDayEventForm from './event-form/all-day-event-form';
 import EventTypes from '../models/event-types';
 import {
     TIMEBLOCKS_QUERY,
-    DELETE_TIME_BLOCK_MUTATION,
     CREATE_TIME_BLOCK_MUTATION,
     UPDATE_TIME_BLOCK_TIMES_MUTATION,
 } from '../queries';
@@ -25,9 +24,6 @@ import '../stylesheets/calendar.css';
 function Calendar() {
     const client = useApolloClient();
     const { data } = useQuery(TIMEBLOCKS_QUERY);
-    const [deleteTimeBlock] = useMutation(DELETE_TIME_BLOCK_MUTATION, {
-        refetchQueries: [TIMEBLOCKS_QUERY],
-    });
     const [updateTimeBlockTimes] = useMutation(
         UPDATE_TIME_BLOCK_TIMES_MUTATION
     );
@@ -102,23 +98,17 @@ function Calendar() {
         setDate(info.date);
     };
 
-    const onEventClick = (info) => {
-        if (window.confirm('Delete?')) {
-            deleteTimeBlock({
-                variables: { id: info.event.id },
-            });
-        }
-    };
-
     const onEventHover = (info) => {
         if (!hoveredEvent || hoveredEvent.id !== info.event.id) {
-            const hovered = new HoveredEvent();
-            hovered.id = info.event.id;
-            hovered.title = info.event.extendedProps.title;
-            hovered.type = info.event.extendedProps.type;
-            hovered.start = info.event.start;
-            hovered.end = info.event.end;
-            hovered.isAllDay = info.event.isAllDay;
+            const hovered: HoveredEvent = {
+                id: info.event.id,
+                title: info.event.extendedProps.title,
+                type: info.event.extendedProps.type,
+                start: info.event.start,
+                end: info.event.end,
+                isAllDay: info.event.isAllDay,
+            };
+
             setHoveredEvent(hovered);
         }
     };
@@ -215,7 +205,7 @@ function Calendar() {
                     meridiem: 'narrow',
                 }}
                 snapDuration="00:15:00"
-                eventClick={onEventClick}
+                eventClick={() => setIsDeleteFormVisible(true)}
                 dateClick={onDateClick}
                 eventMouseEnter={onEventHover}
                 eventMouseLeave={onEventMouseLeave}
