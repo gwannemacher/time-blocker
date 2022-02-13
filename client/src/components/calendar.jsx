@@ -12,13 +12,13 @@ import {
     TIMEBLOCKS_QUERY,
     DELETE_TIME_BLOCK_MUTATION,
     CREATE_TIME_BLOCK_MUTATION,
-    UPDATE_TIME_BLOCK_TITLE_MUTATION,
     UPDATE_TIME_BLOCK_TIMES_MUTATION,
 } from '../queries';
 import useDomEffect from '../utilities/dom-utilities';
 import isPastEvent from '../utilities/time-utilities';
 import HoveredEvent from '../models/hovered-event';
 import DeleteModal from './modals/delete-modal';
+import EditModal from './modals/edit-modal';
 
 import '../stylesheets/calendar.css';
 
@@ -28,7 +28,6 @@ function Calendar() {
     const [deleteTimeBlock] = useMutation(DELETE_TIME_BLOCK_MUTATION, {
         refetchQueries: [TIMEBLOCKS_QUERY],
     });
-    const [updateTimeBlockName] = useMutation(UPDATE_TIME_BLOCK_TITLE_MUTATION);
     const [updateTimeBlockTimes] = useMutation(
         UPDATE_TIME_BLOCK_TIMES_MUTATION
     );
@@ -39,22 +38,9 @@ function Calendar() {
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [isAllDayFormVisible, setIsAllDayFormVisible] = useState(false);
     const [isDeleteFormVisible, setIsDeleteFormVisible] = useState(false);
+    const [isEditFormVisible, setIsEditFormVisible] = useState(false);
     const [date, setDate] = useState(new Date());
     const [hoveredEvent, setHoveredEvent] = useState(null);
-
-    const deleteEvent = () => {
-        setIsDeleteFormVisible(true);
-    };
-
-    const editEvent = () => {
-        const newTitle = prompt('Please enter new title', hoveredEvent.title);
-
-        if (newTitle) {
-            updateTimeBlockName({
-                variables: { id: hoveredEvent.id, title: newTitle },
-            });
-        }
-    };
 
     const copyEvent = () => {
         if (!hoveredEvent) {
@@ -75,20 +61,29 @@ function Calendar() {
     };
 
     const handleKeyDown = (event) => {
-        if (!hoveredEvent || isFormVisible) {
+        if (!hoveredEvent) {
+            return;
+        }
+
+        if (
+            isFormVisible
+            || isAllDayFormVisible
+            || isDeleteFormVisible
+            || isEditFormVisible
+        ) {
             return;
         }
 
         if (event.key === 'd') {
-            deleteEvent();
+            setIsDeleteFormVisible(true);
         } else if (event.key === 'e') {
-            editEvent();
+            setIsEditFormVisible(true);
         } else if (event.key === 'c') {
             copyEvent();
         }
     };
 
-    useDomEffect('keydown', handleKeyDown, [hoveredEvent]);
+    useDomEffect('keyup', handleKeyDown, [hoveredEvent]);
 
     useEffect(() => {
         setHoveredEvent(null);
@@ -116,7 +111,7 @@ function Calendar() {
     };
 
     const onEventHover = (info) => {
-        if (!hoveredEvent) {
+        if (!hoveredEvent || hoveredEvent.id !== info.event.id) {
             const hovered = new HoveredEvent();
             hovered.id = info.event.id;
             hovered.title = info.event.extendedProps.title;
@@ -185,6 +180,12 @@ function Calendar() {
                 isVisible={isDeleteFormVisible}
                 id={hoveredEvent?.id}
                 hideForm={() => setIsDeleteFormVisible(false)}
+            />
+            <EditModal
+                isVisible={isEditFormVisible}
+                id={hoveredEvent?.id}
+                title={hoveredEvent?.title}
+                hideForm={() => setIsEditFormVisible(false)}
             />
             <FullCalendar
                 plugins={[timeGridPlugin, interactionPlugin]}

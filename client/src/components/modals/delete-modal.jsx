@@ -44,7 +44,12 @@ function DeleteModal(props) {
                 <button className="btn-cancel" onClick={onCancel} type="button">
                     Cancel
                 </button>
-                <button className="btn-save" ref={titleInput} onClick={onDelete} type="submit">
+                <button
+                    className="btn-save"
+                    ref={titleInput}
+                    onClick={onDelete}
+                    type="submit"
+                >
                     Delete
                 </button>
             </Modal.Body>
