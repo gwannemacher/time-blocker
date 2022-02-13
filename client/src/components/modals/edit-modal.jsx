@@ -8,6 +8,7 @@ import { useMutation } from '@apollo/client';
 
 import { UPDATE_TIME_BLOCK_TITLE_MUTATION } from '../../queries';
 import TitleInput from '../event-form/title-input';
+import useDomEffect from '../../utilities/dom-utilities';
 
 import '../../stylesheets/modal.css';
 
@@ -37,6 +38,21 @@ function EditModal(props) {
     useEffect(() => {
         titleInput.current?.focus();
     }, [isVisible]);
+
+    useDomEffect(
+        'keydown',
+        (e) => {
+            if (!isVisible) {
+                return;
+            }
+
+            if (e.code === 'Enter' || e.code === 'NumpadEnter') {
+                e.preventDefault();
+                onEdit();
+            }
+        },
+        [newTitle]
+    );
 
     return (
         <Modal show={isVisible} onHide={hideForm}>

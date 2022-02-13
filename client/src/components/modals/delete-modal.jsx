@@ -31,9 +31,9 @@ function DeleteModal(props) {
         hideForm();
     };
 
-    const titleInput = useRef(null);
+    const buttonInput = useRef(null);
     useEffect(() => {
-        titleInput.current?.focus();
+        buttonInput.current?.focus();
     }, [isVisible]);
 
     return (
@@ -46,7 +46,7 @@ function DeleteModal(props) {
                 </button>
                 <button
                     className="btn-save"
-                    ref={titleInput}
+                    ref={buttonInput}
                     onClick={onDelete}
                     type="submit"
                 >
