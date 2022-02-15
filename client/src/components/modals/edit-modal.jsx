@@ -7,7 +7,6 @@ import CustomParseFormat from 'dayjs/plugin/customParseFormat';
 import { useMutation } from '@apollo/client';
 
 import { UPDATE_TIME_BLOCK_TITLE_MUTATION } from '../../queries';
-import TitleInput from '../event-form/title-input';
 import useDomEffect from '../../utilities/dom-utilities';
 
 import '../../stylesheets/modal.css';
@@ -20,15 +19,31 @@ function EditModal(props) {
         isVisible, id, title, hideForm
     } = props;
     const [newTitle, setNewTitle] = useState(title);
-    const [updateTimeBlockName] = useMutation(UPDATE_TIME_BLOCK_TITLE_MUTATION);
+    const [originalId, setOriginalId] = useState('id');
+    const [updateTimeBlockTitle] = useMutation(UPDATE_TIME_BLOCK_TITLE_MUTATION);
 
     useEffect(() => {
+        if (!title) {
+            // safari weirdness
+            return;
+        }
+
         setNewTitle(title);
     }, [isVisible, title]);
 
+    // this whole id thing is because of stupid safari weirdness
+    useEffect(() => {
+        if (!id) {
+            // safari weirdness
+            return;
+        }
+
+        setOriginalId(id);
+    }, [isVisible, id]);
+
     const onEdit = () => {
-        updateTimeBlockName({
-            variables: { id, title: newTitle },
+        updateTimeBlockTitle({
+            variables: { id: originalId, title: newTitle },
         });
 
         hideForm();
@@ -53,16 +68,16 @@ function EditModal(props) {
         },
         [newTitle]
     );
-
     return (
         <Modal show={isVisible} onHide={hideForm}>
             <Modal.Header closeButton />
             <Modal.Body>
                 <div>Please enter new title</div>
-                <TitleInput
-                    titleInput={titleInput}
-                    newTitle={newTitle}
-                    setTitle={setNewTitle}
+                <input
+                    ref={titleInput}
+                    type="text"
+                    value={newTitle}
+                    onChange={(e) => setNewTitle(e.target.value)}
                 />
                 <button className="btn-cancel" onClick={hideForm} type="button">
                     Cancel
