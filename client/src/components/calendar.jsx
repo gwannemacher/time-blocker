@@ -56,6 +56,25 @@ function Calendar() {
         });
     };
 
+    const moveEvent = () => {
+        if (!hoveredEvent) {
+            return;
+        }
+
+        const nextMondayStart = dayjs(hoveredEvent.start).day(8);
+        const nextMondayEnd = dayjs(hoveredEvent.end).day(8);
+
+        updateTimeBlockTimes({
+            variables: {
+                id: hoveredEvent.id,
+                startTime: dayjs(hoveredEvent.start).format('HH:mm'),
+                startDate: nextMondayStart.format('YYYY-MM-DD'),
+                endTime: dayjs(hoveredEvent.end).format('HH:mm'),
+                endDate: nextMondayEnd.format('YYYY-MM-DD'),
+            },
+        });
+    };
+
     const handleKeyDown = (event) => {
         if (!hoveredEvent) {
             return;
@@ -76,6 +95,8 @@ function Calendar() {
             setIsEditFormVisible(true);
         } else if (event.key === 'c') {
             copyEvent();
+        } else if (event.key === 'm') {
+            moveEvent();
         }
     };
 
