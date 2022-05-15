@@ -190,6 +190,11 @@ a.fc-timegrid-event {
     opacity: 0.6;
 }
 
+.tbd-highlight .fc-event-title {
+    background-color: yellow;
+    color: black;
+}
+
 /** ---------------- **/
 .rainbow_text_animated {
     background: linear-gradient(

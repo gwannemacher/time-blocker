@@ -207,6 +207,7 @@ function Calendar() {
                     classNames: [
                         EventTypes.select(x.type)?.className,
                         isPastEvent(x.endDate, x.endTime) ? 'past-event' : '',
+                        x.title === 'tbd' ? 'tbd-highlight' : '',
                     ],
                     id: x.id,
                     allDay: x.isAllDay,
