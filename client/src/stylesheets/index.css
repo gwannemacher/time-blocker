@@ -1,13 +1,13 @@
 body {
-  margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  padding: 15px;
-  cursor: url('../resources/cursor.gif'), auto;
-  background-image: url("../resources/static-background.gif");
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding: 15px;
+    cursor: url('../resources/cursor.gif'), auto;
+    background-image: url('../resources/static-background.gif');
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
 }

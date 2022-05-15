@@ -2,34 +2,28 @@ import React, { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { useQuery, useMutation, useApolloClient } from '@apollo/client';
+import { useQuery, useApolloClient } from '@apollo/client';
 import * as dayjs from 'dayjs';
 
 import EventForm from './event-form/event-form';
 import AllDayEventForm from './event-form/all-day-event-form';
 import EventTypes from '../models/event-types';
-import {
-    TIMEBLOCKS_QUERY,
-    CREATE_TIME_BLOCK_MUTATION,
-    UPDATE_TIME_BLOCK_TIMES_MUTATION,
-} from '../queries';
+import { TIMEBLOCKS_QUERY } from '../queries';
 import useDomEffect from '../utilities/dom-utilities';
 import isPastEvent from '../utilities/time-utilities';
 import HoveredEvent from '../models/hovered-event';
 import DeleteModal from './modals/delete-modal';
 import EditModal from './modals/edit-modal';
+import useUpdateTimeBlockTimes from '../hooks/useUpdateTimeBlockTimes';
+import useCreateTimeBlock from '../hooks/useCreateTimeBlock';
 
 import '../stylesheets/calendar.css';
 
 function Calendar() {
     const client = useApolloClient();
     const { data } = useQuery(TIMEBLOCKS_QUERY);
-    const [updateTimeBlockTimes] = useMutation(
-        UPDATE_TIME_BLOCK_TIMES_MUTATION
-    );
-    const [createTimeBlock] = useMutation(CREATE_TIME_BLOCK_MUTATION, {
-        refetchQueries: [TIMEBLOCKS_QUERY],
-    });
+    const [updateTimeBlockTimes] = useUpdateTimeBlockTimes();
+    const [createTimeBlock] = useCreateTimeBlock();
 
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [isAllDayFormVisible, setIsAllDayFormVisible] = useState(false);

@@ -3,10 +3,12 @@
 }
 
 .modal-backdrop.show {
-    opacity: .5;
+    opacity: 0.5;
 }
 
-input, select, button {
+input,
+select,
+button {
     border: 2px solid rgb(209, 172, 54);
 }
 
@@ -21,7 +23,7 @@ input, select, button {
 }
 
 .fade {
-    transition: opacity .15s linear;
+    transition: opacity 0.15s linear;
 }
 
 .modal {
@@ -66,11 +68,14 @@ input, select, button {
     padding: 0.4rem;
 }
 
-input, select, button {
+input,
+select,
+button {
     font-size: 14px;
 }
 
-input, select {
+input,
+select {
     box-sizing: border-box;
     width: 100%;
 }
@@ -84,12 +89,13 @@ button {
 }
 
 .modal-header .btn-close {
-    padding: .65rem;
+    padding: 0.65rem;
     margin: 0rem 0rem 0rem auto;
     background-color: pink;
 }
 
-.btn-cancel, .btn-save {
+.btn-cancel,
+.btn-save {
     background-color: pink;
     margin-top: 10px;
     padding: 0.2rem 0.4rem;
@@ -102,7 +108,9 @@ button {
 .btn-close {
     box-sizing: content-box;
     color: #000;
-    background: transparent url(data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23000%27%3e%3cpath d=%27M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z%27/%3e%3c/svg%3e) center/1em auto no-repeat;
+    background: transparent
+        url(data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23000%27%3e%3cpath d=%27M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z%27/%3e%3c/svg%3e)
+        center/1em auto no-repeat;
 }
 
 .time-inputs {

@@ -63,7 +63,7 @@ const EventTypes = {
             default:
                 return title;
         }
-    }
+    },
 };
 
 export default EventTypes;

@@ -20,7 +20,9 @@ function EditModal(props) {
     } = props;
     const [newTitle, setNewTitle] = useState(title);
     const [originalId, setOriginalId] = useState('id');
-    const [updateTimeBlockTitle] = useMutation(UPDATE_TIME_BLOCK_TITLE_MUTATION);
+    const [updateTimeBlockTitle] = useMutation(
+        UPDATE_TIME_BLOCK_TITLE_MUTATION
+    );
 
     useEffect(() => {
         if (!title) {

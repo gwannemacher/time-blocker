@@ -4,13 +4,12 @@ import Modal from 'react-bootstrap/Modal';
 import * as dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import CustomParseFormat from 'dayjs/plugin/customParseFormat';
-import { useMutation } from '@apollo/client';
 
 import EventTypes from '../../models/event-types';
 import TitleInput from './title-input';
 import AllDayEventTypeInput from './all-day-event-type-input';
 import '../../stylesheets/modal.css';
-import { TIMEBLOCKS_QUERY, CREATE_TIME_BLOCK_MUTATION } from '../../queries';
+import useCreateTimeBlock from '../../hooks/useCreateTimeBlock';
 import useDomEffect from '../../utilities/dom-utilities';
 
 dayjs.extend(LocalizedFormat);
@@ -20,10 +19,7 @@ function AllDayEventForm(props) {
     const { isVisible, date, hideForm } = props;
     const [newTitle, setNewTitle] = useState('');
     const [eventType, setEventType] = useState(EventTypes.MEETING.id);
-
-    const [createTimeBlock] = useMutation(CREATE_TIME_BLOCK_MUTATION, {
-        refetchQueries: [TIMEBLOCKS_QUERY],
-    });
+    const [createTimeBlock] = useCreateTimeBlock();
 
     const onSave = () => {
         createTimeBlock({

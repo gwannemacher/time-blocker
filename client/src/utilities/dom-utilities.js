@@ -1,10 +1,6 @@
 import { useEffect } from 'react';
 
-function useDomEffect(
-    domEvent,
-    handleEvent,
-    stateChanges
-    ) {
+function useDomEffect(domEvent, handleEvent, stateChanges) {
     useEffect(() => {
         document.addEventListener(domEvent, handleEvent);
         return () => {
