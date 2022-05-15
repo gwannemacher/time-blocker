@@ -2,26 +2,26 @@ import React, { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { useQuery, useApolloClient } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import * as dayjs from 'dayjs';
 
 import EventForm from './event-form/event-form';
 import AllDayEventForm from './event-form/all-day-event-form';
 import EventTypes from '../models/event-types';
-import { TIMEBLOCKS_QUERY } from '../queries';
 import isPastEvent from '../utilities/time-utilities';
 import HoveredEvent from '../models/hovered-event';
 import DeleteModal from './modals/delete-modal';
 import EditModal from './modals/edit-modal';
 import useDomEffect from '../hooks/useDomEffect';
 import useUpdateTimeBlockTimes from '../hooks/useUpdateTimeBlockTimes';
+import useGetTimeBlocks from '../hooks/useGetTimeBlocks';
 import useKeyboardEvents from '../hooks/useKeyboardEvents';
 
 import '../stylesheets/calendar.css';
 
 function Calendar() {
     const client = useApolloClient();
-    const { data } = useQuery(TIMEBLOCKS_QUERY);
+    const { data } = useGetTimeBlocks();
     const [updateTimeBlockTimes] = useUpdateTimeBlockTimes();
 
     const [isFormVisible, setIsFormVisible] = useState(false);

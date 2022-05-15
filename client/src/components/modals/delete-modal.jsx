@@ -4,20 +4,17 @@ import Modal from 'react-bootstrap/Modal';
 import * as dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import CustomParseFormat from 'dayjs/plugin/customParseFormat';
-import { useMutation } from '@apollo/client';
+
+import useDeleteTimeBlock from '../../hooks/useDeleteTimeBlock';
 
 import '../../stylesheets/modal.css';
-import { TIMEBLOCKS_QUERY, DELETE_TIME_BLOCK_MUTATION } from '../../queries';
 
 dayjs.extend(LocalizedFormat);
 dayjs.extend(CustomParseFormat);
 
 function DeleteModal(props) {
     const { isVisible, id, hideForm } = props;
-
-    const [deleteTimeBlock] = useMutation(DELETE_TIME_BLOCK_MUTATION, {
-        refetchQueries: [TIMEBLOCKS_QUERY],
-    });
+    const [deleteTimeBlock] = useDeleteTimeBlock();
 
     const onDelete = () => {
         deleteTimeBlock({
