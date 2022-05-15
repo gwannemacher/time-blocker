@@ -10,7 +10,7 @@ import TitleInput from './title-input';
 import AllDayEventTypeInput from './all-day-event-type-input';
 import '../../stylesheets/modal.css';
 import useCreateTimeBlock from '../../hooks/useCreateTimeBlock';
-import useDomEffect from '../../utilities/dom-utilities';
+import useDomEffect from '../../hooks/useDomEffect';
 
 dayjs.extend(LocalizedFormat);
 dayjs.extend(CustomParseFormat);

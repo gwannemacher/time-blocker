@@ -7,7 +7,7 @@ import CustomParseFormat from 'dayjs/plugin/customParseFormat';
 import { useMutation } from '@apollo/client';
 
 import { UPDATE_TIME_BLOCK_TITLE_MUTATION } from '../../queries';
-import useDomEffect from '../../utilities/dom-utilities';
+import useDomEffect from '../../hooks/useDomEffect';
 
 import '../../stylesheets/modal.css';
 

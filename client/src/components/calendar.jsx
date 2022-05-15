@@ -9,11 +9,11 @@ import EventForm from './event-form/event-form';
 import AllDayEventForm from './event-form/all-day-event-form';
 import EventTypes from '../models/event-types';
 import { TIMEBLOCKS_QUERY } from '../queries';
-import useDomEffect from '../utilities/dom-utilities';
 import isPastEvent from '../utilities/time-utilities';
 import HoveredEvent from '../models/hovered-event';
 import DeleteModal from './modals/delete-modal';
 import EditModal from './modals/edit-modal';
+import useDomEffect from '../hooks/useDomEffect';
 import useUpdateTimeBlockTimes from '../hooks/useUpdateTimeBlockTimes';
 import useKeyboardEvents from '../hooks/useKeyboardEvents';
 

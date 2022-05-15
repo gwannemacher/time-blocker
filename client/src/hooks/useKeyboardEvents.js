@@ -43,7 +43,7 @@ const useKeyboardEvents = (hoveredEvent: any) => {
                     endDate: nextMondayEnd.format('YYYY-MM-DD'),
                 },
             });
-        }
+        },
     };
 };
 
