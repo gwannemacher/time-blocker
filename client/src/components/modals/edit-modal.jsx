@@ -4,10 +4,9 @@ import Modal from 'react-bootstrap/Modal';
 import * as dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import CustomParseFormat from 'dayjs/plugin/customParseFormat';
-import { useMutation } from '@apollo/client';
 
-import { UPDATE_TIME_BLOCK_TITLE_MUTATION } from '../../queries';
 import useDomEffect from '../../hooks/useDomEffect';
+import useUpdateTimeBlockTitle from '../../hooks/useUpdateTimeBlockTitle';
 
 import '../../stylesheets/modal.css';
 
@@ -20,9 +19,7 @@ function EditModal(props) {
     } = props;
     const [newTitle, setNewTitle] = useState(title);
     const [originalId, setOriginalId] = useState('id');
-    const [updateTimeBlockTitle] = useMutation(
-        UPDATE_TIME_BLOCK_TITLE_MUTATION
-    );
+    const [updateTimeBlockTitle] = useUpdateTimeBlockTitle();
 
     useEffect(() => {
         if (!title) {
