@@ -15,7 +15,7 @@ import HoveredEvent from '../models/hovered-event';
 import DeleteModal from './modals/delete-modal';
 import EditModal from './modals/edit-modal';
 import useUpdateTimeBlockTimes from '../hooks/useUpdateTimeBlockTimes';
-import useCreateTimeBlock from '../hooks/useCreateTimeBlock';
+import useKeyboardEvents from '../hooks/useKeyboardEvents';
 
 import '../stylesheets/calendar.css';
 
@@ -23,7 +23,6 @@ function Calendar() {
     const client = useApolloClient();
     const { data } = useQuery(TIMEBLOCKS_QUERY);
     const [updateTimeBlockTimes] = useUpdateTimeBlockTimes();
-    const [createTimeBlock] = useCreateTimeBlock();
 
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [isAllDayFormVisible, setIsAllDayFormVisible] = useState(false);
@@ -31,43 +30,7 @@ function Calendar() {
     const [isEditFormVisible, setIsEditFormVisible] = useState(false);
     const [date, setDate] = useState(new Date());
     const [hoveredEvent, setHoveredEvent] = useState(null);
-
-    const copyEvent = () => {
-        if (!hoveredEvent) {
-            return;
-        }
-
-        createTimeBlock({
-            variables: {
-                title: hoveredEvent.title,
-                type: hoveredEvent.type,
-                startTime: dayjs(hoveredEvent.start).format('HH:mm'),
-                startDate: dayjs(hoveredEvent.start).format('YYYY-MM-DD'),
-                endTime: dayjs(hoveredEvent.end).format('HH:mm'),
-                endDate: dayjs(hoveredEvent.end).format('YYYY-MM-DD'),
-                isAllDay: false,
-            },
-        });
-    };
-
-    const moveEvent = () => {
-        if (!hoveredEvent) {
-            return;
-        }
-
-        const nextMondayStart = dayjs(hoveredEvent.start).day(8);
-        const nextMondayEnd = dayjs(hoveredEvent.end).day(8);
-
-        updateTimeBlockTimes({
-            variables: {
-                id: hoveredEvent.id,
-                startTime: dayjs(hoveredEvent.start).format('HH:mm'),
-                startDate: nextMondayStart.format('YYYY-MM-DD'),
-                endTime: dayjs(hoveredEvent.end).format('HH:mm'),
-                endDate: nextMondayEnd.format('YYYY-MM-DD'),
-            },
-        });
-    };
+    const { copyEvent, moveEvent } = useKeyboardEvents(hoveredEvent);
 
     const handleKeyDown = (event) => {
         if (!hoveredEvent) {
