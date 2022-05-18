@@ -35,7 +35,7 @@ function Calendar(props) {
         );
     };
 
-    const onEventMouseLeave = (info) => {
+    const onEventUnHover = (info) => {
         if (info.jsEvent.toElement?.className.includes('fc-event-title')) {
             // safari weirdness
             return;
@@ -77,7 +77,7 @@ function Calendar(props) {
             eventClick={showDeleteForm}
             dateClick={onDateClick}
             eventMouseEnter={onEventHover}
-            eventMouseLeave={onEventMouseLeave}
+            eventMouseLeave={onEventUnHover}
             eventResize={onEventTimeChange}
             eventDrop={onEventTimeChange}
         />
