@@ -3,6 +3,7 @@ import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
+import HoveredEvent from '../models/hovered-event';
 import EventTypes from '../models/event-types';
 import isPastEvent from '../utilities/time-utilities';
 
@@ -13,10 +14,35 @@ function Calendar(props) {
         timeBlocks,
         showDeleteForm,
         onDateClick,
-        onEventHover,
-        onEventMouseLeave,
+        setHoveredEvent,
         onEventTimeChange,
     } = props;
+
+    const onEventHover = (info) => {
+        const hovered: HoveredEvent = {
+            id: info.event.id,
+            title: info.event.extendedProps.title,
+            type: info.event.extendedProps.type,
+            start: info.event.start,
+            end: info.event.end,
+            isAllDay: info.event.isAllDay,
+        };
+
+        setHoveredEvent((previous) =>
+            (!previous || previous.id !== info.event.id)
+                ? hovered
+                : previous
+        );
+    };
+
+    const onEventMouseLeave = (info) => {
+        if (info.jsEvent.toElement?.className.includes('fc-event-title')) {
+            // safari weirdness
+            return;
+        }
+
+        setHoveredEvent(null);
+    };
 
     return (
         <FullCalendar

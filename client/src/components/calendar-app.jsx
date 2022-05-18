@@ -5,7 +5,6 @@ import * as dayjs from 'dayjs';
 import Calendar from './calendar';
 import EventForm from './event-form/event-form';
 import AllDayEventForm from './event-form/all-day-event-form';
-import HoveredEvent from '../models/hovered-event';
 import DeleteModal from './modals/delete-modal';
 import EditModal from './modals/edit-modal';
 import useDomEffect from '../hooks/useDomEffect';
@@ -74,30 +73,6 @@ function CalendarApp() {
         setDate(info.date);
     };
 
-    const onEventHover = (info) => {
-        if (!hoveredEvent || hoveredEvent.id !== info.event.id) {
-            const hovered: HoveredEvent = {
-                id: info.event.id,
-                title: info.event.extendedProps.title,
-                type: info.event.extendedProps.type,
-                start: info.event.start,
-                end: info.event.end,
-                isAllDay: info.event.isAllDay,
-            };
-
-            setHoveredEvent(hovered);
-        }
-    };
-
-    const onEventMouseLeave = (info) => {
-        if (info.jsEvent.toElement?.className.includes('fc-event-title')) {
-            // safari weirdness
-            return;
-        }
-
-        setHoveredEvent(null);
-    };
-
     const onEventTimeChange = (info) => {
         const { id, start, end } = info.event;
 
@@ -157,9 +132,8 @@ function CalendarApp() {
                 showDeleteForm={showDeleteForm}
                 timeBlocks={data?.getTimeBlocks}
                 onDateClick={onDateClick}
-                onEventHover={onEventHover}
-                onEventMouseLeave={onEventMouseLeave}
                 onEventTimeChange={onEventTimeChange}
+                setHoveredEvent={setHoveredEvent}
             />
         </>
     );
