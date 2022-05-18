@@ -44,7 +44,11 @@
             "react/jsx-indent": "off",
             "react/jsx-indent-props": "off",
             "comma-dangle": "off",
-            "implicit-arrow-linebreak": "off"
+            "implicit-arrow-linebreak": "off",
+            "react/jsx-one-expression-per-line": "off",
+            "operator-linebreak": "off",
+            "object-curly-newline": "off",
+            "react/prop-types": "off"
         }
     },
     "browserslist": {

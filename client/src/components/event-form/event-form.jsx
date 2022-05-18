@@ -102,8 +102,7 @@ function EventForm(props) {
                         options={timeOptions}
                     />
                     <span className="time-inputs-text">
-                        {dayjs(endTime).diff(dayjs(startTime), 'minute')}
-                        m
+                        {dayjs(endTime).diff(dayjs(startTime), 'minute')}m
                     </span>
                 </div>
                 <button className="btn-cancel" onClick={onCancel} type="button">

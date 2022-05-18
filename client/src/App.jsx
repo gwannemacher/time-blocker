@@ -1,9 +1,9 @@
 import React from 'react';
 import './stylesheets/App.css';
-import Calendar from './components/calendar';
+import CalendarApp from './components/calendar-app';
 
 function App() {
-    return <Calendar />;
+    return <CalendarApp />;
 }
 
 export default App;
