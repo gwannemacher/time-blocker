@@ -29,7 +29,7 @@ function Calendar(props) {
         };
 
         setHoveredEvent((previous) =>
-            (!previous || previous.id !== info.event.id)
+            (!previous || previous.id !== hovered.id)
                 ? hovered
                 : previous
         );
