@@ -96,7 +96,7 @@ function CalendarApp() {
 
         updateTimeBlockTimes({
             variables: {
-                id: hoveredEvent.id,
+                id,
                 startTime: dayjs(start).format('HH:mm'),
                 startDate: dayjs(start).format('YYYY-MM-DD'),
                 endTime: dayjs(end).format('HH:mm'),
