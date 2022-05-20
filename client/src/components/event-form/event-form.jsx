@@ -59,8 +59,7 @@ function EventForm(props) {
 
     useEffect(() => {
         setStartTime(date);
-        const endDate = dayjs(date).add(1, 'hour');
-        setEndTime(endDate.toDate());
+        setEndTime(dayjs(date).add(1, 'hour').toDate());
     }, [date]);
 
     const onCancel = () => {

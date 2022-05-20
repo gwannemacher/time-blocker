@@ -64,6 +64,7 @@ function CalendarApp() {
             document.removeEventListener('keyup', handleKeyDown);
         };
     }, [
+        selectedVar(),
         isFormVisible,
         isAllDayFormVisible,
         isDeleteFormVisible,
