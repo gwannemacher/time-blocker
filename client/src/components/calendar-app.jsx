@@ -42,37 +42,43 @@ function CalendarApp() {
         return filtered?.length === 0 ? null : filtered[0];
     };
 
-    const handleKeyDown = (event) => {
-        if (!selectedVar().id) {
-            return;
-        }
-
-        if (
-            isFormVisible ||
-            isAllDayFormVisible ||
-            isDeleteFormVisible ||
-            isEditFormVisible
-        ) {
-            return;
-        }
-
-        if (event.key === 'd') {
-            setIsDeleteFormVisible(true);
-        } else if (event.key === 'e') {
-            setIsEditFormVisible(true);
-        } else if (event.key === 'c') {
-            copyEvent(getBlock());
-        } else if (event.key === 'm') {
-            moveEvent(getBlock());
-        }
-    };
-
     useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (!selectedVar().id) {
+                return;
+            }
+
+            if (
+                isFormVisible ||
+                isAllDayFormVisible ||
+                isDeleteFormVisible ||
+                isEditFormVisible
+            ) {
+                return;
+            }
+
+            if (event.key === 'd') {
+                setIsDeleteFormVisible(true);
+            } else if (event.key === 'e') {
+                setIsEditFormVisible(true);
+            } else if (event.key === 'c') {
+                copyEvent(getBlock());
+            } else if (event.key === 'm') {
+                moveEvent(getBlock());
+            }
+        };
+
         document.addEventListener('keyup', handleKeyDown);
         return () => {
             document.removeEventListener('keyup', handleKeyDown);
         };
-    }, [selectedVar]);
+    }, [
+        selectedVar,
+        isFormVisible,
+        isAllDayFormVisible,
+        isDeleteFormVisible,
+        isEditFormVisible,
+    ]);
 
     const onDateClick = (info) => {
         setIsAllDayFormVisible(info.allDay);

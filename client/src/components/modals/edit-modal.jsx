@@ -65,6 +65,7 @@ function EditModal(props) {
         },
         [newTitle]
     );
+
     return (
         <Modal show={isVisible} onHide={hideForm}>
             <Modal.Header closeButton />
