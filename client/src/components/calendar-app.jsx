@@ -36,35 +36,34 @@ function CalendarApp() {
     const [isEditFormVisible, setIsEditFormVisible] = useState(false);
     const [date, setDate] = useState(new Date());
 
+    const handleKeyDown = (event) => {
+        if (
+            !selectedVar().id ||
+            isFormVisible ||
+            isAllDayFormVisible ||
+            isDeleteFormVisible ||
+            isEditFormVisible
+        ) {
+            return;
+        }
+
+        if (event.key === 'd') {
+            setIsDeleteFormVisible(true);
+        } else if (event.key === 'e') {
+            setIsEditFormVisible(true);
+        } else if (event.key === 'c') {
+            copyEvent(getBlock(data?.getTimeBlocks));
+        } else if (event.key === 'm') {
+            moveEvent(getBlock(data?.getTimeBlocks));
+        }
+    };
+
     useEffect(() => {
-        const handleKeyDown = (event) => {
-            if (
-                !selectedVar().id ||
-                isFormVisible ||
-                isAllDayFormVisible ||
-                isDeleteFormVisible ||
-                isEditFormVisible
-            ) {
-                return;
-            }
-
-            if (event.key === 'd') {
-                setIsDeleteFormVisible(true);
-            } else if (event.key === 'e') {
-                setIsEditFormVisible(true);
-            } else if (event.key === 'c') {
-                copyEvent(getBlock(data?.getTimeBlocks));
-            } else if (event.key === 'm') {
-                moveEvent(getBlock(data?.getTimeBlocks));
-            }
-        };
-
         document.addEventListener('keyup', handleKeyDown);
         return () => {
             document.removeEventListener('keyup', handleKeyDown);
         };
     }, [
-        selectedVar,
         isFormVisible,
         isAllDayFormVisible,
         isDeleteFormVisible,
