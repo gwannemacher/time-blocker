@@ -17,10 +17,10 @@ const useKeyboardEvents = () => {
                 variables: {
                     title: block.title,
                     type: block.type,
-                    startTime: dayjs(block.start).format('HH:mm'),
-                    startDate: dayjs(block.start).format('YYYY-MM-DD'),
-                    endTime: dayjs(block.end).format('HH:mm'),
-                    endDate: dayjs(block.end).format('YYYY-MM-DD'),
+                    startTime: block.startTime,
+                    startDate: block.startDate,
+                    endTime: block.endTime,
+                    endDate: block.endDate,
                     isAllDay: false,
                 },
             });
@@ -31,15 +31,20 @@ const useKeyboardEvents = () => {
                 return;
             }
 
-            const nextMondayStart = dayjs(block.start).day(8);
-            const nextMondayEnd = dayjs(block.end).day(8);
+            const startDateTime = dayjs(
+                `${block.startDate}T${block.startTime}:00`
+            );
+            const nextMondayStart = startDateTime.day(8);
+
+            const endDateTime = dayjs(`${block.endDate}T${block.endTime}:00`);
+            const nextMondayEnd = endDateTime.day(8);
 
             updateTimeBlockTimes({
                 variables: {
                     id: block.id,
-                    startTime: dayjs(block.start).format('HH:mm'),
+                    startTime: block.startTime,
                     startDate: nextMondayStart.format('YYYY-MM-DD'),
-                    endTime: dayjs(block.end).format('HH:mm'),
+                    endTime: block.endTime,
                     endDate: nextMondayEnd.format('YYYY-MM-DD'),
                 },
             });
