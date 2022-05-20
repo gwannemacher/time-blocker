@@ -16,31 +16,15 @@ dayjs.extend(CustomParseFormat);
 function EditModal(props) {
     const { isVisible, id, title, hideForm } = props;
     const [newTitle, setNewTitle] = useState(title);
-    const [originalId, setOriginalId] = useState('id');
     const [updateTimeBlockTitle] = useUpdateTimeBlockTitle();
 
     useEffect(() => {
-        if (!title) {
-            // safari weirdness
-            return;
-        }
-
         setNewTitle(title);
     }, [isVisible, title]);
 
-    // this whole id thing is because of stupid safari weirdness
-    useEffect(() => {
-        if (!id) {
-            // safari weirdness
-            return;
-        }
-
-        setOriginalId(id);
-    }, [isVisible, id]);
-
     const onEdit = () => {
         updateTimeBlockTitle({
-            variables: { id: originalId, title: newTitle },
+            variables: { id, title: newTitle },
         });
 
         hideForm();
