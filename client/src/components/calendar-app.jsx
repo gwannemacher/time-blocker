@@ -16,17 +16,11 @@ import '../stylesheets/calendar.css';
 export const selectedVar = makeVar({ id: '', isSelected: false });
 
 const getBlock = (timeBlocks: any[]) => {
-    if (
-        !selectedVar().id ||
-        !selectedVar().isSelected ||
-        !timeBlocks
-    ) {
+    if (!selectedVar().id || !selectedVar().isSelected || !timeBlocks) {
         return null;
     }
 
-    const filtered = timeBlocks.filter(
-        (x) => x.id === selectedVar().id
-    );
+    const filtered = timeBlocks.filter((x) => x.id === selectedVar().id);
     return filtered?.length === 0 ? null : filtered[0];
 };
 
@@ -34,13 +28,13 @@ function CalendarApp() {
     const client = useApolloClient();
     const { data } = useGetTimeBlocks();
     const [updateTimeBlockTimes] = useUpdateTimeBlockTimes();
+    const { copyEvent, moveEvent } = useKeyboardEvents();
 
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [isAllDayFormVisible, setIsAllDayFormVisible] = useState(false);
     const [isDeleteFormVisible, setIsDeleteFormVisible] = useState(false);
     const [isEditFormVisible, setIsEditFormVisible] = useState(false);
     const [date, setDate] = useState(new Date());
-    const { copyEvent, moveEvent } = useKeyboardEvents();
 
     useEffect(() => {
         const handleKeyDown = (event) => {
