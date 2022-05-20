@@ -15,6 +15,21 @@ import '../stylesheets/calendar.css';
 
 export const selectedVar = makeVar({ id: '', isSelected: false });
 
+const getBlock = (timeBlocks: any[]) => {
+    if (
+        !selectedVar().id ||
+        !selectedVar().isSelected ||
+        !timeBlocks
+    ) {
+        return null;
+    }
+
+    const filtered = timeBlocks.filter(
+        (x) => x.id === selectedVar().id
+    );
+    return filtered?.length === 0 ? null : filtered[0];
+};
+
 function CalendarApp() {
     const client = useApolloClient();
     const { data } = useGetTimeBlocks();
@@ -26,21 +41,6 @@ function CalendarApp() {
     const [isEditFormVisible, setIsEditFormVisible] = useState(false);
     const [date, setDate] = useState(new Date());
     const { copyEvent, moveEvent } = useKeyboardEvents();
-
-    const getBlock = () => {
-        if (
-            !selectedVar().id ||
-            !selectedVar().isSelected ||
-            !data?.getTimeBlocks
-        ) {
-            return null;
-        }
-
-        const filtered = data.getTimeBlocks.filter(
-            (x) => x.id === selectedVar().id
-        );
-        return filtered?.length === 0 ? null : filtered[0];
-    };
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -59,9 +59,9 @@ function CalendarApp() {
             } else if (event.key === 'e') {
                 setIsEditFormVisible(true);
             } else if (event.key === 'c') {
-                copyEvent(getBlock());
+                copyEvent(getBlock(data?.getTimeBlocks));
             } else if (event.key === 'm') {
-                moveEvent(getBlock());
+                moveEvent(getBlock(data?.getTimeBlocks));
             }
         };
 
@@ -152,7 +152,7 @@ function CalendarApp() {
             <EditModal
                 isVisible={isEditFormVisible}
                 id={selectedVar()?.id}
-                title={getBlock()?.title}
+                title={getBlock(data?.getTimeBlocks)?.title}
                 hideForm={() => setIsEditFormVisible(false)}
             />
             <Calendar
