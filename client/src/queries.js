@@ -12,6 +12,7 @@ export const TIMEBLOCKS_QUERY = gql`
             endDate
             isAllDay
             prefixedTitle @client
+            isSelected @client
         }
     }
 `;

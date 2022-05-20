@@ -195,6 +195,10 @@ a.fc-timegrid-event {
     color: black;
 }
 
+.event-selected {
+    border: 5px solid blue;
+}
+
 /** ---------------- **/
 .rainbow_text_animated {
     background: linear-gradient(

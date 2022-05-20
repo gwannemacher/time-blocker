@@ -10,6 +10,7 @@ import {
 import './stylesheets/index.css';
 import EventTypes from './models/event-types';
 import App from './App';
+import { selectedVar } from './components/calendar-app';
 
 const httpLink = createHttpLink({
     // uri: 'http://localhost:5000/graphql',
@@ -25,6 +26,15 @@ const cache = new InMemoryCache({
                         const title = readField('title');
                         const type = readField('type');
                         return EventTypes.displayTitle(type, title);
+                    },
+                },
+                isSelected: {
+                    read(_, { readField }) {
+                        const thisId = readField('id');
+                        return (
+                            selectedVar().id === thisId &&
+                            selectedVar().isSelected
+                        );
                     },
                 },
             },

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useApolloClient } from '@apollo/client';
+import React, { useState, useEffect } from 'react';
+import { useApolloClient, makeVar } from '@apollo/client';
 import * as dayjs from 'dayjs';
 
 import Calendar from './calendar';
@@ -7,12 +7,13 @@ import EventForm from './event-form/event-form';
 import AllDayEventForm from './event-form/all-day-event-form';
 import DeleteModal from './modals/delete-modal';
 import EditModal from './modals/edit-modal';
-import useDomEffect from '../hooks/useDomEffect';
 import useUpdateTimeBlockTimes from '../hooks/useUpdateTimeBlockTimes';
 import useGetTimeBlocks from '../hooks/useGetTimeBlocks';
 import useKeyboardEvents from '../hooks/useKeyboardEvents';
 
 import '../stylesheets/calendar.css';
+
+export const selectedVar = makeVar({ id: '', isSelected: false });
 
 function CalendarApp() {
     const client = useApolloClient();
@@ -24,13 +25,25 @@ function CalendarApp() {
     const [isDeleteFormVisible, setIsDeleteFormVisible] = useState(false);
     const [isEditFormVisible, setIsEditFormVisible] = useState(false);
     const [date, setDate] = useState(new Date());
-    const [hoveredEvent, setHoveredEvent] = useState(null);
-    const { copyEvent, moveEvent } = useKeyboardEvents(hoveredEvent);
+    const { copyEvent, moveEvent } = useKeyboardEvents();
 
-    const showDeleteForm = useCallback(() => setIsDeleteFormVisible(true), []);
+    const getBlock = () => {
+        if (
+            !selectedVar().id ||
+            !selectedVar().isSelected ||
+            !data?.getTimeBlocks
+        ) {
+            return null;
+        }
+
+        const filtered = data.getTimeBlocks.filter(
+            (x) => x.id === selectedVar().id
+        );
+        return filtered?.length === 0 ? null : filtered[0];
+    };
 
     const handleKeyDown = (event) => {
-        if (!hoveredEvent) {
+        if (!selectedVar().id) {
             return;
         }
 
@@ -48,17 +61,18 @@ function CalendarApp() {
         } else if (event.key === 'e') {
             setIsEditFormVisible(true);
         } else if (event.key === 'c') {
-            copyEvent();
+            copyEvent(getBlock());
         } else if (event.key === 'm') {
-            moveEvent();
+            moveEvent(getBlock());
         }
     };
 
-    useDomEffect('keyup', handleKeyDown, [hoveredEvent]);
-
     useEffect(() => {
-        setHoveredEvent(null);
-    }, [data]);
+        document.addEventListener('keyup', handleKeyDown);
+        return () => {
+            document.removeEventListener('keyup', handleKeyDown);
+        };
+    }, [selectedVar]);
 
     const onDateClick = (info) => {
         setIsAllDayFormVisible(info.allDay);
@@ -71,6 +85,16 @@ function CalendarApp() {
         }
 
         setDate(info.date);
+    };
+
+    const onEventClick = (info) => {
+        const { id } = info.event;
+
+        if (selectedVar().id === id) {
+            selectedVar({ id: '', isSelected: false });
+        } else {
+            selectedVar({ id, isSelected: true });
+        }
     };
 
     const onEventTimeChange = (info) => {
@@ -119,21 +143,20 @@ function CalendarApp() {
             />
             <DeleteModal
                 isVisible={isDeleteFormVisible}
-                id={hoveredEvent?.id}
+                id={selectedVar()?.id}
                 hideForm={() => setIsDeleteFormVisible(false)}
             />
             <EditModal
                 isVisible={isEditFormVisible}
-                id={hoveredEvent?.id}
-                title={hoveredEvent?.title}
+                id={selectedVar()?.id}
+                title={getBlock()?.title}
                 hideForm={() => setIsEditFormVisible(false)}
             />
             <Calendar
-                showDeleteForm={showDeleteForm}
                 timeBlocks={data?.getTimeBlocks}
+                onEventClick={onEventClick}
                 onDateClick={onDateClick}
                 onEventTimeChange={onEventTimeChange}
-                setHoveredEvent={setHoveredEvent}
             />
         </>
     );
