@@ -44,11 +44,8 @@ function CalendarApp() {
 
     useEffect(() => {
         const handleKeyDown = (event) => {
-            if (!selectedVar().id) {
-                return;
-            }
-
             if (
+                !selectedVar().id ||
                 isFormVisible ||
                 isAllDayFormVisible ||
                 isDeleteFormVisible ||
