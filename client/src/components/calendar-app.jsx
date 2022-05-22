@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useApolloClient, makeVar } from '@apollo/client';
 import * as dayjs from 'dayjs';
 
@@ -36,40 +36,43 @@ function CalendarApp() {
     const [isEditFormVisible, setIsEditFormVisible] = useState(false);
     const [date, setDate] = useState(new Date());
 
-    const handleKeyDown = (event) => {
-        if (
-            !selectedVar().id ||
-            isFormVisible ||
-            isAllDayFormVisible ||
-            isDeleteFormVisible ||
-            isEditFormVisible
-        ) {
-            return;
-        }
+    const handleKeyDown = useCallback(
+        (event) => {
+            if (
+                !selectedVar().id ||
+                isFormVisible ||
+                isAllDayFormVisible ||
+                isDeleteFormVisible ||
+                isEditFormVisible
+            ) {
+                return;
+            }
 
-        if (event.key === 'd') {
-            setIsDeleteFormVisible(true);
-        } else if (event.key === 'e') {
-            setIsEditFormVisible(true);
-        } else if (event.key === 'c') {
-            copyEvent(getBlock(data?.getTimeBlocks));
-        } else if (event.key === 'm') {
-            moveEvent(getBlock(data?.getTimeBlocks));
-        }
-    };
+            if (event.key === 'd') {
+                setIsDeleteFormVisible(true);
+            } else if (event.key === 'e') {
+                setIsEditFormVisible(true);
+            } else if (event.key === 'c') {
+                copyEvent(getBlock(data?.getTimeBlocks));
+            } else if (event.key === 'm') {
+                moveEvent(getBlock(data?.getTimeBlocks));
+            }
+        },
+        [
+            selectedVar(),
+            isFormVisible,
+            isAllDayFormVisible,
+            isDeleteFormVisible,
+            isEditFormVisible,
+        ]
+    );
 
     useEffect(() => {
         document.addEventListener('keyup', handleKeyDown);
         return () => {
             document.removeEventListener('keyup', handleKeyDown);
         };
-    }, [
-        selectedVar(),
-        isFormVisible,
-        isAllDayFormVisible,
-        isDeleteFormVisible,
-        isEditFormVisible,
-    ]);
+    }, [handleKeyDown]);
 
     const onDateClick = (info) => {
         setIsAllDayFormVisible(info.allDay);
