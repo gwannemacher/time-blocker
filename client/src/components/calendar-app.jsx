@@ -129,14 +129,8 @@ function CalendarApp() {
     };
 
     const hideEventForm = useCallback(() => setIsFormVisible(false), []);
-    const hideAllDayEventForm = useCallback(
-        () => setIsAllDayFormVisible(false),
-        []
-    );
-    const hideDeleteModal = useCallback(
-        () => setIsDeleteFormVisible(false),
-        []
-    );
+    const hideAllDayEventForm = useCallback(() => setIsAllDayFormVisible(false), []);
+    const hideDeleteModal = useCallback(() => setIsDeleteFormVisible(false), []);
     const hideEditForm = useCallback(() => setIsEditFormVisible(false), []);
 
     return (
