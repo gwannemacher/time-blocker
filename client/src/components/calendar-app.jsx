@@ -8,7 +8,7 @@ import AllDayEventForm from './event-form/all-day-event-form';
 import DeleteModal from './modals/delete-modal';
 import EditModal from './modals/edit-modal';
 import useUpdateTimeBlockTimes from '../hooks/useUpdateTimeBlockTimes';
-import useGetTimeBlocksForWeek from '../hooks/useGetTimeBlocks';
+import useGetTimeBlocksInRange from '../hooks/useGetTimeBlocks';
 import useKeyboardEvents from '../hooks/useKeyboardEvents';
 
 import '../stylesheets/calendar.css';
@@ -26,9 +26,12 @@ const getBlock = (timeBlocks: any[]) => {
 
 function CalendarApp() {
     const client = useApolloClient();
-    const { data } = useGetTimeBlocksForWeek(
-        dayjs(new Date()).startOf('day').valueOf()
+    const today = dayjs(new Date()).startOf('day');
+    const [startRange, setStartRange] = useState(
+        today.startOf('week').valueOf()
     );
+    const [endRange, setEndRange] = useState(today.add(1, 'week').valueOf());
+    const { data } = useGetTimeBlocksInRange(startRange, endRange);
     const [updateTimeBlockTimes] = useUpdateTimeBlockTimes();
     const { copyEvent, moveEvent } = useKeyboardEvents();
 
@@ -55,9 +58,9 @@ function CalendarApp() {
             } else if (event.key === 'e') {
                 setIsEditFormVisible(true);
             } else if (event.key === 'c') {
-                copyEvent(getBlock(data?.getTimeBlocksForWeek));
+                copyEvent(getBlock(data?.getTimeBlocksInRange));
             } else if (event.key === 'm') {
-                moveEvent(getBlock(data?.getTimeBlocksForWeek));
+                moveEvent(getBlock(data?.getTimeBlocksInRange));
             }
         },
         [
@@ -124,8 +127,14 @@ function CalendarApp() {
     };
 
     const hideEventForm = useCallback(() => setIsFormVisible(false), []);
-    const hideAllDayEventForm = useCallback(() => setIsAllDayFormVisible(false), []);
-    const hideDeleteModal = useCallback(() => setIsDeleteFormVisible(false), []);
+    const hideAllDayEventForm = useCallback(
+        () => setIsAllDayFormVisible(false),
+        []
+    );
+    const hideDeleteModal = useCallback(
+        () => setIsDeleteFormVisible(false),
+        []
+    );
     const hideEditForm = useCallback(() => setIsEditFormVisible(false), []);
 
     return (
@@ -148,14 +157,16 @@ function CalendarApp() {
             <EditModal
                 isVisible={isEditFormVisible}
                 id={selectedVar()?.id}
-                title={getBlock(data?.getTimeBlocksForWeek)?.title}
+                title={getBlock(data?.getTimeBlocksInRange)?.title}
                 hideForm={hideEditForm}
             />
             <Calendar
-                timeBlocks={data?.getTimeBlocksForWeek}
+                timeBlocks={data?.getTimeBlocksInRange}
                 onEventClick={onEventClick}
                 onDateClick={onDateClick}
                 onEventTimeChange={onEventTimeChange}
+                setStartRange={setStartRange}
+                setEndRange={setEndRange}
             />
         </>
     );

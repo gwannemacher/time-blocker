@@ -68,7 +68,7 @@ public class GraphQLProvider {
             .type(newTypeWiring("Query")
                 .dataFetcher("getTimeBlocks", graphQLDataFetchers.getTimeBlocksDataFetcher()))
             .type(newTypeWiring("Query")
-                .dataFetcher("getTimeBlocksForWeek", graphQLDataFetchers.getTimeBlocksForWeekDataFetcher()))
+                .dataFetcher("getTimeBlocksInRange", graphQLDataFetchers.getTimeBlocksInRangeDataFetcher()))
             .type(newTypeWiring("Mutation")
                 .dataFetcher("createTimeBlock", graphQLDataFetchers.createTimeBlock()))
             .type(newTypeWiring("Mutation")

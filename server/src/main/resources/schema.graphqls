@@ -1,6 +1,6 @@
 type Query {
   getTimeBlocks: [TimeBlock]
-  getTimeBlocksForWeek(currentDay: Float!): [TimeBlock]
+  getTimeBlocksInRange(start: Float!, end: Float!): [TimeBlock]
 }
 
 type Mutation {

@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
-export const TIMEBLOCKS_FOR_WEEK_QUERY = gql`
-    query GetTimeBlocksForWeek($currentDay: Float!) {
-        getTimeBlocksForWeek(currentDay: $currentDay) {
+export const TIMEBLOCKS_IN_RANGE_QUERY = gql`
+    query GetTimeBlocksInRange($start: Float!, $end: Float!) {
+        getTimeBlocksInRange(start: $start, end: $end) {
             id
             title
             type

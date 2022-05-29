@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
-import { TIMEBLOCKS_FOR_WEEK_QUERY } from '../queries';
+import { TIMEBLOCKS_IN_RANGE_QUERY } from '../queries';
 
-const useGetTimeBlocksForWeek = (currentDay: number) =>
-    useQuery(TIMEBLOCKS_FOR_WEEK_QUERY, { variables: { currentDay } });
+const useGetTimeBlocksForWeek = (start: number, end: number) =>
+    useQuery(TIMEBLOCKS_IN_RANGE_QUERY, { variables: { start, end } });
 
 export default useGetTimeBlocksForWeek;

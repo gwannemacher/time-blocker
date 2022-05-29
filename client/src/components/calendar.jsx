@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -10,10 +10,60 @@ import isPastEvent from '../utilities/time-utilities';
 import '../stylesheets/calendar.css';
 
 function Calendar(props) {
-    const { timeBlocks, onEventClick, onDateClick, onEventTimeChange } = props;
+    const {
+        timeBlocks,
+        onEventClick,
+        onDateClick,
+        onEventTimeChange,
+        setStartRange,
+        setEndRange,
+    } = props;
+
+    const calendarRef = useRef(null);
+
+    useEffect(() => {
+        const setTimeRangeForPrevious = () => {
+            const calendarApi = calendarRef.current.getApi();
+            const startRange = dayjs(calendarApi.view.activeStart).subtract(1, 'week');
+            const endRange = dayjs(calendarApi.view.activeEnd).subtract(1, 'week');
+            setStartRange(startRange.valueOf());
+            setEndRange(endRange.valueOf());
+        };
+
+        document
+            .querySelector('[title="Previous week"]')
+            .addEventListener('click', setTimeRangeForPrevious);
+    }, []);
+
+    useEffect(() => {
+        const setTimeRangeForNext = () => {
+            const calendarApi = calendarRef.current.getApi();
+            const startRange = dayjs(calendarApi.view.activeStart).add(1, 'week');
+            const endRange = dayjs(calendarApi.view.activeEnd).add(1, 'week');
+            setStartRange(startRange.valueOf());
+            setEndRange(endRange.valueOf());
+        };
+
+        document
+            .querySelector('[title="Next week"]')
+            .addEventListener('click', setTimeRangeForNext);
+    }, []);
+
+    useEffect(() => {
+        const setTimeRangeForThisWeek = () => {
+            const today = dayjs(new Date()).startOf('day');
+            setStartRange(today.startOf('week').valueOf());
+            setEndRange(today.add(1, 'week').valueOf());
+        };
+
+        document
+            .querySelector('[title="This week"]')
+            .addEventListener('click', setTimeRangeForThisWeek);
+    }, []);
 
     return (
         <FullCalendar
+            ref={calendarRef}
             plugins={[timeGridPlugin, interactionPlugin]}
             initialView="timeGridWeek"
             nowIndicator

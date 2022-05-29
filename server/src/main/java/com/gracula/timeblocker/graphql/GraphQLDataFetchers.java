@@ -7,8 +7,6 @@ import graphql.schema.DataFetcher;
 import org.bson.conversions.Bson;
 import org.springframework.stereotype.Component;
 
-import java.time.*;
-import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -32,26 +30,20 @@ public class GraphQLDataFetchers {
         return dataFetchingEnvironment -> getTimeBlocksFromDb();
     }
 
-    private List<TimeBlock> getTimeBlocksForWeekFromDb(Long currentDayMilliseconds) {
-        LocalDateTime date = Instant
-                .ofEpochMilli(currentDayMilliseconds)
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
-        LocalDateTime previousSunday = date.with(TemporalAdjusters.previous(DayOfWeek.SUNDAY));
-        LocalDateTime nextSunday = date.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
-
+    private List<TimeBlock> getTimeBlocksInRangeFromDb(Long startMilliseconds, Long endMilliseconds) {
         return StreamSupport.stream(mongoClient.timeBlockCollection
                 .find(and(
-                        gte("startDateTime", previousSunday.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()),
-                        lte("startDateTime", nextSunday.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())))
+                        gte("startDateTime", startMilliseconds),
+                        lte("startDateTime", endMilliseconds)))
                 .spliterator(), false)
                 .collect(Collectors.toList());
     }
 
-    public DataFetcher getTimeBlocksForWeekDataFetcher() {
+    public DataFetcher getTimeBlocksInRangeDataFetcher() {
         return env -> {
-            final Double currentDayDateTime = env.getArgument("currentDay");
-            return getTimeBlocksForWeekFromDb(currentDayDateTime.longValue());
+            final Double start = env.getArgument("start");
+            final Double end = env.getArgument("end");
+            return getTimeBlocksInRangeFromDb(start.longValue(), end.longValue());
         };
     }
 
