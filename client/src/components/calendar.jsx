@@ -24,8 +24,14 @@ function Calendar(props) {
     useEffect(() => {
         const setTimeRangeForPrevious = () => {
             const calendarApi = calendarRef.current.getApi();
-            const startRange = dayjs(calendarApi.view.activeStart).subtract(1, 'week');
-            const endRange = dayjs(calendarApi.view.activeEnd).subtract(1, 'week');
+            const startRange = dayjs(calendarApi.view.activeStart).subtract(
+                1,
+                'week'
+            );
+            const endRange = dayjs(calendarApi.view.activeEnd).subtract(
+                1,
+                'week'
+            );
             setStartRange(startRange.valueOf());
             setEndRange(endRange.valueOf());
         };
@@ -38,7 +44,10 @@ function Calendar(props) {
     useEffect(() => {
         const setTimeRangeForNext = () => {
             const calendarApi = calendarRef.current.getApi();
-            const startRange = dayjs(calendarApi.view.activeStart).add(1, 'week');
+            const startRange = dayjs(calendarApi.view.activeStart).add(
+                1,
+                'week'
+            );
             const endRange = dayjs(calendarApi.view.activeEnd).add(1, 'week');
             setStartRange(startRange.valueOf());
             setEndRange(endRange.valueOf());

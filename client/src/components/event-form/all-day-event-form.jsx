@@ -33,6 +33,18 @@ function AllDayEventForm(props) {
                 endDateTime: dayjs(date.getTime()).hour(0).minute(0).valueOf(),
                 isAllDay: true,
             },
+            update: (cache, { data }) => {
+                cache.modify({
+                    fields: {
+                        getTimeBlocksInRange(existingTimeBlocks = []) {
+                            return [
+                                ...existingTimeBlocks,
+                                data.createTimeBlock,
+                            ];
+                        },
+                    },
+                });
+            },
         });
 
         setNewTitle('');

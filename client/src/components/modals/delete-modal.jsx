@@ -19,6 +19,9 @@ function DeleteModal(props) {
     const onDelete = () => {
         deleteTimeBlock({
             variables: { id },
+            update: (cache) => {
+                cache.evict({ id: `TimeBlock:${id}` });
+            },
         });
 
         hideForm();

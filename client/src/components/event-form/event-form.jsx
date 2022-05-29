@@ -33,6 +33,18 @@ function EventForm(props) {
                 endDateTime: endTime.getTime(),
                 isAllDay: false,
             },
+            update: (cache, { data }) => {
+                cache.modify({
+                    fields: {
+                        getTimeBlocksInRange(existingTimeBlocks = []) {
+                            return [
+                                ...existingTimeBlocks,
+                                data.createTimeBlock,
+                            ];
+                        },
+                    },
+                });
+            },
         });
 
         setNewTitle('');

@@ -64,6 +64,11 @@ export const CREATE_TIME_BLOCK_MUTATION = gql`
             isAllDay: $isAllDay
         ) {
             id
+            title
+            type
+            startDateTime
+            endDateTime
+            isAllDay
         }
     }
 `;

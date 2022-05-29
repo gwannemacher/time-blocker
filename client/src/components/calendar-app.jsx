@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useApolloClient, makeVar } from '@apollo/client';
+import { gql, useApolloClient, makeVar } from '@apollo/client';
 import * as dayjs from 'dayjs';
 
 import Calendar from './calendar';
@@ -105,15 +105,17 @@ function CalendarApp() {
     const onEventTimeChange = (info) => {
         const { id, start, end } = info.event;
 
-        client.cache.modify({
+        client.writeFragment({
             id: `TimeBlock:${id}`,
-            fields: {
-                startDateTime() {
-                    return dayjs(start).valueOf();
-                },
-                endDateTime() {
-                    return dayjs(end).valueOf();
-                },
+            fragment: gql`
+                fragment UpdatedTimeBlock on TimeBlock {
+                    startDateTime
+                    endDateTime
+                }
+            `,
+            data: {
+                startDateTime: dayjs(start).valueOf(),
+                endDateTime: dayjs(end).valueOf(),
             },
         });
 
