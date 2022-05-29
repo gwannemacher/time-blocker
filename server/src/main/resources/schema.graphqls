@@ -1,21 +1,20 @@
 type Query {
   getTimeBlocks: [TimeBlock]
+  getTimeBlocksForWeek(currentDay: Float!): [TimeBlock]
 }
 
 type Mutation {
-    createTimeBlock(title: String!, type: String!, startTime: String!, startDate: String!, endTime: String!, endDate: String!, isAllDay: Boolean!): TimeBlock
+    createTimeBlock(title: String!, type: String!, startDateTime: Float!, endDateTime: Float!, isAllDay: Boolean!): TimeBlock
     deleteTimeBlock(id: String!): String
     updateTimeBlockTitle(id: String!, title: String!): TimeBlock
-    updateTimeBlockTimes(id: String!, startTime: String!, startDate: String!, endTime: String!, endDate: String!): TimeBlock
+    updateTimeBlockTimes(id: String!, startDateTime: Float!, endDateTime: Float!): TimeBlock
 }
 
 type TimeBlock {
     id: String
     title: String
     type: String
-    startTime: String
-    startDate: String
-    endTime: String
-    endDate: String
+    startDateTime: Float
+    endDateTime: Float
     isAllDay: Boolean
 }

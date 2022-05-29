@@ -67,6 +67,8 @@ public class GraphQLProvider {
         return RuntimeWiring.newRuntimeWiring()
             .type(newTypeWiring("Query")
                 .dataFetcher("getTimeBlocks", graphQLDataFetchers.getTimeBlocksDataFetcher()))
+            .type(newTypeWiring("Query")
+                .dataFetcher("getTimeBlocksForWeek", graphQLDataFetchers.getTimeBlocksForWeekDataFetcher()))
             .type(newTypeWiring("Mutation")
                 .dataFetcher("createTimeBlock", graphQLDataFetchers.createTimeBlock()))
             .type(newTypeWiring("Mutation")

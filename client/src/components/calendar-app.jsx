@@ -8,7 +8,7 @@ import AllDayEventForm from './event-form/all-day-event-form';
 import DeleteModal from './modals/delete-modal';
 import EditModal from './modals/edit-modal';
 import useUpdateTimeBlockTimes from '../hooks/useUpdateTimeBlockTimes';
-import useGetTimeBlocks from '../hooks/useGetTimeBlocks';
+import useGetTimeBlocksForWeek from '../hooks/useGetTimeBlocks';
 import useKeyboardEvents from '../hooks/useKeyboardEvents';
 
 import '../stylesheets/calendar.css';
@@ -26,7 +26,9 @@ const getBlock = (timeBlocks: any[]) => {
 
 function CalendarApp() {
     const client = useApolloClient();
-    const { data } = useGetTimeBlocks();
+    const { data } = useGetTimeBlocksForWeek(
+        dayjs(new Date()).startOf('day').valueOf()
+    );
     const [updateTimeBlockTimes] = useUpdateTimeBlockTimes();
     const { copyEvent, moveEvent } = useKeyboardEvents();
 
@@ -53,9 +55,9 @@ function CalendarApp() {
             } else if (event.key === 'e') {
                 setIsEditFormVisible(true);
             } else if (event.key === 'c') {
-                copyEvent(getBlock(data?.getTimeBlocks));
+                copyEvent(getBlock(data?.getTimeBlocksForWeek));
             } else if (event.key === 'm') {
-                moveEvent(getBlock(data?.getTimeBlocks));
+                moveEvent(getBlock(data?.getTimeBlocksForWeek));
             }
         },
         [
@@ -103,17 +105,11 @@ function CalendarApp() {
         client.cache.modify({
             id: `TimeBlock:${id}`,
             fields: {
-                startTime() {
-                    return dayjs(start).format('HH:mm');
+                startDateTime() {
+                    return dayjs(start).valueOf();
                 },
-                startDate() {
-                    return dayjs(start).format('YYYY-MM-DD');
-                },
-                endTime() {
-                    return dayjs(end).format('HH:mm');
-                },
-                endDate() {
-                    return dayjs(end).format('YYYY-MM-DD');
+                endDateTime() {
+                    return dayjs(end).valueOf();
                 },
             },
         });
@@ -121,10 +117,8 @@ function CalendarApp() {
         updateTimeBlockTimes({
             variables: {
                 id,
-                startTime: dayjs(start).format('HH:mm'),
-                startDate: dayjs(start).format('YYYY-MM-DD'),
-                endTime: dayjs(end).format('HH:mm'),
-                endDate: dayjs(end).format('YYYY-MM-DD'),
+                startDateTime: dayjs(start).valueOf(),
+                endDateTime: dayjs(end).valueOf(),
             },
         });
     };
@@ -154,11 +148,11 @@ function CalendarApp() {
             <EditModal
                 isVisible={isEditFormVisible}
                 id={selectedVar()?.id}
-                title={getBlock(data?.getTimeBlocks)?.title}
+                title={getBlock(data?.getTimeBlocksForWeek)?.title}
                 hideForm={hideEditForm}
             />
             <Calendar
-                timeBlocks={data?.getTimeBlocks}
+                timeBlocks={data?.getTimeBlocksForWeek}
                 onEventClick={onEventClick}
                 onDateClick={onDateClick}
                 onEventTimeChange={onEventTimeChange}

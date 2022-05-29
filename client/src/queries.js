@@ -1,15 +1,13 @@
 import { gql } from '@apollo/client';
 
-export const TIMEBLOCKS_QUERY = gql`
-    {
-        getTimeBlocks {
+export const TIMEBLOCKS_FOR_WEEK_QUERY = gql`
+    query GetTimeBlocksForWeek($currentDay: Float!) {
+        getTimeBlocksForWeek(currentDay: $currentDay) {
             id
             title
             type
-            startTime
-            startDate
-            endTime
-            endDate
+            startDateTime
+            endDateTime
             isAllDay
             prefixedTitle @client
             isSelected @client
@@ -35,23 +33,17 @@ export const UPDATE_TIME_BLOCK_TITLE_MUTATION = gql`
 export const UPDATE_TIME_BLOCK_TIMES_MUTATION = gql`
     mutation UpdateTimeBlockTimes(
         $id: String!
-        $startTime: String!
-        $startDate: String!
-        $endTime: String!
-        $endDate: String!
+        $startDateTime: Float!
+        $endDateTime: Float!
     ) {
         updateTimeBlockTimes(
             id: $id
-            startTime: $startTime
-            startDate: $startDate
-            endTime: $endTime
-            endDate: $endDate
+            startDateTime: $startDateTime
+            endDateTime: $endDateTime
         ) {
             id
-            startTime
-            startDate
-            endTime
-            endDate
+            startDateTime
+            endDateTime
         }
     }
 `;
@@ -60,19 +52,15 @@ export const CREATE_TIME_BLOCK_MUTATION = gql`
     mutation CreateTimeBlock(
         $title: String!
         $type: String!
-        $startTime: String!
-        $startDate: String!
-        $endTime: String!
-        $endDate: String!
+        $startDateTime: Float!
+        $endDateTime: Float!
         $isAllDay: Boolean!
     ) {
         createTimeBlock(
             title: $title
             type: $type
-            startTime: $startTime
-            startDate: $startDate
-            endTime: $endTime
-            endDate: $endDate
+            startDateTime: $startDateTime
+            endDateTime: $endDateTime
             isAllDay: $isAllDay
         ) {
             id

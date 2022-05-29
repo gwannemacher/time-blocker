@@ -2,6 +2,7 @@ import React from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import * as dayjs from 'dayjs';
 
 import EventTypes from '../models/event-types';
 import isPastEvent from '../utilities/time-utilities';
@@ -21,8 +22,8 @@ function Calendar(props) {
             stickyHeaderDates
             titleFormat={{ year: 'numeric', month: 'long', day: 'numeric' }}
             events={timeBlocks?.map((x) => ({
-                start: `${x.startDate}T${x.startTime}`,
-                end: `${x.endDate}T${x.endTime}`,
+                start: dayjs(x.startDateTime).toISOString(),
+                end: dayjs(x.endDateTime).toISOString(),
                 title: x.prefixedTitle,
                 classNames: [
                     EventTypes.select(x.type)?.className,

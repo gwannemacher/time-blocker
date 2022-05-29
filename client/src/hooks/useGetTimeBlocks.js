@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client';
-import { TIMEBLOCKS_QUERY } from '../queries';
+import { TIMEBLOCKS_FOR_WEEK_QUERY } from '../queries';
 
-const useGetTimeBlocks = () => useQuery(TIMEBLOCKS_QUERY);
+const useGetTimeBlocksForWeek = (currentDay: number) =>
+    useQuery(TIMEBLOCKS_FOR_WEEK_QUERY, { variables: { currentDay } });
 
-export default useGetTimeBlocks;
+export default useGetTimeBlocksForWeek;

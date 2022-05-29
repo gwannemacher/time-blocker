@@ -26,10 +26,11 @@ function AllDayEventForm(props) {
             variables: {
                 title: newTitle,
                 type: eventType,
-                startTime: '12:00',
-                startDate: dayjs(date).format('YYYY-MM-DD'),
-                endTime: '12:00',
-                endDate: dayjs(date).format('YYYY-MM-DD'),
+                startDateTime: dayjs(date.getTime())
+                    .hour(0)
+                    .minute(0)
+                    .valueOf(),
+                endDateTime: dayjs(date.getTime()).hour(0).minute(0).valueOf(),
                 isAllDay: true,
             },
         });

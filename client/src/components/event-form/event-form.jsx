@@ -29,10 +29,8 @@ function EventForm(props) {
             variables: {
                 title: newTitle,
                 type: eventType,
-                startTime: dayjs(startTime).format('HH:mm'),
-                startDate: dayjs(startTime).format('YYYY-MM-DD'),
-                endTime: dayjs(endTime).format('HH:mm'),
-                endDate: dayjs(endTime).format('YYYY-MM-DD'),
+                startDateTime: startTime.getTime(),
+                endDateTime: endTime.getTime(),
                 isAllDay: false,
             },
         });

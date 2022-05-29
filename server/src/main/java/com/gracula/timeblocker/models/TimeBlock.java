@@ -4,10 +4,8 @@ public class TimeBlock {
     private String id;
     private String title;
     private String type;
-    private String startTime;
-    private String startDate;
-    private String endTime;
-    private String endDate;
+    private Long startDateTime;
+    private Long endDateTime;
     private boolean isAllDay;
 
     public String getId() {
@@ -34,36 +32,20 @@ public class TimeBlock {
         this.type = type;
     }
 
-    public String getStartTime() {
-        return startTime;
+    public Long getStartDateTime() {
+        return startDateTime;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
+    public void setStartDateTime(Long startDateTime) {
+        this.startDateTime = startDateTime;
     }
 
-    public String getStartDate() {
-        return startDate;
+    public Long getEndDateTime() {
+        return endDateTime;
     }
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
-    public String getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
+    public void setEndDateTime(Long endDateTime) {
+        this.endDateTime = endDateTime;
     }
 
     public boolean isAllDay() {

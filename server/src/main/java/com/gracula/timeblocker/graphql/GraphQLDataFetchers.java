@@ -7,11 +7,13 @@ import graphql.schema.DataFetcher;
 import org.bson.conversions.Bson;
 import org.springframework.stereotype.Component;
 
+import java.time.*;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.*;
 
 @Component
 public class GraphQLDataFetchers {
@@ -30,17 +32,42 @@ public class GraphQLDataFetchers {
         return dataFetchingEnvironment -> getTimeBlocksFromDb();
     }
 
+    private List<TimeBlock> getTimeBlocksForWeekFromDb(Long currentDayMilliseconds) {
+        LocalDateTime date = Instant
+                .ofEpochMilli(currentDayMilliseconds)
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+        LocalDateTime previousSunday = date.with(TemporalAdjusters.previous(DayOfWeek.SUNDAY));
+        LocalDateTime nextSunday = date.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
+
+        return StreamSupport.stream(mongoClient.timeBlockCollection
+                .find(and(
+                        gte("startDateTime", previousSunday.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()),
+                        lte("startDateTime", nextSunday.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())))
+                .spliterator(), false)
+                .collect(Collectors.toList());
+    }
+
+    public DataFetcher getTimeBlocksForWeekDataFetcher() {
+        return env -> {
+            final Double currentDayDateTime = env.getArgument("currentDay");
+            return getTimeBlocksForWeekFromDb(currentDayDateTime.longValue());
+        };
+    }
+
     public DataFetcher<TimeBlock> createTimeBlock() {
         return env -> {
             final TimeBlock block = new TimeBlock();
+
             block.setId(java.util.UUID.randomUUID().toString());
             block.setTitle(env.getArgument("title"));
             block.setType(env.getArgument("type"));
-            block.setStartTime(env.getArgument("startTime"));
-            block.setStartDate(env.getArgument("startDate"));
-            block.setEndTime(env.getArgument("endTime"));
-            block.setEndDate(env.getArgument("endDate"));
             block.setAllDay(env.getArgument("isAllDay"));
+
+            final Double startDateTime = env.getArgument("startDateTime");
+            block.setStartDateTime(startDateTime.longValue());
+            final Double endDateTime = env.getArgument("endDateTime");
+            block.setEndDateTime(endDateTime.longValue());
 
             mongoClient.timeBlockCollection.insertOne(block);
 
@@ -73,15 +100,11 @@ public class GraphQLDataFetchers {
     public DataFetcher<TimeBlock> updateTimeBlockTimes() {
         return env -> {
             final String id = env.getArgument("id");
-            final String startTime = env.getArgument("startTime");
-            final String startDate = env.getArgument("startDate");
-            final String endTime = env.getArgument("endTime");
-            final String endDate = env.getArgument("endDate");
+            final Double startDateTime = env.getArgument("startDateTime");
+            final Double endDateTime = env.getArgument("endDateTime");
             final Bson updates = Updates.combine(
-                    Updates.set("startTime", startTime),
-                    Updates.set("startDate", startDate),
-                    Updates.set("endTime", endTime),
-                    Updates.set("endDate", endDate)
+                    Updates.set("startDateTime", startDateTime.longValue()),
+                    Updates.set("endDateTime", endDateTime.longValue())
             );
             mongoClient.timeBlockCollection.findOneAndUpdate(eq("_id", id), updates);
             TimeBlock newBlock = mongoClient.timeBlockCollection.find(
