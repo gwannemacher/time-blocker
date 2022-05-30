@@ -15,8 +15,7 @@ function Calendar(props) {
         onEventClick,
         onDateClick,
         onEventTimeChange,
-        setStartRange,
-        setEndRange,
+        setRange,
     } = props;
 
     const calendarRef = useRef(null);
@@ -24,16 +23,14 @@ function Calendar(props) {
     useEffect(() => {
         const setTimeRangeForPrevious = () => {
             const calendarApi = calendarRef.current.getApi();
-            const startRange = dayjs(calendarApi.view.activeStart).subtract(
-                1,
-                'week'
-            );
-            const endRange = dayjs(calendarApi.view.activeEnd).subtract(
-                1,
-                'week'
-            );
-            setStartRange(startRange.valueOf());
-            setEndRange(endRange.valueOf());
+            setRange({
+                start: dayjs(calendarApi.view.activeStart)
+                    .subtract(1, 'week')
+                    .valueOf(),
+                end: dayjs(calendarApi.view.activeEnd)
+                    .subtract(1, 'week')
+                    .valueOf(),
+            });
         };
 
         document
@@ -44,13 +41,12 @@ function Calendar(props) {
     useEffect(() => {
         const setTimeRangeForNext = () => {
             const calendarApi = calendarRef.current.getApi();
-            const startRange = dayjs(calendarApi.view.activeStart).add(
-                1,
-                'week'
-            );
-            const endRange = dayjs(calendarApi.view.activeEnd).add(1, 'week');
-            setStartRange(startRange.valueOf());
-            setEndRange(endRange.valueOf());
+            setRange({
+                start: dayjs(calendarApi.view.activeStart)
+                    .add(1, 'week')
+                    .valueOf(),
+                end: dayjs(calendarApi.view.activeEnd).add(1, 'week').valueOf(),
+            });
         };
 
         document
@@ -61,8 +57,10 @@ function Calendar(props) {
     useEffect(() => {
         const setTimeRangeForThisWeek = () => {
             const today = dayjs(new Date()).startOf('day');
-            setStartRange(today.startOf('week').valueOf());
-            setEndRange(today.add(1, 'week').valueOf());
+            setRange({
+                start: today.startOf('week').valueOf(),
+                end: today.add(1, 'week').valueOf(),
+            });
         };
 
         document

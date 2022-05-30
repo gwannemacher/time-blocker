@@ -27,11 +27,11 @@ const getBlock = (timeBlocks: any[]) => {
 function CalendarApp() {
     const client = useApolloClient();
     const today = dayjs(new Date()).startOf('day');
-    const [startRange, setStartRange] = useState(
-        today.startOf('week').valueOf()
-    );
-    const [endRange, setEndRange] = useState(today.add(1, 'week').valueOf());
-    const { data } = useGetTimeBlocksInRange(startRange, endRange);
+    const [range, setRange] = useState({
+        start: today.startOf('week').valueOf(),
+        end: today.add(1, 'week').valueOf(),
+    });
+    const { data } = useGetTimeBlocksInRange(range.start, range.end);
     const [updateTimeBlockTimes] = useUpdateTimeBlockTimes();
     const { copyEvent, moveEvent } = useKeyboardEvents();
 
@@ -161,8 +161,7 @@ function CalendarApp() {
                 onEventClick={onEventClick}
                 onDateClick={onDateClick}
                 onEventTimeChange={onEventTimeChange}
-                setStartRange={setStartRange}
-                setEndRange={setEndRange}
+                setRange={setRange}
             />
         </>
     );
