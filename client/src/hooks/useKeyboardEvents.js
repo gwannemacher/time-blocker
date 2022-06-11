@@ -21,6 +21,18 @@ const useKeyboardEvents = () => {
                     endDateTime: block.endDateTime,
                     isAllDay: false,
                 },
+                update: (cache, { data }) => {
+                    cache.modify({
+                        fields: {
+                            getTimeBlocksInRange(existingTimeBlocks = []) {
+                                return [
+                                    ...existingTimeBlocks,
+                                    data.createTimeBlock,
+                                ];
+                            },
+                        },
+                    });
+                },
             });
         },
 
