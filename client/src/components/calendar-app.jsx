@@ -105,6 +105,14 @@ function CalendarApp() {
     const onEventTimeChange = (info) => {
         const { id, start, end } = info.event;
 
+        updateTimeBlockTimes({
+            variables: {
+                id,
+                startDateTime: dayjs(start).valueOf(),
+                endDateTime: dayjs(end).valueOf(),
+            },
+        });
+
         client.writeFragment({
             id: `TimeBlock:${id}`,
             fragment: gql`
@@ -114,14 +122,6 @@ function CalendarApp() {
                 }
             `,
             data: {
-                startDateTime: dayjs(start).valueOf(),
-                endDateTime: dayjs(end).valueOf(),
-            },
-        });
-
-        updateTimeBlockTimes({
-            variables: {
-                id,
                 startDateTime: dayjs(start).valueOf(),
                 endDateTime: dayjs(end).valueOf(),
             },
