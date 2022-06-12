@@ -1,11 +1,14 @@
 import * as dayjs from 'dayjs';
+import { useApolloClient } from '@apollo/client';
 
 import useUpdateTimeBlockTimes from './useUpdateTimeBlockTimes';
 import useCreateTimeBlock from './useCreateTimeBlock';
+import { TIMEBLOCKS_IN_RANGE_QUERY } from '../queries';
 
-const useKeyboardEvents = () => {
+const useKeyboardEvents = (range) => {
     const [updateTimeBlockTimes] = useUpdateTimeBlockTimes();
     const [createTimeBlock] = useCreateTimeBlock();
+    const client = useApolloClient();
 
     return {
         copyEvent: (block: any) => {
@@ -22,14 +25,19 @@ const useKeyboardEvents = () => {
                     isAllDay: false,
                 },
                 update: (cache, { data }) => {
-                    cache.modify({
-                        fields: {
-                            getTimeBlocksInRange(existingTimeBlocks = []) {
-                                return [
-                                    ...existingTimeBlocks,
-                                    data.createTimeBlock,
-                                ];
-                            },
+                    const existingTimeBlocks = client.readQuery({
+                        query: TIMEBLOCKS_IN_RANGE_QUERY,
+                        variables: { start: range.start, end: range.end },
+                    });
+
+                    client.writeQuery({
+                        query: TIMEBLOCKS_IN_RANGE_QUERY,
+                        variables: { start: range.start, end: range.end },
+                        data: {
+                            getTimeBlocksInRange: [
+                                ...existingTimeBlocks.getTimeBlocksInRange,
+                                data.createTimeBlock,
+                            ],
                         },
                     });
                 },

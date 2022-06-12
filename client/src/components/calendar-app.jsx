@@ -33,7 +33,7 @@ function CalendarApp() {
     });
     const { data } = useGetTimeBlocksInRange(range.start, range.end);
     const [updateTimeBlockTimes] = useUpdateTimeBlockTimes();
-    const { copyEvent, moveEvent } = useKeyboardEvents();
+    const { copyEvent, moveEvent } = useKeyboardEvents(range);
 
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [isAllDayFormVisible, setIsAllDayFormVisible] = useState(false);
