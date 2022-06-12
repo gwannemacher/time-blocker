@@ -128,34 +128,29 @@ function CalendarApp() {
         });
     };
 
-    const hideEventForm = useCallback(() => setIsFormVisible(false), []);
-    const hideAllDayEventForm = useCallback(() => setIsAllDayFormVisible(false), []);
-    const hideDeleteModal = useCallback(() => setIsDeleteFormVisible(false), []);
-    const hideEditForm = useCallback(() => setIsEditFormVisible(false), []);
-
     return (
         <>
             <EventForm
                 range={range}
                 isVisible={isFormVisible}
                 date={date}
-                hideForm={hideEventForm}
+                hideForm={() => setIsFormVisible(false)}
             />
             <AllDayEventForm
                 isVisible={isAllDayFormVisible}
                 date={date}
-                hideForm={hideAllDayEventForm}
+                hideForm={() => setIsAllDayFormVisible(false)}
             />
             <DeleteModal
                 isVisible={isDeleteFormVisible}
                 id={selectedVar()?.id}
-                hideForm={hideDeleteModal}
+                hideForm={() => setIsDeleteFormVisible(false)}
             />
             <EditModal
                 isVisible={isEditFormVisible}
                 id={selectedVar()?.id}
                 title={getBlock(data?.getTimeBlocksInRange)?.title}
-                hideForm={hideEditForm}
+                hideForm={() => setIsEditFormVisible(false)}
             />
             <Calendar
                 timeBlocks={data?.getTimeBlocksInRange}
