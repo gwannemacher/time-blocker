@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import * as dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import CustomParseFormat from 'dayjs/plugin/customParseFormat';
+import { useApolloClient } from '@apollo/client';
 
 import EventTypes from '../../models/event-types';
 import TitleInput from './title-input';
@@ -12,17 +13,19 @@ import EventTypeInput from './event-type-input';
 import '../../stylesheets/modal.css';
 import useCreateTimeBlock from '../../hooks/useCreateTimeBlock';
 import useDomEffect from '../../hooks/useDomEffect';
+import { TIMEBLOCKS_IN_RANGE_QUERY } from '../../queries';
 
 dayjs.extend(LocalizedFormat);
 dayjs.extend(CustomParseFormat);
 
 function EventForm(props) {
-    const { isVisible, date, hideForm } = props;
+    const { isVisible, date, hideForm, range } = props;
     const [newTitle, setNewTitle] = useState('');
     const [eventType, setEventType] = useState(EventTypes.MEETING.id);
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
     const [createTimeBlock] = useCreateTimeBlock();
+    const client = useApolloClient();
 
     const onSave = () => {
         createTimeBlock({
@@ -34,14 +37,19 @@ function EventForm(props) {
                 isAllDay: false,
             },
             update: (cache, { data }) => {
-                cache.modify({
-                    fields: {
-                        getTimeBlocksInRange(existingTimeBlocks = []) {
-                            return [
-                                ...existingTimeBlocks,
-                                data.createTimeBlock,
-                            ];
-                        },
+                const existingTimeBlocks = client.readQuery({
+                    query: TIMEBLOCKS_IN_RANGE_QUERY,
+                    variables: { start: range.start, end: range.end },
+                });
+
+                client.writeQuery({
+                    query: TIMEBLOCKS_IN_RANGE_QUERY,
+                    variables: { start: range.start, end: range.end },
+                    data: {
+                        getTimeBlocksInRange: [
+                            ...existingTimeBlocks.getTimeBlocksInRange,
+                            data.createTimeBlock,
+                        ],
                     },
                 });
             },

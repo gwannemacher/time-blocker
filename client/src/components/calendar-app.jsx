@@ -53,7 +53,7 @@ function CalendarApp() {
                 return;
             }
 
-            if (event.key === 'd') {
+            if (event.key === 'd' || event.key === 'Backspace') {
                 setIsDeleteFormVisible(true);
             } else if (event.key === 'e') {
                 setIsEditFormVisible(true);
@@ -136,6 +136,7 @@ function CalendarApp() {
     return (
         <>
             <EventForm
+                range={range}
                 isVisible={isFormVisible}
                 date={date}
                 hideForm={hideEventForm}
