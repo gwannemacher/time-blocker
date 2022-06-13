@@ -13,7 +13,7 @@ import '../../stylesheets/modal.css';
 dayjs.extend(LocalizedFormat);
 dayjs.extend(CustomParseFormat);
 
-function EditModal(props) {
+function EditForm(props) {
     const { isVisible, id, title, hideForm } = props;
     const [newTitle, setNewTitle] = useState(title);
     const [updateTimeBlockTitle] = useUpdateTimeBlockTitle();
@@ -72,18 +72,18 @@ function EditModal(props) {
     );
 }
 
-EditModal.propTypes = {
+EditForm.propTypes = {
     isVisible: PropTypes.bool,
     id: PropTypes.string,
     title: PropTypes.string,
     hideForm: PropTypes.func,
 };
 
-EditModal.defaultProps = {
+EditForm.defaultProps = {
     isVisible: false,
     id: '',
     title: '',
     hideForm: () => {},
 };
 
-export default EditModal;
+export default EditForm;

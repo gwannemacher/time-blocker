@@ -12,7 +12,7 @@ import '../../stylesheets/modal.css';
 dayjs.extend(LocalizedFormat);
 dayjs.extend(CustomParseFormat);
 
-function DeleteModal(props) {
+function DeleteForm(props) {
     const { isVisible, id, hideForm } = props;
     const [deleteTimeBlock] = useDeleteTimeBlock();
 
@@ -57,16 +57,16 @@ function DeleteModal(props) {
     );
 }
 
-DeleteModal.propTypes = {
+DeleteForm.propTypes = {
     isVisible: PropTypes.bool,
     id: PropTypes.string,
     hideForm: PropTypes.func,
 };
 
-DeleteModal.defaultProps = {
+DeleteForm.defaultProps = {
     isVisible: false,
     id: '',
     hideForm: () => {},
 };
 
-export default DeleteModal;
+export default DeleteForm;
