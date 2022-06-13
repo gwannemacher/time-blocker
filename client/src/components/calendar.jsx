@@ -64,32 +64,26 @@ function Calendar(props) {
     useEffect(() => {
         const calendarApi = calendarRef.current.getApi();
 
-        const setTimeRangeForPrevious = () => {
-            const { start, end } = rangeForPreviousWeek(calendarApi);
-            setRange({ start, end });
-        };
-
-        const setTimeRangeForNext = () => {
-            const { start, end } = rangeForNextWeek(calendarApi);
-            setRange({ start, end });
-        };
-
-        const setTimeRangeForThisWeek = () => {
-            const { start, end } = rangeForThisWeek();
-            setRange({ start, end });
-        };
-
         document
             .querySelector('[title="Previous week"]')
-            .addEventListener('click', setTimeRangeForPrevious);
+            .addEventListener('click', () => {
+                const { start, end } = rangeForPreviousWeek(calendarApi);
+                setRange({ start, end });
+            });
 
         document
             .querySelector('[title="Next week"]')
-            .addEventListener('click', setTimeRangeForNext);
+            .addEventListener('click', () => {
+                const { start, end } = rangeForNextWeek(calendarApi);
+                setRange({ start, end });
+            });
 
         document
             .querySelector('[title="This week"]')
-            .addEventListener('click', setTimeRangeForThisWeek);
+            .addEventListener('click', () => {
+                const { start, end } = rangeForThisWeek();
+                setRange({ start, end });
+            });
     }, []);
 
     return (
