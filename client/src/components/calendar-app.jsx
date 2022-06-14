@@ -3,7 +3,7 @@ import { makeVar } from '@apollo/client';
 import * as dayjs from 'dayjs';
 
 import Calendar from './calendar';
-import Form from './event-form/form';
+import Form from './form/form';
 import useGetTimeBlocksInRange from '../hooks/useGetTimeBlocks';
 
 import '../stylesheets/calendar.css';
