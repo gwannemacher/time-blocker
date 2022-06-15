@@ -18,7 +18,7 @@ import { TIMEBLOCKS_IN_RANGE_QUERY } from '../../queries';
 dayjs.extend(LocalizedFormat);
 dayjs.extend(CustomParseFormat);
 
-function EventForm(props) {
+function CreateForm(props) {
     const { isVisible, date, hideForm, range } = props;
     const [newTitle, setNewTitle] = useState('');
     const [eventType, setEventType] = useState(EventTypes.MEETING.id);
@@ -133,16 +133,16 @@ function EventForm(props) {
     );
 }
 
-EventForm.propTypes = {
+CreateForm.propTypes = {
     isVisible: PropTypes.bool,
     date: PropTypes.instanceOf(Date),
     hideForm: PropTypes.func,
 };
 
-EventForm.defaultProps = {
+CreateForm.defaultProps = {
     isVisible: false,
     date: new Date(),
     hideForm: () => {},
 };
 
-export default EventForm;
+export default CreateForm;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-import AllDayEventForm from './all-day-event-form';
-import EventForm from './event-form';
+import CreateAllDayForm from './create-all-day-form';
+import CreateForm from './create-form';
 import EditForm from './edit-form';
 import DeleteForm from './delete-form';
 import useKeyboardEvents from '../../hooks/useKeyboardEvents';
@@ -63,32 +63,34 @@ function Form(props) {
     }, [handleKeyDown]);
 
     useEffect(() => {
-        if (selectedDateInfo) {
-            if (selectedDateInfo.date.getMinutes() === 15) {
-                selectedDateInfo.date.setMinutes(0);
-            } else if (selectedDateInfo.date.getMinutes() === 45) {
-                selectedDateInfo.date.setMinutes(30);
-            }
+        if (!selectedDateInfo) {
+            return;
+        }
 
-            setDate(selectedDateInfo.date);
+        if (selectedDateInfo.date.getMinutes() === 15) {
+            selectedDateInfo.date.setMinutes(0);
+        } else if (selectedDateInfo.date.getMinutes() === 45) {
+            selectedDateInfo.date.setMinutes(30);
+        }
 
-            if (selectedDateInfo.allDay) {
-                setIsAllDayFormVisible(true);
-            } else {
-                setIsFormVisible(true);
-            }
+        setDate(selectedDateInfo.date);
+
+        if (selectedDateInfo.allDay) {
+            setIsAllDayFormVisible(true);
+        } else {
+            setIsFormVisible(true);
         }
     }, [selectedDateInfo]);
 
     return (
         <>
-            <EventForm
+            <CreateForm
                 range={range}
                 isVisible={isFormVisible}
                 date={date}
                 hideForm={() => setIsFormVisible(false)}
             />
-            <AllDayEventForm
+            <CreateAllDayForm
                 isVisible={isAllDayFormVisible}
                 date={date}
                 hideForm={() => setIsAllDayFormVisible(false)}

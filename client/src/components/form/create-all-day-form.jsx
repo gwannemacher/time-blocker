@@ -15,7 +15,7 @@ import useDomEffect from '../../hooks/useDomEffect';
 dayjs.extend(LocalizedFormat);
 dayjs.extend(CustomParseFormat);
 
-function AllDayEventForm(props) {
+function CreateAllDayForm(props) {
     const { isVisible, date, hideForm } = props;
     const [newTitle, setNewTitle] = useState('');
     const [eventType, setEventType] = useState(EventTypes.MEETING.id);
@@ -102,16 +102,16 @@ function AllDayEventForm(props) {
     );
 }
 
-AllDayEventForm.propTypes = {
+CreateAllDayForm.propTypes = {
     isVisible: PropTypes.bool,
     date: PropTypes.instanceOf(Date),
     hideForm: PropTypes.func,
 };
 
-AllDayEventForm.defaultProps = {
+CreateAllDayForm.defaultProps = {
     isVisible: false,
     date: new Date(),
     hideForm: () => {},
 };
 
-export default AllDayEventForm;
+export default CreateAllDayForm;
