@@ -6,6 +6,19 @@ import EditForm from './edit-form';
 import DeleteForm from './delete-form';
 import useKeyboardEvents from '../../hooks/useKeyboardEvents';
 
+const getRoundedMinutes = (date: any) => {
+    if (date.getMinutes() === 15) {
+        return 0;
+    }
+
+    if (date.getMinutes() === 45) {
+        return 30;
+    }
+
+    // shouldn't ever get here
+    return date.getMinutes();
+};
+
 const getBlock = (selectedVar: any, timeBlocks: any[]) => {
     if (!selectedVar?.id || !selectedVar?.isSelected || !timeBlocks) {
         return null;
@@ -67,12 +80,8 @@ function Form(props) {
             return;
         }
 
-        if (selectedDateInfo.date.getMinutes() === 15) {
-            selectedDateInfo.date.setMinutes(0);
-        } else if (selectedDateInfo.date.getMinutes() === 45) {
-            selectedDateInfo.date.setMinutes(30);
-        }
-
+        const roundedMinutes = getRoundedMinutes(selectedDateInfo.date);
+        selectedDateInfo.date.setMinutes(roundedMinutes);
         setDate(selectedDateInfo.date);
 
         if (selectedDateInfo.allDay) {
