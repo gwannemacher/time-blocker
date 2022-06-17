@@ -12,22 +12,53 @@ import useUpdateTimeBlockTimes from '../hooks/useUpdateTimeBlockTimes';
 
 import '../stylesheets/calendar.css';
 
-const rangeForThisWeek = () => {
+const rangeForToday = (calendarApi: any) => {
     const today = dayjs(new Date()).startOf('day');
     return {
-        start: today.startOf('week').valueOf(),
-        end: today.add(1, 'week').valueOf(),
+        start:
+            calendarApi.view.type === 'timeGridWeek'
+                ? today.startOf('week').valueOf()
+                : dayjs(today.startOf('month').valueOf())
+                      .subtract(1, 'week')
+                      .valueOf(),
+        end:
+            calendarApi.view.type === 'timeGridWeek'
+                ? today.add(1, 'week').valueOf()
+                : dayjs(today.startOf('month').valueOf())
+                      .add(6, 'week')
+                      .valueOf(),
     };
 };
 
-const rangeForPreviousWeek = (calendarApi: any) => ({
-    start: dayjs(calendarApi.view.activeStart).subtract(1, 'week').valueOf(),
-    end: dayjs(calendarApi.view.activeEnd).subtract(1, 'week').valueOf(),
+const rangeForMonth = (calendarApi: any) => {
+    const day = dayjs(calendarApi.view.activeStart).startOf('month');
+
+    return {
+        start: dayjs(day).subtract(1, 'week').valueOf(),
+        end: dayjs(day).add(6, 'week').valueOf(),
+    };
+};
+
+const rangeForPrevious = (calendarApi: any) => ({
+    start:
+        calendarApi.view.type === 'timeGridWeek'
+            ? dayjs(calendarApi.view.activeStart).subtract(1, 'week').valueOf()
+            : dayjs(calendarApi.view.activeStart).subtract(6, 'week').valueOf(),
+    end:
+        calendarApi.view.type === 'timeGridWeek'
+            ? dayjs(calendarApi.view.activeEnd).subtract(1, 'week').valueOf()
+            : dayjs(calendarApi.view.activeEnd).subtract(4, 'week').valueOf(),
 });
 
-const rangeForNextWeek = (calendarApi: any) => ({
-    start: dayjs(calendarApi.view.activeStart).add(1, 'week').valueOf(),
-    end: dayjs(calendarApi.view.activeEnd).add(1, 'week').valueOf(),
+const rangeForNext = (calendarApi: any) => ({
+    start:
+        calendarApi.view.type === 'timeGridWeek'
+            ? dayjs(calendarApi.view.activeStart).add(1, 'week').valueOf()
+            : dayjs(calendarApi.view.activeStart).add(4, 'week').valueOf(),
+    end:
+        calendarApi.view.type === 'timeGridWeek'
+            ? dayjs(calendarApi.view.activeEnd).add(1, 'week').valueOf()
+            : dayjs(calendarApi.view.activeEnd).add(6, 'week').valueOf(),
 });
 
 function Calendar(props) {
@@ -66,23 +97,30 @@ function Calendar(props) {
         const calendarApi = calendarRef.current.getApi();
 
         document
-            .querySelector('[title="Previous week"]')
+            .querySelector('.fc-prev-button')
             .addEventListener('click', () => {
-                const { start, end } = rangeForPreviousWeek(calendarApi);
+                const { start, end } = rangeForPrevious(calendarApi);
                 setRange({ start, end });
             });
 
         document
-            .querySelector('[title="Next week"]')
+            .querySelector('.fc-next-button')
             .addEventListener('click', () => {
-                const { start, end } = rangeForNextWeek(calendarApi);
+                const { start, end } = rangeForNext(calendarApi);
                 setRange({ start, end });
             });
 
         document
-            .querySelector('[title="This week"]')
+            .querySelector('.fc-today-button')
             .addEventListener('click', () => {
-                const { start, end } = rangeForThisWeek();
+                const { start, end } = rangeForToday(calendarApi);
+                setRange({ start, end });
+            });
+
+        document
+            .querySelector('.fc-dayGridMonth-button')
+            .addEventListener('click', () => {
+                const { start, end } = rangeForMonth(calendarApi);
                 setRange({ start, end });
             });
     }, []);
@@ -95,7 +133,7 @@ function Calendar(props) {
             headerToolbar={{
                 start: 'dayGridMonth,timeGridWeek',
                 center: 'title',
-                end: 'today prev,next'
+                end: 'today prev,next',
             }}
             nowIndicator
             scrollTime="08:00:00"
