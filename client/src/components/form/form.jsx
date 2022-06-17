@@ -94,13 +94,14 @@ function Form(props) {
     return (
         <>
             <CreateForm
-                range={range}
                 isVisible={isFormVisible}
+                range={range}
                 date={date}
                 hideForm={() => setIsFormVisible(false)}
             />
             <CreateAllDayForm
                 isVisible={isAllDayFormVisible}
+                range={range}
                 date={date}
                 hideForm={() => setIsAllDayFormVisible(false)}
             />
