@@ -69,6 +69,10 @@ table.fc-scrollgrid-sync-table {
     cursor: url('../resources/cursor.gif'), auto;
 }
 
+.fc .fc-button-group > .fc-button.fc-button-active {
+    background-color: #52297a;
+}
+
 /** Rainbow animation for weekend headers **/
 .rainbow_text_animated {
     background: linear-gradient(

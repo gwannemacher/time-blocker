@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { gql, useApolloClient } from '@apollo/client';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import * as dayjs from 'dayjs';
 
@@ -89,8 +90,13 @@ function Calendar(props) {
     return (
         <FullCalendar
             ref={calendarRef}
-            plugins={[timeGridPlugin, interactionPlugin]}
+            plugins={[timeGridPlugin, dayGridPlugin, interactionPlugin]}
             initialView="timeGridWeek"
+            headerToolbar={{
+                start: 'dayGridMonth,timeGridWeek',
+                center: 'title',
+                end: 'today prev,next'
+            }}
             nowIndicator
             scrollTime="08:00:00"
             dayHeaderFormat={{ weekday: 'long', day: 'numeric' }}
