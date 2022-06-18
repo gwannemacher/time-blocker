@@ -203,10 +203,18 @@ a.fc-timegrid-event {
     border: 5px solid rebeccapurple;
 }
 
+.fc-daygrid-dot-event:hover {
+    background-color: mediumpurple;
+}
+
 /** ---------------- **/
 .fc .fc-popover-header {
     background-color: rebeccapurple;
     color: white;
+}
+
+.fc .fc-daygrid-event-dot {
+    border-color: rebeccapurple;
 }
 
 .rainbow_text_animated {
