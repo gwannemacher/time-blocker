@@ -109,7 +109,7 @@ table.fc-scrollgrid-sync-table {
 
 /** Day of the week names **/
 .fc-col-header {
-    color: white;
+    color: #f9f7fc;
 }
 
 /** Rainbow weekend headers **/
@@ -132,7 +132,7 @@ table.fc-scrollgrid-sync-table {
 
 /** Background color for table **/
 div.fc-timegrid {
-    background-color: white;
+    background-color: #f9f7fc;
 }
 
 /** Now indicator arrow **/
@@ -207,10 +207,17 @@ a.fc-timegrid-event {
     background-color: mediumpurple;
 }
 
-/** ---------------- **/
+/** Daygrid stuff **/
+
+.fc-daygrid-dot-event .fc-event-title,
+.fc-daygrid-event .fc-event-time {
+    font-weight: normal;
+    color: #f9f7fc;
+}
+
 .fc .fc-popover-header {
     background-color: rebeccapurple;
-    color: white;
+    color: #f9f7fc;
 }
 
 .fc .fc-daygrid-event-dot {
@@ -221,6 +228,8 @@ a.fc-timegrid-event {
     display: block;
     width: 100%;
 }
+
+/** ---------------- **/
 
 .rainbow_text_animated {
     background: linear-gradient(
