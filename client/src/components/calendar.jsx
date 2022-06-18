@@ -139,6 +139,11 @@ function Calendar(props) {
             scrollTime="08:00:00"
             views={{ dayGrid: { dayMaxEventRows: 4 } }}
             dayHeaderFormat={{ weekday: 'long', day: 'numeric' }}
+            businessHours={{
+                daysOfWeek: [1, 2, 3, 4, 5],
+                startTime: '00:00',
+                endTime: '24:00',
+            }}
             stickyHeaderDates
             titleFormat={{ year: 'numeric', month: 'long', day: 'numeric' }}
             events={timeBlocks?.map((x) => ({
