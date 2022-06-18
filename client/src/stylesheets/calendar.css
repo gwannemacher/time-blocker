@@ -204,6 +204,11 @@ a.fc-timegrid-event {
 }
 
 /** ---------------- **/
+.fc .fc-popover-header {
+    background-color: rebeccapurple;
+    color: white;
+}
+
 .rainbow_text_animated {
     background: linear-gradient(
         to right,
