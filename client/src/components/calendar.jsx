@@ -137,6 +137,7 @@ function Calendar(props) {
             }}
             nowIndicator
             scrollTime="08:00:00"
+            views={{ dayGrid: { dayMaxEventRows: 4 } }}
             dayHeaderFormat={{ weekday: 'long', day: 'numeric' }}
             stickyHeaderDates
             titleFormat={{ year: 'numeric', month: 'long', day: 'numeric' }}
