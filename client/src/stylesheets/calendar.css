@@ -217,6 +217,11 @@ a.fc-timegrid-event {
     border-color: rebeccapurple;
 }
 
+.fc .fc-daygrid-more-link {
+    display: block;
+    width: 100%;
+}
+
 .rainbow_text_animated {
     background: linear-gradient(
         to right,
