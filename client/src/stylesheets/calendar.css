@@ -207,6 +207,16 @@ a.fc-timegrid-event {
     background-color: mediumpurple;
 }
 
+.fc .fc-non-business {
+    background-color: rgba(215, 215, 215);
+    opacity: 0.35;
+}
+
+.fc .fc-bg-event {
+    background-color: rgba(215, 215, 215);
+    opacity: 0.35;
+}
+
 /** Daygrid stuff **/
 
 .fc-daygrid-dot-event .fc-event-title,

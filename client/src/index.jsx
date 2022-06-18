@@ -36,6 +36,15 @@ const cache = new InMemoryCache({
                         );
                     },
                 },
+                isPTO: {
+                    read(_, { readField }) {
+                        const title = readField('title');
+                        return (
+                            title.toLowerCase().includes('you day') ||
+                            title.toLowerCase().includes('work holiday')
+                        );
+                    },
+                },
             },
         },
     },

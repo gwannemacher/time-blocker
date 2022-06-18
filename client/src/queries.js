@@ -11,6 +11,7 @@ export const TIMEBLOCKS_IN_RANGE_QUERY = gql`
             isAllDay
             prefixedTitle @client
             isSelected @client
+            isPTO @client
         }
     }
 `;

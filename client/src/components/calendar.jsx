@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { gql, useApolloClient } from '@apollo/client';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -63,6 +63,7 @@ const rangeForNext = (calendarApi: any) => ({
 
 function Calendar(props) {
     const { timeBlocks, onEventClick, onDateClick, setRange } = props;
+    const [isMonthView, setIsMonthView] = useState(false);
     const client = useApolloClient();
     const calendarRef = useRef(null);
     const [updateTimeBlockTimes] = useUpdateTimeBlockTimes();
@@ -122,6 +123,13 @@ function Calendar(props) {
             .addEventListener('click', () => {
                 const { start, end } = rangeForMonth(calendarApi);
                 setRange({ start, end });
+                setIsMonthView(true);
+            });
+
+        document
+            .querySelector('.fc-timeGridWeek-button')
+            .addEventListener('click', () => {
+                setIsMonthView(false);
             });
     }, []);
 
@@ -150,8 +158,9 @@ function Calendar(props) {
                 start: dayjs(x.startDateTime).toISOString(),
                 end: dayjs(x.endDateTime).toISOString(),
                 title: x.prefixedTitle,
+                display: isMonthView && x.isPTO ? 'background' : '',
                 classNames: [
-                    EventTypes.select(x.type)?.className,
+                    isMonthView && x.isPTO ? '' : EventTypes.select(x.type)?.className,
                     isPastEvent(x.endDate, x.endTime) ? 'past-event' : '',
                     x.title === 'tbd' ? 'tbd-highlight' : '',
                     x.isSelected ? 'event-selected' : '',
