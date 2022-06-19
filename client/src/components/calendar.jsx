@@ -146,7 +146,11 @@ function Calendar(props) {
             nowIndicator
             scrollTime="08:00:00"
             views={{ dayGrid: { dayMaxEventRows: 4 } }}
-            dayHeaderFormat={{ weekday: 'long', day: 'numeric' }}
+            dayHeaderFormat={
+                isMonthView
+                    ? { weekday: 'long' }
+                    : { weekday: 'long', day: 'numeric' }
+            }
             businessHours={{
                 daysOfWeek: [1, 2, 3, 4, 5],
                 startTime: '00:00',
@@ -160,7 +164,9 @@ function Calendar(props) {
                 title: x.prefixedTitle,
                 display: isMonthView && x.isPTO ? 'background' : '',
                 classNames: [
-                    isMonthView && x.isPTO ? '' : EventTypes.select(x.type)?.className,
+                    isMonthView && x.isPTO
+                        ? ''
+                        : EventTypes.select(x.type)?.className,
                     isPastEvent(x.endDate, x.endTime) ? 'past-event' : '',
                     x.title === 'tbd' ? 'tbd-highlight' : '',
                     x.isSelected ? 'event-selected' : '',
