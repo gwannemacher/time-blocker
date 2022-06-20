@@ -41,7 +41,8 @@ const cache = new InMemoryCache({
                         const title = readField('title');
                         return (
                             title.toLowerCase().includes('you day') ||
-                            title.toLowerCase().includes('work holiday')
+                            title.toLowerCase().includes('work holiday') ||
+                            title.toLowerCase().includes('pto')
                         );
                     },
                 },
