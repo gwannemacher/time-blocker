@@ -75,7 +75,7 @@ function Calendar(props) {
             variables: {
                 id,
                 startDateTime: dayjs(start).valueOf(),
-                endDateTime: dayjs(end).valueOf(),
+                endDateTime: dayjs(end ?? start).valueOf(),
             },
         });
 
@@ -89,7 +89,7 @@ function Calendar(props) {
             `,
             data: {
                 startDateTime: dayjs(start).valueOf(),
-                endDateTime: dayjs(end).valueOf(),
+                endDateTime: dayjs(end ?? start).valueOf(),
             },
         });
     };
