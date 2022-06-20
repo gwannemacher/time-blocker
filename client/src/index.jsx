@@ -39,10 +39,12 @@ const cache = new InMemoryCache({
                 isPTO: {
                     read(_, { readField }) {
                         const title = readField('title');
+                        const isAllDay = readField('isAllDay');
                         return (
-                            title.toLowerCase().includes('you day') ||
-                            title.toLowerCase().includes('work holiday') ||
-                            title.toLowerCase().includes('pto')
+                            isAllDay &&
+                            (title.toLowerCase().includes('you day') ||
+                                title.toLowerCase().includes('work holiday') ||
+                                title.toLowerCase().includes('pto'))
                         );
                     },
                 },
